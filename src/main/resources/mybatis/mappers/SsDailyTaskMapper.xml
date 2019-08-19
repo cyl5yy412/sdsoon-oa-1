@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sdsoon.modular.system.mapper.SsDailyTaskMapper">
+    <resultMap id="BaseResultMap" type="com.sdsoon.modular.system.po.SsDailyTask">
+        <id column="daily_task_id" jdbcType="VARCHAR" property="dailyTaskId"/>
+        <result column="daily_status" jdbcType="INTEGER" property="dailyStatus"/>
+        <result column="daily_category" jdbcType="INTEGER" property="dailyCategory"/>
+        <result column="daily_create_time" jdbcType="TIMESTAMP" property="dailyCreateTime"/>
+        <result column="daily_descriptioin" jdbcType="VARCHAR" property="dailyDescriptioin"/>
+    </resultMap>
+    <sql id="Example_Where_Clause">
+        <where>
+            <foreach collection="oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="("
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Update_By_Example_Where_Clause">
+        <where>
+            <foreach collection="example.oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="("
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Base_Column_List">
+    daily_task_id, daily_status, daily_category, daily_create_time, daily_descriptioin
+  </sql>
+    <select id="selectByExample" parameterType="com.sdsoon.modular.system.po.SsDailyTaskExample"
+            resultMap="BaseResultMap">
+        select
+        <if test="distinct">
+            distinct
+        </if>
+        <include refid="Base_Column_List"/>
+        from ss_daily_task
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+        <if test="orderByClause != null">
+            order by ${orderByClause}
+        </if>
+    </select>
+    <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from ss_daily_task
+        where daily_task_id = #{dailyTaskId,jdbcType=VARCHAR}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from ss_daily_task
+    where daily_task_id = #{dailyTaskId,jdbcType=VARCHAR}
+  </delete>
+    <delete id="deleteByExample" parameterType="com.sdsoon.modular.system.po.SsDailyTaskExample">
+        delete from ss_daily_task
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </delete>
+    <insert id="insert" parameterType="com.sdsoon.modular.system.po.SsDailyTask">
+    insert into ss_daily_task (daily_task_id, daily_status, daily_category,
+      daily_create_time, daily_descriptioin)
+    values (#{dailyTaskId,jdbcType=VARCHAR}, #{dailyStatus,jdbcType=INTEGER}, #{dailyCategory,jdbcType=INTEGER},
+      #{dailyCreateTime,jdbcType=TIMESTAMP}, #{dailyDescriptioin,jdbcType=VARCHAR})
+  </insert>
+    <insert id="insertSelective" parameterType="com.sdsoon.modular.system.po.SsDailyTask">
+        insert into ss_daily_task
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="dailyTaskId != null">
+                daily_task_id,
+            </if>
+            <if test="dailyStatus != null">
+                daily_status,
+            </if>
+            <if test="dailyCategory != null">
+                daily_category,
+            </if>
+            <if test="dailyCreateTime != null">
+                daily_create_time,
+            </if>
+            <if test="dailyDescriptioin != null">
+                daily_descriptioin,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="dailyTaskId != null">
+                #{dailyTaskId,jdbcType=VARCHAR},
+            </if>
+            <if test="dailyStatus != null">
+                #{dailyStatus,jdbcType=INTEGER},
+            </if>
+            <if test="dailyCategory != null">
+                #{dailyCategory,jdbcType=INTEGER},
+            </if>
+            <if test="dailyCreateTime != null">
+                #{dailyCreateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="dailyDescriptioin != null">
+                #{dailyDescriptioin,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <select id="countByExample" parameterType="com.sdsoon.modular.system.po.SsDailyTaskExample"
+            resultType="java.lang.Long">
+        select count(*) from ss_daily_task
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </select>
+    <update id="updateByExampleSelective" parameterType="map">
+        update ss_daily_task
+        <set>
+            <if test="record.dailyTaskId != null">
+                daily_task_id = #{record.dailyTaskId,jdbcType=VARCHAR},
+            </if>
+            <if test="record.dailyStatus != null">
+                daily_status = #{record.dailyStatus,jdbcType=INTEGER},
+            </if>
+            <if test="record.dailyCategory != null">
+                daily_category = #{record.dailyCategory,jdbcType=INTEGER},
+            </if>
+            <if test="record.dailyCreateTime != null">
+                daily_create_time = #{record.dailyCreateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="record.dailyDescriptioin != null">
+                daily_descriptioin = #{record.dailyDescriptioin,jdbcType=VARCHAR},
+            </if>
+        </set>
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByExample" parameterType="map">
+        update ss_daily_task
+        set daily_task_id = #{record.dailyTaskId,jdbcType=VARCHAR},
+        daily_status = #{record.dailyStatus,jdbcType=INTEGER},
+        daily_category = #{record.dailyCategory,jdbcType=INTEGER},
+        daily_create_time = #{record.dailyCreateTime,jdbcType=TIMESTAMP},
+        daily_descriptioin = #{record.dailyDescriptioin,jdbcType=VARCHAR}
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByPrimaryKeySelective" parameterType="com.sdsoon.modular.system.po.SsDailyTask">
+        update ss_daily_task
+        <set>
+            <if test="dailyStatus != null">
+                daily_status = #{dailyStatus,jdbcType=INTEGER},
+            </if>
+            <if test="dailyCategory != null">
+                daily_category = #{dailyCategory,jdbcType=INTEGER},
+            </if>
+            <if test="dailyCreateTime != null">
+                daily_create_time = #{dailyCreateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="dailyDescriptioin != null">
+                daily_descriptioin = #{dailyDescriptioin,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where daily_task_id = #{dailyTaskId,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.sdsoon.modular.system.po.SsDailyTask">
+    update ss_daily_task
+    set daily_status = #{dailyStatus,jdbcType=INTEGER},
+      daily_category = #{dailyCategory,jdbcType=INTEGER},
+      daily_create_time = #{dailyCreateTime,jdbcType=TIMESTAMP},
+      daily_descriptioin = #{dailyDescriptioin,jdbcType=VARCHAR}
+    where daily_task_id = #{dailyTaskId,jdbcType=VARCHAR}
+  </update>
+
+    <select id="selectAllDailyTask" resultMap="BaseResultMap">
+      SELECT * FROM ss_daily_task s ORDER BY s.daily_create_time DESC
+    </select>
+    <!--  -->
+    <select id="selectDailyTaskByCategory" resultMap="BaseResultMap" parameterType="int">
+      SELECT * FROM ss_daily_task s
+        WHERE s.daily_category = #{category,jdbcType=INTEGER}
+       ORDER BY s.daily_create_time DESC
+    </select>
+</mapper>

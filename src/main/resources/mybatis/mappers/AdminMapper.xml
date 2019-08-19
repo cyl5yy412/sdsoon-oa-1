@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sdsoon.modular.system.mapper.AdminMapper">
+    <resultMap id="BaseResultMap" type="com.sdsoon.modular.system.po.SsAdmin">
+        <!-- userinfo -->
+        <id column="user_id" jdbcType="VARCHAR" property="userId"/>
+        <result column="user_name" jdbcType="VARCHAR" property="userName"/>
+        <result column="user_g_role_id" jdbcType="INTEGER" property="userGRoleId"/>
+        <result column="user_real_name" jdbcType="VARCHAR" property="userRealName"/>
+        <result column="user_phone" jdbcType="VARCHAR" property="userPhone"/>
+        <result column="user_status" jdbcType="INTEGER" property="userStatus"/>
+        <result column="user_dept" jdbcType="VARCHAR" property="userDept"/>
+        <!-- role -->
+        <result column="role_id" jdbcType="INTEGER" property="roleId"/>
+        <result column="role_name" jdbcType="VARCHAR" property="roleName"/>
+        <result column="role_code" jdbcType="VARCHAR" property="roleCode"/>
+        <result column="role_status" jdbcType="INTEGER" property="roleStatus"/>
+        <result column="role_description" jdbcType="VARCHAR" property="roleDescription"/>
+        <!-- perm -->
+
+        <result column="perm_id" jdbcType="INTEGER" property="permId"/>
+        <result column="perm_name" jdbcType="VARCHAR" property="permName"/>
+        <result column="perm_code" jdbcType="VARCHAR" property="permCode"/>
+        <result column="perm_status" jdbcType="INTEGER" property="permStatus"/>
+        <result column="perm_description" jdbcType="VARCHAR" property="permDescription"/>
+        <result column="perm_parent_id" jdbcType="INTEGER" property="permParentId"/>
+        <!-- role_perm -->
+        <result column="role_perm_g_role_id" jdbcType="INTEGER" property="rolePermGRoleId"/>
+        <result column="role_perm_g_perm_id" jdbcType="INTEGER" property="rolePermGPermId"/>
+    </resultMap>
+    <select id="selectUserRolePermByUserId" resultMap="BaseResultMap" parameterType="string">
+		SELECT
+			DISTINCT
+			*
+		  FROM
+			ss_user_info i
+			LEFT JOIN ss_role r on i.user_g_role_id=r.role_id
+			LEFT JOIN ss_role_permission s on r.role_id=s.role_perm_g_role_id
+			LEFT JOIN ss_permission p on s.role_perm_g_perm_id=p.perm_id
+		  WHERE i.user_id = #{userId,jdbcType=VARCHAR}
+    </select>
+    <resultMap id="BaseResultMap_userInfo" type="com.sdsoon.modular.system.po.SsUserInfo">
+        <id column="user_id" jdbcType="VARCHAR" property="userId"/>
+        <result column="user_name" jdbcType="VARCHAR" property="userName"/>
+        <result column="user_g_role_id" jdbcType="INTEGER" property="userGRoleId"/>
+        <result column="user_real_name" jdbcType="VARCHAR" property="userRealName"/>
+        <result column="user_phone" jdbcType="VARCHAR" property="userPhone"/>
+        <result column="user_status" jdbcType="INTEGER" property="userStatus"/>
+        <result column="user_dept" jdbcType="VARCHAR" property="userDept"/>
+    </resultMap>
+
+    <select id="selectAllUsers" resultMap="BaseResultMap_userInfo">
+        SELECT * FROM ss_user_info
+    </select>
+    <resultMap id="BaseResultMap_userInfosANDroles" type="com.sdsoon.modular.system.vo.UserVo">
+        <id column="user_id" jdbcType="VARCHAR" property="userId"/>
+        <result column="user_name" jdbcType="VARCHAR" property="userName"/>
+        <result column="user_g_role_id" jdbcType="INTEGER" property="userGRoleId"/>
+        <result column="user_real_name" jdbcType="VARCHAR" property="userRealName"/>
+        <result column="user_phone" jdbcType="VARCHAR" property="userPhone"/>
+        <result column="user_status" jdbcType="INTEGER" property="state"/>
+        <result column="user_dept" jdbcType="VARCHAR" property="userDept"/>
+        <collection property="roles" ofType="com.sdsoon.modular.system.po.SsRole">
+            <id column="role_id" jdbcType="INTEGER" property="roleId"/>
+            <result column="role_name" jdbcType="VARCHAR" property="roleName"/>
+            <result column="role_code" jdbcType="VARCHAR" property="roleCode"/>
+            <result column="role_status" jdbcType="INTEGER" property="roleStatus"/>
+            <result column="role_description" jdbcType="VARCHAR" property="roleDescription"/>
+        </collection>
+    </resultMap>
+
+    <select id="selectAllUsersAndRoles" resultMap="BaseResultMap_userInfosANDroles" parameterType="int">
+        SELECT * FROM
+        ss_user_info i LEFT JOIN ss_role r
+        on
+        i.user_g_role_id=r.role_id
+        limit #{page},#{limit}
+    </select>
+
+    <!-- -->
+    <resultMap id="BaseResultMap_role" type="com.sdsoon.modular.system.po.SsRole">
+        <id column="role_id" jdbcType="INTEGER" property="roleId"/>
+        <result column="role_name" jdbcType="VARCHAR" property="roleName"/>
+        <result column="role_code" jdbcType="VARCHAR" property="roleCode"/>
+        <result column="role_status" jdbcType="INTEGER" property="roleStatus"/>
+        <result column="role_description" jdbcType="VARCHAR" property="roleDescription"/>
+    </resultMap>
+    <select id="selectAllRoles" parameterType="int" resultMap="BaseResultMap_role">
+        SELECT * FROM
+        ss_role r limit #{page},#{limit}
+    </select>
+    <!--  -->
+    <resultMap id="BaseResultMap_perm" type="com.sdsoon.modular.system.po.SsPermission">
+        <id column="perm_id" jdbcType="INTEGER" property="permId"/>
+        <result column="perm_name" jdbcType="VARCHAR" property="permName"/>
+        <result column="perm_code" jdbcType="VARCHAR" property="permCode"/>
+        <result column="perm_status" jdbcType="INTEGER" property="permStatus"/>
+        <result column="perm_description" jdbcType="VARCHAR" property="permDescription"/>
+        <result column="perm_parent_id" jdbcType="INTEGER" property="permParentId"/>
+    </resultMap>
+    <select id="selectPermsByRoleId" parameterType="int" resultMap="BaseResultMap_perm">
+    SELECT
+        DISTINCT p.*
+    FROM
+        ss_role r ,ss_permission p, ss_role_permission s
+    WHERE
+    r.role_id=s.role_perm_g_role_id AND
+    p.perm_id=s.role_perm_g_perm_id AND
+    r.role_id = #{roleId,jdbcType=INTEGER}
+    </select>
+    <select id="selectPerms" resultMap="BaseResultMap_perm">
+        SELECT
+            DISTINCT p.*
+        FROM
+            ss_role r ,ss_permission p, ss_role_permission s
+        WHERE
+        r.role_id=s.role_perm_g_role_id AND
+        p.perm_id=s.role_perm_g_perm_id
+    </select>
+    <!--  -->
+    <sql id="Base_Column_List_role_perm">
+        role_perm_g_role_id, role_perm_g_perm_id
+    </sql>
+    <insert id="insertRoleAuths" parameterType="list">
+        INSERT INTO
+        ss_role_permission (role_perm_g_role_id,role_perm_g_perm_id)
+        VALUES
+
+        <foreach collection="perms" item="perm" index="index" separator=",">
+            (#{roleId},#{perm})
+        </foreach>
+    </insert>
+    <!--  -->
+    <delete id="deleteAllgRole" parameterType="int">
+        DELETE FROM ss_role_permission s WHERE s.role_perm_g_role_id = #{roleId}
+    </delete>
+    <!--  -->
+    <select id="selectAllPerms" parameterType="int" resultMap="BaseResultMap_perm">
+        SELECT * FROM
+        ss_permission p
+    </select>
+</mapper>

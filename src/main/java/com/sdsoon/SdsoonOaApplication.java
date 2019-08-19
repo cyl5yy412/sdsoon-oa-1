@@ -1,0 +1,26 @@
+package com.sdsoon;
+
+import lombok.extern.slf4j.Slf4j;
+import org.mybatis.spring.annotation.MapperScan;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.builder.SpringApplicationBuilder;
+import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
+
+@Slf4j
+@SpringBootApplication
+@MapperScan("com.sdsoon.modular.system.mapper")
+@EnableTransactionManagement
+public class SdsoonOaApplication extends SpringBootServletInitializer {
+
+    public static void main(String[] args) {
+        SpringApplication.run(SdsoonOaApplication.class, args);
+        log.info("-------------已启动-------------");
+    }
+
+    @Override
+    protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) {
+        return builder.sources(SdsoonOaApplication.class);
+    }
+}
