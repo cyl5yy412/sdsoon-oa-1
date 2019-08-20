@@ -1,5 +1,6 @@
 package com.sdsoon.modular.system.controller;
 
+import com.sdsoon.core.response.ex.BaseController;
 import com.sdsoon.core.response.ex.ResponseException;
 import com.sdsoon.core.util.*;
 import com.sdsoon.modular.system.po.SsPermission;
@@ -30,7 +31,7 @@ import java.util.Map;
  * Created By Chr on 2019/8/16.
  */
 @Controller
-public class AdminController {
+public class AdminController extends BaseController {
 
     @Autowired
     private AdminService adminService;
@@ -88,10 +89,13 @@ public class AdminController {
         }
     }
 
+    //"system:admin"
+    //"user:manager"
+    //
     /**
      * 用户列表
      */
-    @RequiresPermissions("system:admin")
+    @RequiresPermissions({"system:admin","user:manager"})
     @ResponseBody
     @GetMapping("/users")
     public PageResult<UserVo> users(@RequestParam("page") Integer page, @RequestParam("limit") Integer limit) throws ResponseException {
@@ -103,19 +107,21 @@ public class AdminController {
     /**
      * 修改用户
      */
-    @RequiresPermissions("system:admin")
+    @RequiresPermissions({"system:admin","user:manager"})
     @ResponseBody
-    @GetMapping("/user/update")
-    public JsonResult userUpdate(AddUserVo addUserVo, String roleId) throws ResponseException {
+    @PostMapping("/user/update")
+    public JsonResult userUpdate(AddUserVo addUserVo, String roleId) throws ResponseException, UnsupportedEncodingException, NoSuchAlgorithmException {
         boolean b = adminService.updateUserInfo(addUserVo, roleId);
-
-        return null;
+        if (b) {
+            return JsonResult.ok();
+        }
+        return JsonResult.error();
     }
 
     /**
      * 添加用户
      */
-    @RequiresPermissions("system:admin")
+    @RequiresPermissions({"system:admin","user:manager"})
     @ResponseBody
     @PostMapping("/user/add")
     public JsonResult userAdd(AddUserVo addUserVo, String roleId) throws UnsupportedEncodingException, NoSuchAlgorithmException, ResponseException {
@@ -129,7 +135,7 @@ public class AdminController {
     /**
      * 修改用户状态
      */
-    @RequiresPermissions("system:admin")
+    @RequiresPermissions({"system:admin","user:manager"})
     @ResponseBody
     @PostMapping("/user/updateState")
     public JsonResult updateState(@RequestParam("userId") String userId, @RequestParam("state") Integer state) {
@@ -149,7 +155,7 @@ public class AdminController {
     /**
      * 删除用户
      */
-    @RequiresPermissions("system:admin")
+    @RequiresPermissions({"system:admin","user:manager"})
     @ResponseBody
     @PostMapping("/user/delete")
     public JsonResult delete(String userId) {
@@ -166,7 +172,7 @@ public class AdminController {
     /**
      * 重置密码
      */
-    @RequiresPermissions("system:admin")
+    @RequiresPermissions({"system:admin","user:manager"})
     @ResponseBody
     @RequestMapping("/user/restPsw")
     public JsonResult resetPsw(String userId) throws UnsupportedEncodingException, NoSuchAlgorithmException {
@@ -180,10 +186,11 @@ public class AdminController {
         return JsonResult.error("重置失败");
     }
 
+    //"role:manager"
     /**
      * 角色列表
      */
-    @RequiresPermissions("system:admin")
+    @RequiresPermissions({"system:admin","role:manager"})
     @ResponseBody
     @GetMapping("/roles")
     public PageResult<SsRole> roles(@RequestParam("page") Integer page, @RequestParam("limit") Integer limit) throws ResponseException {
@@ -194,7 +201,7 @@ public class AdminController {
     /**
      * 添加角色
      **/
-    @RequiresPermissions("system:admin")
+    @RequiresPermissions({"system:admin","role:manager"})
     @ResponseBody
     @PostMapping("/role/add")
     public JsonResult add(SsRole role) {
@@ -208,7 +215,7 @@ public class AdminController {
     /**
      * 修改角色
      **/
-    @RequiresPermissions("system:admin")
+    @RequiresPermissions({"system:admin","role:manager"})
     @ResponseBody
     @RequestMapping("/role/update")
     public JsonResult update(SsRole role) {
@@ -222,7 +229,7 @@ public class AdminController {
     /**
      * 删除角色
      **/
-    @RequiresPermissions("system:admin")
+    @RequiresPermissions({"system:admin","role:manager"})
     @ResponseBody
     @PostMapping("/role/delete")
     public JsonResult delete(Integer roleId) {
@@ -236,7 +243,7 @@ public class AdminController {
     /**
      * 角色权限树
      */
-    @RequiresPermissions("system:admin")
+    @RequiresPermissions({"system:admin","role:manager"})
     @ResponseBody
     @GetMapping("/role/authTree")
     public List<Map<String, Object>> authTree(Integer roleId) {
@@ -264,7 +271,7 @@ public class AdminController {
     /**
      * 修改角色权限
      */
-    @RequiresPermissions("system:admin")
+    @RequiresPermissions({"system:admin","role:manager"})
     @ResponseBody
     @PostMapping("/role/updateRoleAuth")
     public JsonResult updateRoleAuth(Integer roleId, String authIds) throws ResponseException {
@@ -275,10 +282,11 @@ public class AdminController {
         return JsonResult.error("修改失败");
     }
 
+    //"perm:manager"
     /**
      * 查询所有权限
      **/
-    @RequiresPermissions("system:admin")
+    @RequiresPermissions({"system:admin","perm:manager"})
     @ResponseBody
     @GetMapping("/perms")
     public PageResult<SsPermission> list() throws ResponseException {
@@ -289,7 +297,7 @@ public class AdminController {
     /**
      * 添加权限
      */
-    @RequiresPermissions("system:admin")
+    @RequiresPermissions({"system:admin","perm:manager"})
     @ResponseBody
     @RequestMapping("/perm/add")
     public JsonResult add(SsPermission authorities) {
@@ -303,7 +311,7 @@ public class AdminController {
     /**
      * 修改权限
      */
-    @RequiresPermissions("system:admin")
+    @RequiresPermissions({"system:admin","perm:manager"})
     @ResponseBody
     @RequestMapping("/perm/update")
     public JsonResult update(SsPermission authorities) {
@@ -317,7 +325,7 @@ public class AdminController {
     /**
      * 删除权限
      */
-    @RequiresPermissions("system:admin")
+    @RequiresPermissions({"system:admin","perm:manager"})
     @ResponseBody
     @PostMapping("/perm/delete")
     public JsonResult deletePerm(Integer permId) {

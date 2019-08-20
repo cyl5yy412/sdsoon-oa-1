@@ -2,7 +2,9 @@ package com.sdsoon.core.response.ex;
 
 
 import com.sdsoon.core.response.ReturnResult;
+import com.sdsoon.core.util.JsonResult;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.shiro.authz.AuthorizationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -28,7 +30,10 @@ public class BaseController {
             ResponseException responseException = (ResponseException) ex;
             responseData.put("errorCode", responseException.getErrorCode());
             responseData.put("errorMessage", responseException.getErrorMessage());
-        }  else {
+        } else if (ex instanceof AuthorizationException) {
+//            return JsonResult.ok("暂无权限");
+            return JsonResult.error("抱歉,暂无权限");
+        } else {
             responseData.put("errorCode", EnumError.UNKNOW_ERROR.getErrorCode());
             responseData.put("errorMessage", EnumError.UNKNOW_ERROR.getErrorMessage());
         }

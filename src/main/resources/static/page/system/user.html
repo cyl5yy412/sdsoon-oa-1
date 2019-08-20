@@ -39,16 +39,6 @@
                             <input name="nickName" class="layui-input" type="text" placeholder="输入用户名"/>
                         </div>
                     </div>
-                    <div class="layui-inline">
-                        <label class="layui-form-label w-auto">性&emsp;别：</label>
-                        <div class="layui-input-inline mr0">
-                            <select name="sex">
-                                <option value="">选择性别</option>
-                                <option value="男">男</option>
-                                <option value="女">女</option>
-                            </select>
-                        </div>
-                    </div>
                     <div class="layui-inline" style="padding-right: 110px;">
                         <button class="layui-btn icon-btn" lay-filter="formSubSearchUser" lay-submit>
                             <i class="layui-icon">&#xe615;</i>搜索
@@ -107,37 +97,39 @@
             </div>
         </div>
         <div class="layui-form-item">
-            <label class="layui-form-label">部门</label>
-            <div class="layui-input-block">
-                <select name="userDept" xm-select="userDept" lay-verType="tips" lay-verify="required">
-                    <option value="">请选择部门</option>
-                    <option value="1">研发部</option>
-                    <option value="2">技术部</option>
-                </select>
-            </div>
+        <label class="layui-form-label">部门</label>
+        <div class="layui-input-block">
+        <select name="userDept" xm-select="userDept" lay-verType="tips" lay-verify="required">
+        <option value="">请选择部门</option>
+        <option value="1">研发部</option>
+        <option value="2">技术部</option>
+        </select>
         </div>
+        </div>
+
         <!--<div class="layui-form-item">-->
             <!--<label class="layui-form-label">部门</label>-->
             <!--<div class="layui-input-block">-->
                 <!--<select name="userDept" xm-select="userDept" lay-verType="tips" lay-verify="required">-->
-                    <!--<% for(user in data) { %>-->
-                    <!--<option value="${user.userDeptNo}">${user.userDept}</option>-->
+                    <!--<% for(dept in data) { %>-->
+                    <!--<option value="${user.userDeptNo}">${dept.userDept}</option>-->
                     <!--<% } %>-->
                 <!--</select>-->
             <!--</div>-->
         <!--</div>-->
 
         <div class="layui-form-item">
-            <label class="layui-form-label">角色</label>
-            <div class="layui-input-block">
-                <select name="roleId" xm-select="roleId" lay-verType="tips" lay-verify="required">
-                    <option value="">请选择角色</option>
-                    <option value="1">管理员</option>
-                    <option value="2">普通用户</option>
-                    <option value="3">游客</option>
-                </select>
-            </div>
+        <label class="layui-form-label">角色</label>
+        <div class="layui-input-block">
+        <select name="roleId" xm-select="roleId" lay-verType="tips" lay-verify="required">
+        <option value="">请选择角色</option>
+        <option value="1">管理员</option>
+        <option value="2">普通用户</option>
+        <option value="3">游客</option>
+        </select>
         </div>
+        </div>
+
         <!--<div class="layui-form-item">-->
             <!--<label class="layui-form-label">角色</label>-->
             <!--<div class="layui-input-block">-->
@@ -148,6 +140,7 @@
                 <!--</select>-->
             <!--</div>-->
         <!--</div>-->
+
         <div class="layui-form-item text-right">
             <button class="layui-btn layui-btn-primary" type="button" ew-event="closePageDialog">取消</button>
             <button class="layui-btn" lay-filter="modelSubmitUser" lay-submit>保存</button>
@@ -200,7 +193,7 @@
             var data = obj.data;
             var layEvent = obj.event;
             if (layEvent === 'edit') { // 修改
-                showEditModelUpdate(data);
+                showEditModel(data);
             } else if (layEvent === 'del') { // 删除
                 doDel(data.userId, data.userRealName);
             } else if (layEvent === 'reset') { // 重置密码
@@ -220,6 +213,18 @@
                     var url = mUser ? '/user/update' : '/user/add';
                     // 回显数据
                     form.val('modelUserForm', mUser);
+                    // 回显数据
+//                    var roleIds = new Array();
+//                    if (mUser) {
+//                        $('#modelUserForm input[name="username"]').attr('readonly', 'readonly');
+//                        form.val('modelUserForm', mUser);
+//                        for (var i = 0; i < mUser.roles.length; i++) {
+//                            roleIds.push(mUser.roles[i].roleId);
+//                        }
+//                    } else {
+//                        form.render('radio');
+//                    }
+//                    formSelects.render('roleId', {init: roleIds});
                     // 表单提交事件
                     form.on('submit(modelSubmitUser)', function (data) {
                         layer.load(2);

@@ -33,7 +33,7 @@ public interface AdminService {
 
     boolean register(AddUserVo addUserVo, String roleId) throws ResponseException, UnsupportedEncodingException, NoSuchAlgorithmException;
 
-    boolean updateUserInfo(AddUserVo addUserVo, String roleId) throws ResponseException;
+    boolean updateUserInfo(AddUserVo addUserVo, String roleId) throws ResponseException, UnsupportedEncodingException, NoSuchAlgorithmException;
 
     boolean updateState(String userId, Integer state);
 

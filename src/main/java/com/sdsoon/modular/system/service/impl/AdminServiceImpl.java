@@ -93,7 +93,7 @@ public class AdminServiceImpl implements AdminService {
         if (page == null || limit == null) {
             throw new ResponseException(EnumError.PARAMETER_VALIDATION_ERROR);
         }
-        long total = ssRoleMapper.countByExample(null);
+        long total = ssUserInfoMapper.countByExample(null);
         List<UserVo> userVos = adminMapper.selectAllUsersAndRoles(page - 1, limit);
         for (UserVo userVo : userVos) {
             switch (userVo.getUserDept()) {
@@ -117,8 +117,9 @@ public class AdminServiceImpl implements AdminService {
         if (StringUtils.isAnyBlank(addUserVo.getUserName(),
                 addUserVo.getUserRealName(),
                 addUserVo.getUserPhone(),
-                addUserVo.getUserDept(),
-                addUserVo.getEncryptPassword()) || roleId == null) {
+                addUserVo.getUserDept()
+                , addUserVo.getEncryptPassword()
+        ) || roleId == null) {
             throw new ResponseException(EnumError.PARAMETER_VALIDATION_ERROR);
         }
         SsUserInfoExample example = new SsUserInfoExample();
@@ -145,12 +146,12 @@ public class AdminServiceImpl implements AdminService {
             }
             int i = ssUserInfoMapper.insertSelective(ssUserInfo);
             if (i == 1) {
-                //密码
                 SsUserPassword ssUserPassword = formatSsUserPassword(ssUserInfo.getUserId(), addUserVo.getEncryptPassword());
                 int i1 = ssUserPasswordMapper.insertSelective(ssUserPassword);
                 if (i1 == 1) {
                     return true;
                 }
+                return true;
             }
             return false;
         }
@@ -158,16 +159,32 @@ public class AdminServiceImpl implements AdminService {
 
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public boolean updateUserInfo(AddUserVo addUserVo, String roleId) throws ResponseException {
-        if (StringUtils.isAnyBlank(addUserVo.getUserName(),
+    public boolean updateUserInfo(AddUserVo addUserVo, String roleId) throws ResponseException, UnsupportedEncodingException, NoSuchAlgorithmException {
+        if (StringUtils.isAllBlank(addUserVo.getUserName(),
                 addUserVo.getUserRealName(),
                 addUserVo.getUserPhone(),
                 addUserVo.getUserDept(),
-                addUserVo.getEncryptPassword()) || roleId == null) {
+                addUserVo.getEncryptPassword(),
+                addUserVo.getEncryptPassword()) && roleId == null) {
             throw new ResponseException(EnumError.PARAMETER_VALIDATION_ERROR);
+        }
+
+        reSetDept(addUserVo.getUserDept(), addUserVo);
+        SsUserInfo ssUserInfo = addUserVoFormatSSUserInfo(addUserVo, roleId);
+        SsUserPassword ssUserPassword = addUserVoFormatSsUserPassword(addUserVo, addUserVo.getUserId());
+        if (ssUserInfo == null || ssUserPassword == null) {
+            return false;
+        }
+        int i = ssUserInfoMapper.updateByPrimaryKey(ssUserInfo);
+        if (i == 1) {
+            int i1 = ssUserPasswordMapper.updateByPrimaryKeySelective(ssUserPassword);
+            if (i1 == 1) {
+                return true;
+            }
         }
         return false;
     }
+
 
     @Transactional(rollbackFor = Exception.class)
     @Override
@@ -216,7 +233,7 @@ public class AdminServiceImpl implements AdminService {
         if (page == null || limit == null) {
             throw new ResponseException(EnumError.PARAMETER_VALIDATION_ERROR);
         }
-        long total = ssUserInfoMapper.countByExample(null);
+        long total = ssRoleMapper.countByExample(null);
         List<SsRole> roles = adminMapper.selectAllRoles(page - 1, limit);
         if (roles == null || roles.size() == 0) {
             return null;
@@ -336,6 +353,7 @@ public class AdminServiceImpl implements AdminService {
         return false;
     }
 
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public boolean removePermById(Integer permId) {
         if (permId == null) {
@@ -371,6 +389,28 @@ public class AdminServiceImpl implements AdminService {
         return ssUserInfo;
     }
 
+    private SsUserInfo addUserVoFormatSSUserInfo(AddUserVo addUserVo, String roleId) {
+        if (addUserVo == null) {
+            return null;
+        }
+        SsUserInfo ssUserInfo = new SsUserInfo();
+        BeanUtils.copyProperties(addUserVo, ssUserInfo);
+        ssUserInfo.setUserGRoleId(Integer.valueOf(roleId));
+        ssUserInfo.setUserStatus(0);
+        return ssUserInfo;
+    }
+
+    private SsUserPassword addUserVoFormatSsUserPassword(AddUserVo addUserVo, String userId) throws UnsupportedEncodingException, NoSuchAlgorithmException {
+        if (addUserVo == null) {
+            return null;
+        }
+        SsUserPassword ssUserPassword = new SsUserPassword();
+        String encodeByMD5Password = PasswordUtil.EncodeByMD5(addUserVo.getEncryptPassword());
+        ssUserPassword.setEncryptPassword(encodeByMD5Password);
+        ssUserPassword.setgUserId(userId);
+        return ssUserPassword;
+    }
+
     private SsUserPassword formatSsUserPassword(String userId, String password) throws UnsupportedEncodingException, NoSuchAlgorithmException {
         if (StringUtils.isAnyBlank(userId, password)) {
             return null;
@@ -380,5 +420,16 @@ public class AdminServiceImpl implements AdminService {
         String encryptPassword = PasswordUtil.EncodeByMD5(password);
         ssUserPassword.setEncryptPassword(encryptPassword);
         return ssUserPassword;
+    }
+
+    private void reSetDept(String userDept, AddUserVo addUserVo) {
+        switch (userDept) {
+            case "1":
+                addUserVo.setUserDept("研发部");
+                break;
+            case "2":
+                addUserVo.setUserDept("技术部");
+                break;
+        }
     }
 }
