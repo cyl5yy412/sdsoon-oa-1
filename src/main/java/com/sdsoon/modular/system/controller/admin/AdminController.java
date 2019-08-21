@@ -1,4 +1,4 @@
-package com.sdsoon.modular.system.controller;
+package com.sdsoon.modular.system.controller.admin;
 
 import com.sdsoon.core.response.ex.BaseController;
 import com.sdsoon.core.response.ex.ResponseException;
@@ -50,10 +50,10 @@ public class AdminController extends BaseController {
     /**
      * 403
      */
-//    @GetMapping("/error/403")
-//    public String err403() {
-//        return "redirect:/page/template/error/error-403.html";
-//    }
+    @GetMapping("/error/error403")
+    public String err403() {
+        return "redirect:/page/error/error-403.html";
+    }
 
     /**
      * 登录接口
@@ -92,22 +92,22 @@ public class AdminController extends BaseController {
     //"system:admin"
     //"user:manager"
     //
+
     /**
      * 用户列表
      */
-    @RequiresPermissions({"system:admin","user:manager"})
+    @RequiresPermissions({"system:admin", "user:manager"})
     @ResponseBody
     @GetMapping("/users")
     public PageResult<UserVo> users(@RequestParam("page") Integer page, @RequestParam("limit") Integer limit) throws ResponseException {
         PageResult<UserVo> userVoPageResult = adminService.selectAllUsers(page, limit);
-
         return userVoPageResult;
     }
 
     /**
      * 修改用户
      */
-    @RequiresPermissions({"system:admin","user:manager"})
+    @RequiresPermissions({"system:admin", "user:manager"})
     @ResponseBody
     @PostMapping("/user/update")
     public JsonResult userUpdate(AddUserVo addUserVo, String roleId) throws ResponseException, UnsupportedEncodingException, NoSuchAlgorithmException {
@@ -121,7 +121,7 @@ public class AdminController extends BaseController {
     /**
      * 添加用户
      */
-    @RequiresPermissions({"system:admin","user:manager"})
+    @RequiresPermissions({"system:admin", "user:manager"})
     @ResponseBody
     @PostMapping("/user/add")
     public JsonResult userAdd(AddUserVo addUserVo, String roleId) throws UnsupportedEncodingException, NoSuchAlgorithmException, ResponseException {
@@ -135,7 +135,7 @@ public class AdminController extends BaseController {
     /**
      * 修改用户状态
      */
-    @RequiresPermissions({"system:admin","user:manager"})
+    @RequiresPermissions({"system:admin", "user:manager"})
     @ResponseBody
     @PostMapping("/user/updateState")
     public JsonResult updateState(@RequestParam("userId") String userId, @RequestParam("state") Integer state) {
@@ -155,7 +155,7 @@ public class AdminController extends BaseController {
     /**
      * 删除用户
      */
-    @RequiresPermissions({"system:admin","user:manager"})
+    @RequiresPermissions({"system:admin", "user:manager"})
     @ResponseBody
     @PostMapping("/user/delete")
     public JsonResult delete(String userId) {
@@ -172,7 +172,7 @@ public class AdminController extends BaseController {
     /**
      * 重置密码
      */
-    @RequiresPermissions({"system:admin","user:manager"})
+    @RequiresPermissions({"system:admin", "user:manager"})
     @ResponseBody
     @RequestMapping("/user/restPsw")
     public JsonResult resetPsw(String userId) throws UnsupportedEncodingException, NoSuchAlgorithmException {
@@ -187,10 +187,11 @@ public class AdminController extends BaseController {
     }
 
     //"role:manager"
+
     /**
      * 角色列表
      */
-    @RequiresPermissions({"system:admin","role:manager"})
+    @RequiresPermissions({"system:admin", "role:manager"})
     @ResponseBody
     @GetMapping("/roles")
     public PageResult<SsRole> roles(@RequestParam("page") Integer page, @RequestParam("limit") Integer limit) throws ResponseException {
@@ -201,7 +202,7 @@ public class AdminController extends BaseController {
     /**
      * 添加角色
      **/
-    @RequiresPermissions({"system:admin","role:manager"})
+    @RequiresPermissions({"system:admin", "role:manager"})
     @ResponseBody
     @PostMapping("/role/add")
     public JsonResult add(SsRole role) {
@@ -215,7 +216,7 @@ public class AdminController extends BaseController {
     /**
      * 修改角色
      **/
-    @RequiresPermissions({"system:admin","role:manager"})
+    @RequiresPermissions({"system:admin", "role:manager"})
     @ResponseBody
     @RequestMapping("/role/update")
     public JsonResult update(SsRole role) {
@@ -229,7 +230,7 @@ public class AdminController extends BaseController {
     /**
      * 删除角色
      **/
-    @RequiresPermissions({"system:admin","role:manager"})
+    @RequiresPermissions({"system:admin", "role:manager"})
     @ResponseBody
     @PostMapping("/role/delete")
     public JsonResult delete(Integer roleId) {
@@ -243,7 +244,7 @@ public class AdminController extends BaseController {
     /**
      * 角色权限树
      */
-    @RequiresPermissions({"system:admin","role:manager"})
+    @RequiresPermissions({"system:admin", "role:manager"})
     @ResponseBody
     @GetMapping("/role/authTree")
     public List<Map<String, Object>> authTree(Integer roleId) {
@@ -271,7 +272,7 @@ public class AdminController extends BaseController {
     /**
      * 修改角色权限
      */
-    @RequiresPermissions({"system:admin","role:manager"})
+    @RequiresPermissions({"system:admin", "role:manager"})
     @ResponseBody
     @PostMapping("/role/updateRoleAuth")
     public JsonResult updateRoleAuth(Integer roleId, String authIds) throws ResponseException {
@@ -283,10 +284,11 @@ public class AdminController extends BaseController {
     }
 
     //"perm:manager"
+
     /**
      * 查询所有权限
      **/
-    @RequiresPermissions({"system:admin","perm:manager"})
+    @RequiresPermissions({"system:admin", "perm:manager"})
     @ResponseBody
     @GetMapping("/perms")
     public PageResult<SsPermission> list() throws ResponseException {
@@ -297,7 +299,7 @@ public class AdminController extends BaseController {
     /**
      * 添加权限
      */
-    @RequiresPermissions({"system:admin","perm:manager"})
+    @RequiresPermissions({"system:admin", "perm:manager"})
     @ResponseBody
     @RequestMapping("/perm/add")
     public JsonResult add(SsPermission authorities) {
@@ -311,7 +313,7 @@ public class AdminController extends BaseController {
     /**
      * 修改权限
      */
-    @RequiresPermissions({"system:admin","perm:manager"})
+    @RequiresPermissions({"system:admin", "perm:manager"})
     @ResponseBody
     @RequestMapping("/perm/update")
     public JsonResult update(SsPermission authorities) {
@@ -325,7 +327,7 @@ public class AdminController extends BaseController {
     /**
      * 删除权限
      */
-    @RequiresPermissions({"system:admin","perm:manager"})
+    @RequiresPermissions({"system:admin", "perm:manager"})
     @ResponseBody
     @PostMapping("/perm/delete")
     public JsonResult deletePerm(Integer permId) {

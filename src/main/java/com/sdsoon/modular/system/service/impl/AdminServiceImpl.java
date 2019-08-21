@@ -111,7 +111,7 @@ public class AdminServiceImpl implements AdminService {
         return new PageResult<>(userVos, total);
     }
 
-    @Transactional(rollbackFor = Exception.class)
+    @Transactional
     @Override
     public boolean register(AddUserVo addUserVo, String roleId) throws ResponseException, UnsupportedEncodingException, NoSuchAlgorithmException {
         if (StringUtils.isAnyBlank(addUserVo.getUserName(),
@@ -157,7 +157,7 @@ public class AdminServiceImpl implements AdminService {
         }
     }
 
-    @Transactional(rollbackFor = Exception.class)
+    @Transactional
     @Override
     public boolean updateUserInfo(AddUserVo addUserVo, String roleId) throws ResponseException, UnsupportedEncodingException, NoSuchAlgorithmException {
         if (StringUtils.isAllBlank(addUserVo.getUserName(),
@@ -186,7 +186,7 @@ public class AdminServiceImpl implements AdminService {
     }
 
 
-    @Transactional(rollbackFor = Exception.class)
+    @Transactional
     @Override
     public boolean updateState(String userId, Integer state) {
         SsUserInfo ssUserInfo = new SsUserInfo();
@@ -200,7 +200,7 @@ public class AdminServiceImpl implements AdminService {
 
     }
 
-    @Transactional(rollbackFor = Exception.class)
+    @Transactional
     @Override
     public boolean removeById(String userId) {
         int i = ssUserInfoMapper.deleteByPrimaryKey(userId);
@@ -214,7 +214,7 @@ public class AdminServiceImpl implements AdminService {
         return false;
     }
 
-    @Transactional(rollbackFor = Exception.class)
+    @Transactional
     @Override
     public boolean resetPsw(String userId) throws UnsupportedEncodingException, NoSuchAlgorithmException {
         String defaultPwd = PasswordUtil.EncodeByMD5("123456");
@@ -241,7 +241,7 @@ public class AdminServiceImpl implements AdminService {
         return new PageResult<>(roles, total);
     }
 
-    @Transactional(rollbackFor = Exception.class)
+    @Transactional
     @Override
     public boolean saveRole(SsRole role) {
         if (role == null) {
@@ -255,7 +255,7 @@ public class AdminServiceImpl implements AdminService {
         return false;
     }
 
-    @Transactional(rollbackFor = Exception.class)
+    @Transactional
     @Override
     public boolean updateRoleById(SsRole role) {
         if (role == null) {
@@ -268,7 +268,7 @@ public class AdminServiceImpl implements AdminService {
         return false;
     }
 
-    @Transactional(rollbackFor = Exception.class)
+    @Transactional
     @Override
     public boolean removeRoleById(Integer roleId) {
         if (roleId == null) {
@@ -296,20 +296,30 @@ public class AdminServiceImpl implements AdminService {
         return ssPermissions;
     }
 
-    @Transactional(rollbackFor = Exception.class)
+    @Transactional
     @Override
     public boolean updateRoleAuth(Integer roleId, List<Integer> integers) throws ResponseException {
-        if (roleId == null || integers.size() == 0 || integers == null) {
+        if (roleId == null) {
             throw new ResponseException(EnumError.PARAMETER_VALIDATION_ERROR);
+        }
+        if (integers.size() == 0 || integers == null) {
+            int i1 = adminMapper.deleteAllgRole(roleId);
+            if (i1 >= 0) {
+                return true;
+            }
         }
         //删除全部该roleId权限,重新赋值
         int i1 = adminMapper.deleteAllgRole(roleId);
-        //增加新权限
-        int i = adminMapper.insertRoleAuths(roleId, integers);
-        if (i < integers.size()) {
-            throw new ResponseException(EnumError.PARAMETER_VALIDATION_ERROR, "操作失败");
+        if (i1 >= 0) {
+            //增加新权限
+            int i = adminMapper.insertRoleAuths(roleId, integers);
+            if (i < integers.size()) {
+                throw new ResponseException(EnumError.PARAMETER_VALIDATION_ERROR, "操作失败");
+            }
+            return true;
         }
-        return true;
+        return false;
+
     }
 
     @Override
@@ -325,7 +335,7 @@ public class AdminServiceImpl implements AdminService {
         return permissions;
     }
 
-    @Transactional(rollbackFor = Exception.class)
+    @Transactional
     @Override
     public boolean addOnePerm(SsPermission authorities) {
         if (authorities == null) {
@@ -340,12 +350,13 @@ public class AdminServiceImpl implements AdminService {
         return false;
     }
 
-    @Transactional(rollbackFor = Exception.class)
+    @Transactional
     @Override
     public boolean updatePermsById(SsPermission authorities) {
         if (authorities == null) {
             return false;
         }
+        authorities.setPermDescription(authorities.getPermName());
         int i = ssPermissionMapper.updateByPrimaryKeySelective(authorities);
         if (i == 1) {
             return true;
@@ -353,7 +364,7 @@ public class AdminServiceImpl implements AdminService {
         return false;
     }
 
-    @Transactional(rollbackFor = Exception.class)
+    @Transactional
     @Override
     public boolean removePermById(Integer permId) {
         if (permId == null) {

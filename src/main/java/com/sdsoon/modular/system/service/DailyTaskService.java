@@ -14,4 +14,9 @@ public interface DailyTaskService {
 
     List<DailyTaskVo> getDailyTask(Integer category);
 
+    List<DailyTaskVo> getDailyTask();
+
+    long getDailyCount();
+
+    boolean removeDaily(String dailyTaskId) throws ResponseException;
 }

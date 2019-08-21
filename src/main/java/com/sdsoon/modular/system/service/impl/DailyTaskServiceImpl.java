@@ -2,6 +2,7 @@ package com.sdsoon.modular.system.service.impl;
 
 import com.sdsoon.core.response.ex.EnumError;
 import com.sdsoon.core.response.ex.ResponseException;
+import com.sdsoon.core.util.StringUtil;
 import com.sdsoon.modular.system.mapper.SsDailyTaskMapper;
 import com.sdsoon.modular.system.po.SsDailyTask;
 import com.sdsoon.modular.system.service.DailyTaskService;
@@ -64,6 +65,38 @@ public class DailyTaskServiceImpl implements DailyTaskService {
         return dailyTaskVos;
     }
 
+    @Override
+    public List<DailyTaskVo> getDailyTask() {
+        List<SsDailyTask> ssDailyTasks = ssDailyTaskMapper.selectAllDailyTask();
+        if (ssDailyTasks == null) {
+            return null;
+        }
+        List<DailyTaskVo> dailyTaskVos = ssDailyTasks.stream().map(dailyTask -> {
+            DailyTaskVo dailyTaskVo = convertDailyVoFromDto(dailyTask);
+            return dailyTaskVo;
+        }).collect(Collectors.toList());
+        return dailyTaskVos;
+    }
+
+    @Override
+    public long getDailyCount() {
+        long l = ssDailyTaskMapper.countByExample(null);
+        return l;
+    }
+
+    @Transactional
+    @Override
+    public boolean removeDaily(String dailyTaskId) throws ResponseException {
+        if (StringUtils.isBlank(dailyTaskId)) {
+            throw new ResponseException(EnumError.PARAMETER_VALIDATION_ERROR);
+        }
+        int i = ssDailyTaskMapper.deleteByPrimaryKey(dailyTaskId);
+        if (i == 1) {
+            return true;
+        }
+        return false;
+    }
+
     private DailyTaskVo convertDailyVoFromDto(SsDailyTask ssDailyTask) {
         if (ssDailyTask == null) {
             return null;
@@ -80,5 +113,6 @@ public class DailyTaskServiceImpl implements DailyTaskService {
         String format = simpleDateFormat.format(date);
         return format;
     }
+
 
 }

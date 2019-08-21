@@ -7,7 +7,7 @@ import java.io.Serializable;
  */
 public class DailyTaskVo implements Serializable {
     private static final long serialVersionUID = -6953995339370904806L;
-
+    private String dailyTaskId;
     private Integer dailyStatus;
 
     private Integer dailyCategory;
@@ -19,11 +19,20 @@ public class DailyTaskVo implements Serializable {
     public DailyTaskVo() {
     }
 
-    public DailyTaskVo(Integer dailyStatus, Integer dailyCategory, String dailyCreateTime, String dailyDescriptioin) {
+    public DailyTaskVo(String dailyTaskId, Integer dailyStatus, Integer dailyCategory, String dailyCreateTime, String dailyDescriptioin) {
+        this.dailyTaskId = dailyTaskId;
         this.dailyStatus = dailyStatus;
         this.dailyCategory = dailyCategory;
         this.dailyCreateTime = dailyCreateTime;
         this.dailyDescriptioin = dailyDescriptioin;
+    }
+
+    public String getDailyTaskId() {
+        return dailyTaskId;
+    }
+
+    public void setDailyTaskId(String dailyTaskId) {
+        this.dailyTaskId = dailyTaskId;
     }
 
     public Integer getDailyStatus() {
