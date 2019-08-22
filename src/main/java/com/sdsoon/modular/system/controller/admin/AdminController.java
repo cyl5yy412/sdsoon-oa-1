@@ -50,7 +50,7 @@ public class AdminController extends BaseController {
     /**
      * 403
      */
-    @GetMapping("/error/error403")
+    @GetMapping("/error/403")
     public String err403() {
         return "redirect:/page/error/error-403.html";
     }

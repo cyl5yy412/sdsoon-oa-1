@@ -29,7 +29,7 @@ public class ShiroConfig {
         shiroFilter.setLoginUrl("/login");
         shiroFilter.setSuccessUrl("/");
 //        shiroFilter.setUnauthorizedUrl("/error/403");
-        shiroFilter.setUnauthorizedUrl("/error/error403");
+        shiroFilter.setUnauthorizedUrl("/error/403");
         // 自定义过滤器
         Map<String, Filter> filtersMap = new LinkedHashMap<>();
         filtersMap.put("mlfc", new MyLoginFilter());
@@ -43,14 +43,14 @@ public class ShiroConfig {
         filterChainDefinitions.put("/login", "anon");
         filterChainDefinitions.put("/logout", "logout");
         //
-//        filterChainDefinitions.put("/users", "authc");
-//        filterChainDefinitions.put( "/user/**", "authc");
-//        filterChainDefinitions.put("/role", "authc");
-//        filterChainDefinitions.put( "/role/**", "authc");
-//        filterChainDefinitions.put("/perms", "authc");
-//        filterChainDefinitions.put("/perm/**", "authc");
+        filterChainDefinitions.put("/users", "authc");
+        filterChainDefinitions.put( "/user/**", "authc");
+        filterChainDefinitions.put("/role", "authc");
+        filterChainDefinitions.put( "/role/**", "authc");
+        filterChainDefinitions.put("/perms", "authc");
+        filterChainDefinitions.put("/perm/**", "authc");
         //
-        filterChainDefinitions.put("/**", "mlfc,authc");
+//        filterChainDefinitions.put("/**", "mlfc,authc");
         shiroFilter.setFilterChainDefinitionMap(filterChainDefinitions);
         return shiroFilter;
     }

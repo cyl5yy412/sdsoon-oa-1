@@ -34,7 +34,11 @@ public enum EnumError implements CommonError {
     //shiro
     SHIRO_NOT_HAVE_PERMISSION(40000, "没有操作权限"),
     SHIRO_NOT_HAVE_CREDENTIALS(40001, "二级认证失败"),
-
+    //upload fail
+    PIC_UPLOAD_FAIL(50000,"上传pic失败"),
+    DOC_UPLOAD_FAIL(50001,"上传doc失败"),
+    //
+    MISSION_FAIL(60000,"添加mission失败"),
     //
     ILLEGAL_LOGIN(90000, "非法捷径登陆"),
     UNAUTHORIZED_LOGIN(90001, "未授权"),

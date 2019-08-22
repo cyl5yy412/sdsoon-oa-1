@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sdsoon.modular.system.mapper.SsProjectManageMapper">
+  <resultMap id="BaseResultMap" type="com.sdsoon.modular.system.po.SsProjectManage">
+    <id column="project_id" jdbcType="VARCHAR" property="projectId" />
+    <result column="project_name" jdbcType="VARCHAR" property="projectName" />
+    <result column="project_description" jdbcType="VARCHAR" property="projectDescription" />
+    <result column="project_technology" jdbcType="VARCHAR" property="projectTechnology" />
+    <result column="project_standard" jdbcType="VARCHAR" property="projectStandard" />
+    <result column="project_leader_name" jdbcType="VARCHAR" property="projectLeaderName" />
+    <result column="project_leader_phone" jdbcType="VARCHAR" property="projectLeaderPhone" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    project_id, project_name, project_description, project_technology, project_standard, 
+    project_leader_name, project_leader_phone
+  </sql>
+  <select id="selectByExample" parameterType="com.sdsoon.modular.system.po.SsProjectManageExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from ss_project_manage
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from ss_project_manage
+    where project_id = #{projectId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from ss_project_manage
+    where project_id = #{projectId,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.sdsoon.modular.system.po.SsProjectManageExample">
+    delete from ss_project_manage
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.sdsoon.modular.system.po.SsProjectManage">
+    insert into ss_project_manage (project_id, project_name, project_description, 
+      project_technology, project_standard, project_leader_name, 
+      project_leader_phone)
+    values (#{projectId,jdbcType=VARCHAR}, #{projectName,jdbcType=VARCHAR}, #{projectDescription,jdbcType=VARCHAR}, 
+      #{projectTechnology,jdbcType=VARCHAR}, #{projectStandard,jdbcType=VARCHAR}, #{projectLeaderName,jdbcType=VARCHAR}, 
+      #{projectLeaderPhone,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.sdsoon.modular.system.po.SsProjectManage">
+    insert into ss_project_manage
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="projectId != null">
+        project_id,
+      </if>
+      <if test="projectName != null">
+        project_name,
+      </if>
+      <if test="projectDescription != null">
+        project_description,
+      </if>
+      <if test="projectTechnology != null">
+        project_technology,
+      </if>
+      <if test="projectStandard != null">
+        project_standard,
+      </if>
+      <if test="projectLeaderName != null">
+        project_leader_name,
+      </if>
+      <if test="projectLeaderPhone != null">
+        project_leader_phone,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="projectId != null">
+        #{projectId,jdbcType=VARCHAR},
+      </if>
+      <if test="projectName != null">
+        #{projectName,jdbcType=VARCHAR},
+      </if>
+      <if test="projectDescription != null">
+        #{projectDescription,jdbcType=VARCHAR},
+      </if>
+      <if test="projectTechnology != null">
+        #{projectTechnology,jdbcType=VARCHAR},
+      </if>
+      <if test="projectStandard != null">
+        #{projectStandard,jdbcType=VARCHAR},
+      </if>
+      <if test="projectLeaderName != null">
+        #{projectLeaderName,jdbcType=VARCHAR},
+      </if>
+      <if test="projectLeaderPhone != null">
+        #{projectLeaderPhone,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.sdsoon.modular.system.po.SsProjectManageExample" resultType="java.lang.Long">
+    select count(*) from ss_project_manage
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update ss_project_manage
+    <set>
+      <if test="record.projectId != null">
+        project_id = #{record.projectId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.projectName != null">
+        project_name = #{record.projectName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.projectDescription != null">
+        project_description = #{record.projectDescription,jdbcType=VARCHAR},
+      </if>
+      <if test="record.projectTechnology != null">
+        project_technology = #{record.projectTechnology,jdbcType=VARCHAR},
+      </if>
+      <if test="record.projectStandard != null">
+        project_standard = #{record.projectStandard,jdbcType=VARCHAR},
+      </if>
+      <if test="record.projectLeaderName != null">
+        project_leader_name = #{record.projectLeaderName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.projectLeaderPhone != null">
+        project_leader_phone = #{record.projectLeaderPhone,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update ss_project_manage
+    set project_id = #{record.projectId,jdbcType=VARCHAR},
+      project_name = #{record.projectName,jdbcType=VARCHAR},
+      project_description = #{record.projectDescription,jdbcType=VARCHAR},
+      project_technology = #{record.projectTechnology,jdbcType=VARCHAR},
+      project_standard = #{record.projectStandard,jdbcType=VARCHAR},
+      project_leader_name = #{record.projectLeaderName,jdbcType=VARCHAR},
+      project_leader_phone = #{record.projectLeaderPhone,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sdsoon.modular.system.po.SsProjectManage">
+    update ss_project_manage
+    <set>
+      <if test="projectName != null">
+        project_name = #{projectName,jdbcType=VARCHAR},
+      </if>
+      <if test="projectDescription != null">
+        project_description = #{projectDescription,jdbcType=VARCHAR},
+      </if>
+      <if test="projectTechnology != null">
+        project_technology = #{projectTechnology,jdbcType=VARCHAR},
+      </if>
+      <if test="projectStandard != null">
+        project_standard = #{projectStandard,jdbcType=VARCHAR},
+      </if>
+      <if test="projectLeaderName != null">
+        project_leader_name = #{projectLeaderName,jdbcType=VARCHAR},
+      </if>
+      <if test="projectLeaderPhone != null">
+        project_leader_phone = #{projectLeaderPhone,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where project_id = #{projectId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sdsoon.modular.system.po.SsProjectManage">
+    update ss_project_manage
+    set project_name = #{projectName,jdbcType=VARCHAR},
+      project_description = #{projectDescription,jdbcType=VARCHAR},
+      project_technology = #{projectTechnology,jdbcType=VARCHAR},
+      project_standard = #{projectStandard,jdbcType=VARCHAR},
+      project_leader_name = #{projectLeaderName,jdbcType=VARCHAR},
+      project_leader_phone = #{projectLeaderPhone,jdbcType=VARCHAR}
+    where project_id = #{projectId,jdbcType=VARCHAR}
+  </update>
+</mapper>

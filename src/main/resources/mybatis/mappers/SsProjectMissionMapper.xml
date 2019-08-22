@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sdsoon.modular.system.mapper.SsProjectMissionMapper">
+    <resultMap id="BaseResultMap" type="com.sdsoon.modular.system.po.SsProjectMission">
+        <id column="project_mission_id" jdbcType="VARCHAR" property="projectMissionId"/>
+        <result column="project_mission_create_time" jdbcType="DATE" property="projectMissionCreateTime"/>
+        <result column="project_mission_end_time" jdbcType="DATE" property="projectMissionEndTime"/>
+        <result column="project_mission_description" jdbcType="VARCHAR" property="projectMissionDescription"/>
+        <result column="project_g_project_id" jdbcType="VARCHAR" property="projectGProjectId"/>
+    </resultMap>
+    <sql id="Example_Where_Clause">
+        <where>
+            <foreach collection="oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="("
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Update_By_Example_Where_Clause">
+        <where>
+            <foreach collection="example.oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="("
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Base_Column_List">
+    project_mission_id, project_mission_create_time, project_mission_end_time, project_mission_description, 
+    project_g_project_id
+  </sql>
+    <select id="selectByExample" parameterType="com.sdsoon.modular.system.po.SsProjectMissionExample"
+            resultMap="BaseResultMap">
+        select
+        <if test="distinct">
+            distinct
+        </if>
+        <include refid="Base_Column_List"/>
+        from ss_project_mission
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+        <if test="orderByClause != null">
+            order by ${orderByClause}
+        </if>
+    </select>
+    <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from ss_project_mission
+        where project_mission_id = #{projectMissionId,jdbcType=VARCHAR}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from ss_project_mission
+    where project_mission_id = #{projectMissionId,jdbcType=VARCHAR}
+  </delete>
+    <delete id="deleteByExample" parameterType="com.sdsoon.modular.system.po.SsProjectMissionExample">
+        delete from ss_project_mission
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </delete>
+    <insert id="insert" parameterType="com.sdsoon.modular.system.po.SsProjectMission">
+    insert into ss_project_mission (project_mission_id, project_mission_create_time, 
+      project_mission_end_time, project_mission_description, 
+      project_g_project_id)
+    values (#{projectMissionId,jdbcType=VARCHAR}, #{projectMissionCreateTime,jdbcType=DATE}, 
+      #{projectMissionEndTime,jdbcType=DATE}, #{projectMissionDescription,jdbcType=VARCHAR}, 
+      #{projectGProjectId,jdbcType=VARCHAR})
+  </insert>
+    <insert id="insertSelective" parameterType="com.sdsoon.modular.system.po.SsProjectMission">
+        insert into ss_project_mission
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="projectMissionId != null">
+                project_mission_id,
+            </if>
+            <if test="projectMissionCreateTime != null">
+                project_mission_create_time,
+            </if>
+            <if test="projectMissionEndTime != null">
+                project_mission_end_time,
+            </if>
+            <if test="projectMissionDescription != null">
+                project_mission_description,
+            </if>
+            <if test="projectGProjectId != null">
+                project_g_project_id,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="projectMissionId != null">
+                #{projectMissionId,jdbcType=VARCHAR},
+            </if>
+            <if test="projectMissionCreateTime != null">
+                #{projectMissionCreateTime,jdbcType=DATE},
+            </if>
+            <if test="projectMissionEndTime != null">
+                #{projectMissionEndTime,jdbcType=DATE},
+            </if>
+            <if test="projectMissionDescription != null">
+                #{projectMissionDescription,jdbcType=VARCHAR},
+            </if>
+            <if test="projectGProjectId != null">
+                #{projectGProjectId,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <select id="countByExample" parameterType="com.sdsoon.modular.system.po.SsProjectMissionExample"
+            resultType="java.lang.Long">
+        select count(*) from ss_project_mission
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </select>
+    <update id="updateByExampleSelective" parameterType="map">
+        update ss_project_mission
+        <set>
+            <if test="record.projectMissionId != null">
+                project_mission_id = #{record.projectMissionId,jdbcType=VARCHAR},
+            </if>
+            <if test="record.projectMissionCreateTime != null">
+                project_mission_create_time = #{record.projectMissionCreateTime,jdbcType=DATE},
+            </if>
+            <if test="record.projectMissionEndTime != null">
+                project_mission_end_time = #{record.projectMissionEndTime,jdbcType=DATE},
+            </if>
+            <if test="record.projectMissionDescription != null">
+                project_mission_description = #{record.projectMissionDescription,jdbcType=VARCHAR},
+            </if>
+            <if test="record.projectGProjectId != null">
+                project_g_project_id = #{record.projectGProjectId,jdbcType=VARCHAR},
+            </if>
+        </set>
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByExample" parameterType="map">
+        update ss_project_mission
+        set project_mission_id = #{record.projectMissionId,jdbcType=VARCHAR},
+        project_mission_create_time = #{record.projectMissionCreateTime,jdbcType=DATE},
+        project_mission_end_time = #{record.projectMissionEndTime,jdbcType=DATE},
+        project_mission_description = #{record.projectMissionDescription,jdbcType=VARCHAR},
+        project_g_project_id = #{record.projectGProjectId,jdbcType=VARCHAR}
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByPrimaryKeySelective" parameterType="com.sdsoon.modular.system.po.SsProjectMission">
+        update ss_project_mission
+        <set>
+            <if test="projectMissionCreateTime != null">
+                project_mission_create_time = #{projectMissionCreateTime,jdbcType=DATE},
+            </if>
+            <if test="projectMissionEndTime != null">
+                project_mission_end_time = #{projectMissionEndTime,jdbcType=DATE},
+            </if>
+            <if test="projectMissionDescription != null">
+                project_mission_description = #{projectMissionDescription,jdbcType=VARCHAR},
+            </if>
+            <if test="projectGProjectId != null">
+                project_g_project_id = #{projectGProjectId,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where project_mission_id = #{projectMissionId,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.sdsoon.modular.system.po.SsProjectMission">
+    update ss_project_mission
+    set project_mission_create_time = #{projectMissionCreateTime,jdbcType=DATE},
+      project_mission_end_time = #{projectMissionEndTime,jdbcType=DATE},
+      project_mission_description = #{projectMissionDescription,jdbcType=VARCHAR},
+      project_g_project_id = #{projectGProjectId,jdbcType=VARCHAR}
+    where project_mission_id = #{projectMissionId,jdbcType=VARCHAR}
+  </update>
+    <!--
+      project_mission_id,
+      project_mission_create_time,
+      project_mission_end_time,
+      project_mission_description,
+      project_g_project_id
+     -->
+    <insert id="insertMissions" parameterType="com.sdsoon.modular.system.po.SsProjectMission">
+        INSERT INTO
+        ss_permission (<include refid="Base_Column_List"/>)
+        VALUES
+        <foreach collection="missions" item="mission" index="index" separator=",">
+            (#{mission.projectMissionId},#{mission.projectMissionCreateTime},#{mission.projectMissionEndTime},
+            #{mission.projectMissionDescription},#{mission.projectGProjectId})
+        </foreach>
+    </insert>
+</mapper>
