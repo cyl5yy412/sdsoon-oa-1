@@ -1,5 +1,6 @@
 package com.sdsoon.modular.system.mapper;
 
+import com.sdsoon.modular.system.model.ProjectPoModel;
 import com.sdsoon.modular.system.po.SsProjectManage;
 import com.sdsoon.modular.system.po.SsProjectManageExample;
 import org.apache.ibatis.annotations.Param;
@@ -28,4 +29,6 @@ public interface SsProjectManageMapper {
     int updateByPrimaryKeySelective(SsProjectManage record);
 
     int updateByPrimaryKey(SsProjectManage record);
+
+    ProjectPoModel selectProjectById(@Param("projectId") String projectId);
 }

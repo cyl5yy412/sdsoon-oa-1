@@ -5,15 +5,15 @@ import com.sdsoon.core.response.ReturnResult;
 import com.sdsoon.core.response.ex.ResponseException;
 import com.sdsoon.modular.system.model.ProjectMissionModel;
 import com.sdsoon.modular.system.model.ProjectModel;
+import com.sdsoon.modular.system.model.ProjectPoModel;
 import com.sdsoon.modular.system.service.ProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.UnsupportedEncodingException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -37,6 +37,26 @@ public class ProjectController {
         boolean b = projectService.setupProject(projectModel);
         if (b) {
             return ReturnResult.create(HttpStatus.CREATED);
+        }
+        return ReturnResult.create(null);
+    }
+
+    @PostMapping("/get")
+    public ReturnResult select(String projectId) throws ResponseException {
+        ProjectPoModel projectPoModel = projectService.selectProjectById(projectId);
+        if (projectPoModel == null) {
+            return ReturnResult.create(null);
+        }
+        return ReturnResult.create(projectPoModel);
+    }
+
+    @GetMapping("/download")
+    public ReturnResult downLoad(@RequestParam("downloadId") String downloadId,
+                                 HttpServletResponse response
+    ) throws ResponseException, UnsupportedEncodingException {
+        boolean b = projectService.download(downloadId,response);
+        if (b) {
+            return ReturnResult.create(HttpStatus.OK);
         }
         return ReturnResult.create(null);
     }
@@ -92,7 +112,6 @@ public class ProjectController {
                                    String missionDes3
     ) throws ResponseException {
 
-        String projectId = "3068ff7d4d954d698da6a50dc7d241e7";
         //mission
         List<ProjectMissionModel> projectMissions = new ArrayList<>();
         ProjectMissionModel projectMissionModel1 = new ProjectMissionModel();
@@ -132,7 +151,7 @@ public class ProjectController {
         projectModel.setProjectDescription("项目描述");
         projectModel.setProjectLeaderName("负责人名字");
         projectModel.setProjectLeaderPhone("负责人手机");
-        projectModel.setProjectId(projectId);
+
         projectModel.setProjectMissions(projectMissions);
         projectModel.setPicFiles(picFiles);
         projectModel.setDocFiles(docFiles);
@@ -160,7 +179,6 @@ public class ProjectController {
         Long timeL = Long.valueOf(s);
         Date date = new Date(timeL);
         System.out.println(date);
-
 
 
 //        ProjectModel projectModel = new ProjectModel();

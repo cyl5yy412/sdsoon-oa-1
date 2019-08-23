@@ -4,9 +4,13 @@ import com.sdsoon.core.response.ex.EnumError;
 import com.sdsoon.core.response.ex.ResponseException;
 import com.sdsoon.core.util.FileUtil;
 import com.sdsoon.core.util.IDUtil;
-import com.sdsoon.modular.system.mapper.*;
+import com.sdsoon.modular.system.mapper.SsProjectDocMapper;
+import com.sdsoon.modular.system.mapper.SsProjectManageMapper;
+import com.sdsoon.modular.system.mapper.SsProjectMissionMapper;
+import com.sdsoon.modular.system.mapper.SsProjectPicMapper;
 import com.sdsoon.modular.system.model.ProjectMissionModel;
 import com.sdsoon.modular.system.model.ProjectModel;
+import com.sdsoon.modular.system.model.ProjectPoModel;
 import com.sdsoon.modular.system.po.SsProjectDoc;
 import com.sdsoon.modular.system.po.SsProjectManage;
 import com.sdsoon.modular.system.po.SsProjectMission;
@@ -20,6 +24,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletResponse;
+import java.io.UnsupportedEncodingException;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -32,8 +38,19 @@ import java.util.stream.Collectors;
 public class ProjectServiceImpl implements ProjectService {
     @Override
     public boolean setupProjectDemo(ProjectModel projectModel) throws ResponseException {
+        //添加project-manage
+        if (StringUtils.isAnyBlank(
+                projectModel.getProjectName(),
+                projectModel.getProjectTechnology(),
+                projectModel.getProjectStandard(),
+                projectModel.getProjectDescription(),
+                projectModel.getProjectLeaderName(),
+                projectModel.getProjectLeaderPhone())) {
+            throw new ResponseException(EnumError.PARAMETER_VALIDATION_ERROR);
+        }
         SsProjectManage ssProjectManage = convertProjectModelFromSsProjectManage(projectModel);
-        if (ssProjectManage.getProjectId() != null) {
+        int i = ssProjectManageMapper.insertSelective(ssProjectManage);
+        if (i == 1) {
             /**
              *doc,pic,mission
              */
@@ -90,6 +107,19 @@ public class ProjectServiceImpl implements ProjectService {
         return false;
     }
 
+    @Override
+    public ProjectPoModel selectProjectById(String projectId) throws ResponseException {
+        if (StringUtils.isBlank(projectId)) {
+            throw new ResponseException(EnumError.PARAMETER_VALIDATION_ERROR);
+        }
+        ProjectPoModel projectPoModel = ssProjectManageMapper.selectProjectById(projectId);
+        if (projectPoModel == null) {
+            return null;
+        }
+        return projectPoModel;
+    }
+
+
     @Resource
     private SsProjectManageMapper ssProjectManageMapper;
     @Resource
@@ -105,6 +135,8 @@ public class ProjectServiceImpl implements ProjectService {
     private String IMG_REAL_SAVE_PATH;
     @Value("${DOC_REAL_SAVE_PATH}")
     private String DOC_REAL_SAVE_PATH;
+    public static final String PIC_ID_PREFIX = "pic_";
+    public static final String DOC_ID_PREFIX = "doc_";
 
     @Transactional
     @Override
@@ -178,6 +210,36 @@ public class ProjectServiceImpl implements ProjectService {
         return false;
     }
 
+    @Override
+    public boolean download(String downloadId, HttpServletResponse response) throws ResponseException, UnsupportedEncodingException {
+        if (StringUtils.isBlank(downloadId)) {
+            throw new ResponseException(EnumError.PARAMETER_VALIDATION_ERROR);
+        }
+        String path = null;
+        String filename = null;
+        if (downloadId.contains(PIC_ID_PREFIX)) {
+            path = IMG_REAL_SAVE_PATH;
+            SsProjectPic ssProjectPic = ssProjectPicMapper.selectByPrimaryKey(downloadId);
+            if (ssProjectPic == null) {
+                return false;
+            }
+            filename = ssProjectPic.getProjectPicNewName();
+        } else if (downloadId.contains(DOC_ID_PREFIX)) {
+            path = DOC_REAL_SAVE_PATH;
+            SsProjectDoc ssProjectDoc = ssProjectDocMapper.selectByPrimaryKey(downloadId);
+            if (ssProjectDoc == null) {
+                return false;
+            }
+            filename = ssProjectDoc.getProjectDocNewName();
+        } else {
+            return false;
+        }
+        boolean b = FileUtil.downloadFile(path, filename, response);
+        if (b) {
+            return true;
+        }
+        return false;
+    }
 
     //
     private SsProjectMission convertMissionModelFromBean(ProjectMissionModel projectModel) {
@@ -211,7 +273,10 @@ public class ProjectServiceImpl implements ProjectService {
         String originalFileName = docFile.getOriginalFilename();
 
         SsProjectDoc ssProjectDoc = new SsProjectDoc();
-        String docId = UUID.randomUUID().toString().replaceAll("-", "");
+        String docIdSuffix = UUID.randomUUID().toString().replaceAll("-", "");
+        String docId = DOC_ID_PREFIX + docIdSuffix;
+//        String docId = UUID.randomUUID().toString().replaceAll("-", "");
+
         ssProjectDoc.setProjectDocId(docId);
         ssProjectDoc.setProjectDocOldName(originalFileName);
         ssProjectDoc.setProjectDocNewName(newFileName(originalFileName));
@@ -239,7 +304,10 @@ public class ProjectServiceImpl implements ProjectService {
         if (isLegal) {
             SsProjectPic ssProjectPic = new SsProjectPic();
             ssProjectPic.setProjectGProjectId(projectId);
-            String picId = UUID.randomUUID().toString().replaceAll("-", "");
+            String picIdSuffix = UUID.randomUUID().toString().replaceAll("-", "");
+            String picId = PIC_ID_PREFIX.concat(picIdSuffix);
+//            String picId = UUID.randomUUID().toString().replaceAll("-", "");
+
             ssProjectPic.setProjectPicId(picId);
             ssProjectPic.setProjectPicOldName(originalFilename);
             ssProjectPic.setProjectPicNewName(newFileName(originalFilename));
@@ -251,6 +319,7 @@ public class ProjectServiceImpl implements ProjectService {
         }
         return null;
     }
+
 
     //pic上传
     private boolean upLoadPic(MultipartFile picFile, String newFileName) {
