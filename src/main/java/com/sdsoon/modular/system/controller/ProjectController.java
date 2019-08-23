@@ -51,14 +51,15 @@ public class ProjectController {
     }
 
     @GetMapping("/download")
-    public ReturnResult downLoad(@RequestParam("downloadId") String downloadId,
+    public void downLoad(@RequestParam("downloadId") String downloadId,
                                  HttpServletResponse response
     ) throws ResponseException, UnsupportedEncodingException {
         boolean b = projectService.download(downloadId,response);
-        if (b) {
-            return ReturnResult.create(HttpStatus.OK);
-        }
-        return ReturnResult.create(null);
+        //返回信息会把返回的信息加到下载的doc中
+//        if (b) {
+//            return ReturnResult.create(HttpStatus.OK);
+//        }
+//        return ReturnResult.create(null);
     }
 
 /*
