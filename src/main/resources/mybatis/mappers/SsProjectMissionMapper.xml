@@ -224,7 +224,7 @@
      -->
     <insert id="insertMissions" parameterType="com.sdsoon.modular.system.po.SsProjectMission">
         INSERT INTO
-        ss_permission (<include refid="Base_Column_List"/>)
+        ss_project_mission (<include refid="Base_Column_List"/>)
         VALUES
         <foreach collection="missions" item="mission" index="index" separator=",">
             (#{mission.projectMissionId},#{mission.projectMissionCreateTime},#{mission.projectMissionEndTime},

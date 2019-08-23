@@ -1,5 +1,6 @@
 package com.sdsoon.modular.system.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.sdsoon.core.response.ReturnResult;
 import com.sdsoon.core.response.ex.ResponseException;
 import com.sdsoon.modular.system.model.ProjectMissionModel;
@@ -125,10 +126,19 @@ public class ProjectController {
 
 
         ProjectModel projectModel = new ProjectModel();
+        projectModel.setProjectName("项目名");
+        projectModel.setProjectTechnology("工艺");
+        projectModel.setProjectStandard("标准");
+        projectModel.setProjectDescription("项目描述");
+        projectModel.setProjectLeaderName("负责人名字");
+        projectModel.setProjectLeaderPhone("负责人手机");
         projectModel.setProjectId(projectId);
         projectModel.setProjectMissions(projectMissions);
         projectModel.setPicFiles(picFiles);
         projectModel.setDocFiles(docFiles);
+
+        String s = JSON.toJSONString(projectModel, true);
+        System.out.println(s);
 
         boolean b = projectService.setupProjectDemo(projectModel);
         if (b) {
@@ -150,6 +160,20 @@ public class ProjectController {
         Long timeL = Long.valueOf(s);
         Date date = new Date(timeL);
         System.out.println(date);
+
+
+
+//        ProjectModel projectModel = new ProjectModel();
+//        projectModel.setProjectName();
+//        projectModel.setProjectTechnology();
+//        projectModel.setProjectStandard();
+//        projectModel.setProjectDescription();
+//        projectModel.setProjectLeaderName();
+//        projectModel.setProjectLeaderPhone();
+//
+//        projectModel.setDocFiles();
+//        projectModel.setPicFiles();
+//        projectModel.setProjectMissions();
 
     }
 
