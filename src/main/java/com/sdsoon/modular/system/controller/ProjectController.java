@@ -32,6 +32,7 @@ public class ProjectController {
     @Autowired
     private ProjectService projectService;
 
+    //添加立项
     @PostMapping("/setup")
     public ReturnResult setup(@RequestBody ProjectModel projectModel) throws ResponseException {
         boolean b = projectService.setupProject(projectModel);
@@ -41,6 +42,7 @@ public class ProjectController {
         return ReturnResult.create(null);
     }
 
+    //查询立项内容
     @PostMapping("/get")
     public ReturnResult select(String projectId) throws ResponseException {
         ProjectPoModel projectPoModel = projectService.selectProjectById(projectId);
@@ -50,6 +52,7 @@ public class ProjectController {
         return ReturnResult.create(projectPoModel);
     }
 
+    //下载文件
     @GetMapping("/download")
     public void downLoad(@RequestParam("downloadId") String downloadId,
                                  HttpServletResponse response
