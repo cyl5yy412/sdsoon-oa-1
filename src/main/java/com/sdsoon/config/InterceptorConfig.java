@@ -21,6 +21,7 @@ public class InterceptorConfig implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(loginInterceptor)
                 .addPathPatterns("/daily/**")    // 拦截中台请求
+                .addPathPatterns("/project/**")    // 拦截中台请求
 //                .excludePathPatterns(
 //                        //swagger
 //                        "/swagger-resources/**",

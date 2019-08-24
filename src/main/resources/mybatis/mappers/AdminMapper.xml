@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.sdsoon.modular.system.mapper.AdminMapper">
-    <resultMap id="BaseResultMap" type="com.sdsoon.modular.system.po.SsAdmin">
+    <resultMap id="BaseResultMap" type="com.sdsoon.modular.system.vo.LoginSucUserVo">
         <!-- userinfo -->
         <id column="user_id" jdbcType="VARCHAR" property="userId"/>
         <result column="user_name" jdbcType="VARCHAR" property="userName"/>
@@ -16,17 +16,6 @@
         <result column="role_code" jdbcType="VARCHAR" property="roleCode"/>
         <result column="role_status" jdbcType="INTEGER" property="roleStatus"/>
         <result column="role_description" jdbcType="VARCHAR" property="roleDescription"/>
-        <!-- perm -->
-
-        <result column="perm_id" jdbcType="INTEGER" property="permId"/>
-        <result column="perm_name" jdbcType="VARCHAR" property="permName"/>
-        <result column="perm_code" jdbcType="VARCHAR" property="permCode"/>
-        <result column="perm_status" jdbcType="INTEGER" property="permStatus"/>
-        <result column="perm_description" jdbcType="VARCHAR" property="permDescription"/>
-        <result column="perm_parent_id" jdbcType="INTEGER" property="permParentId"/>
-        <!-- role_perm -->
-        <result column="role_perm_g_role_id" jdbcType="INTEGER" property="rolePermGRoleId"/>
-        <result column="role_perm_g_perm_id" jdbcType="INTEGER" property="rolePermGPermId"/>
     </resultMap>
     <select id="selectUserRolePermByUserId" resultMap="BaseResultMap" parameterType="string">
 		SELECT
@@ -35,8 +24,8 @@
 		  FROM
 			ss_user_info i
 			LEFT JOIN ss_role r on i.user_g_role_id=r.role_id
-			LEFT JOIN ss_role_permission s on r.role_id=s.role_perm_g_role_id
-			LEFT JOIN ss_permission p on s.role_perm_g_perm_id=p.perm_id
+-- 			LEFT JOIN ss_role_permission s on r.role_id=s.role_perm_g_role_id
+-- 			LEFT JOIN ss_permission p on s.role_perm_g_perm_id=p.perm_id
 		  WHERE i.user_id = #{userId,jdbcType=VARCHAR}
     </select>
     <resultMap id="BaseResultMap_userInfo" type="com.sdsoon.modular.system.po.SsUserInfo">

@@ -46,14 +46,14 @@ public class UserServiceImpl implements UserService {
             SsUserInfo ssUserInfo = ssUserInfos.get(0);
             SsUserPassword ssUserPassword = ssUserPasswordMapper.selectByPrimaryKey(ssUserInfo.getUserId());
             //验证密码(加密验证)
-//            String encryptPassword = EncodeByMD5(password);
-//            if (!StringUtils.equals(encryptPassword, ssUserPassword.getEncryptPassword())) {
-//                throw new ResponseException(EnumError.USER_LOGIN_FAIL);
-//            }
-            //验证密码(非加密)
-            if (!StringUtils.equals(password, ssUserPassword.getEncryptPassword())) {
+            String encryptPassword = EncodeByMD5(password);
+            if (!StringUtils.equals(encryptPassword, ssUserPassword.getEncryptPassword())) {
                 throw new ResponseException(EnumError.USER_LOGIN_FAIL);
             }
+            //验证密码(非加密)
+//            if (!StringUtils.equals(password, ssUserPassword.getEncryptPassword())) {
+//                throw new ResponseException(EnumError.USER_LOGIN_FAIL);
+//            }
             //验证成功
             log.info("用户: {} 账号密码认证通过", ssUserInfo.getUserName());
             return ssUserInfo;

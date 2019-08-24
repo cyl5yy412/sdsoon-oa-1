@@ -34,6 +34,7 @@ public class SsAdmin implements Serializable{
 
     private String roleDescription;
     //perm
+
     private Integer permId;
 
     private String permName;
@@ -43,6 +44,9 @@ public class SsAdmin implements Serializable{
     private Integer permStatus;
 
     private String permDescription;
+
+    private Integer permParentId;
+
     //role_perm
     private Integer rolePermGRoleId;
 
@@ -51,6 +55,33 @@ public class SsAdmin implements Serializable{
 
 
     ///
+
+
+    public SsAdmin() {
+    }
+
+    public SsAdmin(String userId, String userName, Integer userGRoleId, String userRealName, String userPhone, Integer userStatus, String userDept, Integer roleId, String roleName, String roleCode, Integer roleStatus, String roleDescription, Integer permId, String permName, String permCode, Integer permStatus, String permDescription, Integer permParentId, Integer rolePermGRoleId, Integer rolePermGPermId) {
+        this.userId = userId;
+        this.userName = userName;
+        this.userGRoleId = userGRoleId;
+        this.userRealName = userRealName;
+        this.userPhone = userPhone;
+        this.userStatus = userStatus;
+        this.userDept = userDept;
+        this.roleId = roleId;
+        this.roleName = roleName;
+        this.roleCode = roleCode;
+        this.roleStatus = roleStatus;
+        this.roleDescription = roleDescription;
+        this.permId = permId;
+        this.permName = permName;
+        this.permCode = permCode;
+        this.permStatus = permStatus;
+        this.permDescription = permDescription;
+        this.permParentId = permParentId;
+        this.rolePermGRoleId = rolePermGRoleId;
+        this.rolePermGPermId = rolePermGPermId;
+    }
 
     public String getUserId() {
         return userId;
@@ -186,6 +217,14 @@ public class SsAdmin implements Serializable{
 
     public void setPermDescription(String permDescription) {
         this.permDescription = permDescription;
+    }
+
+    public Integer getPermParentId() {
+        return permParentId;
+    }
+
+    public void setPermParentId(Integer permParentId) {
+        this.permParentId = permParentId;
     }
 
     public Integer getRolePermGRoleId() {

@@ -2,6 +2,7 @@ package com.sdsoon.config;
 
 import com.sdsoon.core.auth.MyLoginFilter;
 import com.sdsoon.core.shiro.realm.UserRealm;
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.cache.ehcache.EhCacheManager;
 import org.apache.shiro.spring.LifecycleBeanPostProcessor;
 import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
@@ -34,23 +35,27 @@ public class ShiroConfig {
         Map<String, Filter> filtersMap = new LinkedHashMap<>();
         filtersMap.put("mlfc", new MyLoginFilter());
         shiroFilter.setFilters(filtersMap);
-        // 拦截配置
+        // 拦截配置:只拦截后台
         Map<String, String> filterChainDefinitions = new LinkedHashMap<>();
         filterChainDefinitions.put("/assets/**", "anon");
-        filterChainDefinitions.put("/page/template/error/**", "anon");
+//        filterChainDefinitions.put("/page/template/error/**", "anon");
+        filterChainDefinitions.put("/page/error/**", "anon");
         filterChainDefinitions.put("/druid/**", "anon");
-        filterChainDefinitions.put("/api/**", "anon");  // 接口排除拦截
         filterChainDefinitions.put("/login", "anon");
         filterChainDefinitions.put("/logout", "logout");
+        //后台的接口
+//        filterChainDefinitions.put("/users", "authc");
+//        filterChainDefinitions.put( "/user/**", "authc");
+//        filterChainDefinitions.put("/role", "authc");
+//        filterChainDefinitions.put( "/role/**", "authc");
+//        filterChainDefinitions.put("/perms", "authc");
+//        filterChainDefinitions.put("/perm/**", "authc");
+        //中台接口,接口排除拦截
+        filterChainDefinitions.put("/daily/**", "anon");
+        filterChainDefinitions.put("/project/**", "anon");
+        filterChainDefinitions.put("/v1/user/**", "anon");
         //
-        filterChainDefinitions.put("/users", "authc");
-        filterChainDefinitions.put( "/user/**", "authc");
-        filterChainDefinitions.put("/role", "authc");
-        filterChainDefinitions.put( "/role/**", "authc");
-        filterChainDefinitions.put("/perms", "authc");
-        filterChainDefinitions.put("/perm/**", "authc");
-        //
-//        filterChainDefinitions.put("/**", "mlfc,authc");
+        filterChainDefinitions.put("/**", "mlfc,authc");
         shiroFilter.setFilterChainDefinitionMap(filterChainDefinitions);
         return shiroFilter;
     }
@@ -68,6 +73,8 @@ public class ShiroConfig {
         DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
         securityManager.setRealm(userRealm());
         securityManager.setCacheManager(cacheManager());
+        //
+        SecurityUtils.setSecurityManager(securityManager);
         return securityManager;
     }
 

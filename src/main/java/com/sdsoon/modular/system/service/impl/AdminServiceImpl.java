@@ -43,8 +43,11 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public LoginSucUserVo selectUserRolePermByUserId(String userId) {
-        SsAdmin ssAdmin = adminMapper.selectUserRolePermByUserId(userId);
-        LoginSucUserVo loginSucUserVo = convertAdminFromSucVo(ssAdmin);
+        LoginSucUserVo loginSucUserVo = adminMapper.selectUserRolePermByUserId(userId);
+//        LoginSucUserVo loginSucUserVo = convertAdminFromSucVo(ssAdmin);
+        if (loginSucUserVo==null) {
+            return null;
+        }
         return loginSucUserVo;
     }
 

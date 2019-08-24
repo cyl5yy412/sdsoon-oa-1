@@ -1,9 +1,9 @@
 package com.sdsoon.modular.system.mapper;
 
-import com.sdsoon.modular.system.po.SsAdmin;
 import com.sdsoon.modular.system.po.SsPermission;
 import com.sdsoon.modular.system.po.SsRole;
 import com.sdsoon.modular.system.po.SsUserInfo;
+import com.sdsoon.modular.system.vo.LoginSucUserVo;
 import com.sdsoon.modular.system.vo.UserVo;
 import org.apache.ibatis.annotations.Param;
 
@@ -14,7 +14,7 @@ import java.util.List;
  */
 public interface AdminMapper {
 
-    SsAdmin selectUserRolePermByUserId(@Param("userId") String userId);
+    LoginSucUserVo selectUserRolePermByUserId(@Param("userId") String userId);
 
     List<SsUserInfo> selectAllUsers();
 

@@ -9,6 +9,7 @@ public class LoginSucUserVo implements Serializable {
     private static final long serialVersionUID = -261288210339196570L;
 
     //userinfo
+    private String userId;
 
     private String userName;
 
@@ -21,6 +22,7 @@ public class LoginSucUserVo implements Serializable {
     private Integer userStatus;
 
     private String userDept;
+
     //role
     private Integer roleId;
 
@@ -31,20 +33,35 @@ public class LoginSucUserVo implements Serializable {
     private Integer roleStatus;
 
     private String roleDescription;
-    //perm
-    private Integer permId;
 
-    private String permName;
 
-    private String permCode;
+    //
 
-    private Integer permStatus;
+    public LoginSucUserVo() {
+    }
 
-    private String permDescription;
-    //role_perm
-    private Integer rolePermGRoleId;
+    public LoginSucUserVo(String userId, String userName, Integer userGRoleId, String userRealName, String userPhone, Integer userStatus, String userDept, Integer roleId, String roleName, String roleCode, Integer roleStatus, String roleDescription) {
+        this.userId = userId;
+        this.userName = userName;
+        this.userGRoleId = userGRoleId;
+        this.userRealName = userRealName;
+        this.userPhone = userPhone;
+        this.userStatus = userStatus;
+        this.userDept = userDept;
+        this.roleId = roleId;
+        this.roleName = roleName;
+        this.roleCode = roleCode;
+        this.roleStatus = roleStatus;
+        this.roleDescription = roleDescription;
+    }
 
-    private Integer rolePermGPermId;
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
 
     public String getUserName() {
         return userName;
@@ -132,61 +149,5 @@ public class LoginSucUserVo implements Serializable {
 
     public void setRoleDescription(String roleDescription) {
         this.roleDescription = roleDescription;
-    }
-
-    public Integer getPermId() {
-        return permId;
-    }
-
-    public void setPermId(Integer permId) {
-        this.permId = permId;
-    }
-
-    public String getPermName() {
-        return permName;
-    }
-
-    public void setPermName(String permName) {
-        this.permName = permName;
-    }
-
-    public String getPermCode() {
-        return permCode;
-    }
-
-    public void setPermCode(String permCode) {
-        this.permCode = permCode;
-    }
-
-    public Integer getPermStatus() {
-        return permStatus;
-    }
-
-    public void setPermStatus(Integer permStatus) {
-        this.permStatus = permStatus;
-    }
-
-    public String getPermDescription() {
-        return permDescription;
-    }
-
-    public void setPermDescription(String permDescription) {
-        this.permDescription = permDescription;
-    }
-
-    public Integer getRolePermGRoleId() {
-        return rolePermGRoleId;
-    }
-
-    public void setRolePermGRoleId(Integer rolePermGRoleId) {
-        this.rolePermGRoleId = rolePermGRoleId;
-    }
-
-    public Integer getRolePermGPermId() {
-        return rolePermGPermId;
-    }
-
-    public void setRolePermGPermId(Integer rolePermGPermId) {
-        this.rolePermGPermId = rolePermGPermId;
     }
 }
