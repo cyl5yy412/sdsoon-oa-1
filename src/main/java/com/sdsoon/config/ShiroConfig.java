@@ -73,7 +73,7 @@ public class ShiroConfig {
         DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
         securityManager.setRealm(userRealm());
         securityManager.setCacheManager(cacheManager());
-        //
+        //org.apache.shiro.UnavailableSecurityManagerException: No SecurityManager accessible to the calling code, either bound to the org.apache.shiro.util.ThreadContext or as a vm static singleton.  This is an invalid application configuration.
         SecurityUtils.setSecurityManager(securityManager);
         return securityManager;
     }
