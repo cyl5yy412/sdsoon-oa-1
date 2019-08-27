@@ -3,10 +3,13 @@ package com.sdsoon.modular.system.controller;
 import com.alibaba.fastjson.JSON;
 import com.sdsoon.core.response.ReturnResult;
 import com.sdsoon.core.response.ex.ResponseException;
+import com.sdsoon.core.util.JsonResult;
 import com.sdsoon.modular.system.model.ProjectMissionModel;
 import com.sdsoon.modular.system.model.ProjectModel;
 import com.sdsoon.modular.system.model.ProjectPoModel;
+import com.sdsoon.modular.system.service.ProService;
 import com.sdsoon.modular.system.service.ProjectService;
+import com.sdsoon.modular.system.vo.AddPro;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -31,6 +34,19 @@ import java.util.UUID;
 public class ProjectController {
     @Autowired
     private ProjectService projectService;
+    @Autowired
+    private ProService proService;
+
+    //项目管理
+    @PostMapping("/pro/set")
+    public JsonResult setupPro(AddPro addPro) throws ResponseException, ParseException {
+
+        boolean b = proService.insertPro(addPro);
+        if (b) {
+            return JsonResult.ok();
+        }
+        return JsonResult.error();
+    }
 
     //添加立项
     @PostMapping("/setup")
@@ -55,9 +71,9 @@ public class ProjectController {
     //下载文件
     @GetMapping("/download")
     public void downLoad(@RequestParam("downloadId") String downloadId,
-                                 HttpServletResponse response
+                         HttpServletResponse response
     ) throws ResponseException, UnsupportedEncodingException {
-        boolean b = projectService.download(downloadId,response);
+        boolean b = projectService.download(downloadId, response);
         //返回信息会把返回的信息加到下载的doc中
 //        if (b) {
 //            return ReturnResult.create(HttpStatus.OK);
