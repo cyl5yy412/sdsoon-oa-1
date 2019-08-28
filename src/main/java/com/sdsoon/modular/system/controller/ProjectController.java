@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.UUID;
 
 /**
- * 立项
+ * 中台立项
  * <p>
  * Created By Chr on 2019/8/22.
  */
@@ -47,6 +47,7 @@ public class ProjectController {
         return JsonResult.ok();
     }
 
+    //项目管理:下载
     @GetMapping("/pro/dlprodoc")
     public void downLoadProDoc(@RequestParam("downloadId") String downloadId,
                                HttpServletResponse response) throws ResponseException, ParseException, UnsupportedEncodingException {
@@ -60,7 +61,7 @@ public class ProjectController {
         return ReturnResult.create(ssProVos);
     }
 
-    //添加立项
+    //添加任务节点
     @PostMapping("/setup")
     public ReturnResult setup(@RequestBody ProjectModel projectModel) throws ResponseException {
         boolean b = projectService.setupProject(projectModel);
@@ -70,7 +71,7 @@ public class ProjectController {
         return ReturnResult.create(null);
     }
 
-    //查询立项内容
+    //查询任务节点内容
     @PostMapping("/get")
     public ReturnResult select(String projectId) throws ResponseException {
         ProjectPoModel projectPoModel = projectService.selectProjectById(projectId);
@@ -80,7 +81,7 @@ public class ProjectController {
         return ReturnResult.create(projectPoModel);
     }
 
-    //下载文件
+    //下载任务节点的文件
     @GetMapping("/download")
     public void downLoad(@RequestParam("downloadId") String downloadId,
                          HttpServletResponse response

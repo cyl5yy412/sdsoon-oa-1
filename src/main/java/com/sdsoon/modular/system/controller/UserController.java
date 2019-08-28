@@ -21,6 +21,7 @@ import java.security.NoSuchAlgorithmException;
 import java.util.concurrent.Callable;
 
 /**
+ * 中台用户接口
  * Created By Chr on 2019/8/13.
  */
 @Slf4j
