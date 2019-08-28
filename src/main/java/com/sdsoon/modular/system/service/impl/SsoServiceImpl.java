@@ -63,6 +63,8 @@ public class SsoServiceImpl implements SsoService {
                 SSO_COOKIE_NAME,//cookieName:sso_cookie
                 cookieValue,//cookieValue,userId编码
                 SsoConf.COOKIE_EXPIRE_SECOND);
+        log.info(SSO_COOKIE_NAME);
+        log.info(cookieValue);
     }
 
     @Override

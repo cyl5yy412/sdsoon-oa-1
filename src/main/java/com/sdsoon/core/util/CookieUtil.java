@@ -150,7 +150,14 @@ public final class CookieUtil {
             if (cookieMaxage > 0)
                 cookie.setMaxAge(cookieMaxage);
             if (null != request)// 设置域名的cookie
-                cookie.setDomain(getDomainName(request));
+//                cookie.setDomain(getDomainName(request));
+            /**
+             * 一级域名:前面未加.:sdsoon.cn  ,成功
+             * 一级域名:前面加.:sdsoon.cn  ,未成功
+             *
+             */
+                cookie.setDomain("sdsoon.cn");
+//            cookie.setDomain(getDomainName(request));
             cookie.setPath("/");
             response.addCookie(cookie);
         } catch (Exception e) {
@@ -175,7 +182,14 @@ public final class CookieUtil {
             if (cookieMaxage > 0)
                 cookie.setMaxAge(cookieMaxage);
             if (null != request)// 设置域名的cookie
-                cookie.setDomain(getDomainName(request));
+            /**
+             * 一级域名:前面未加.:sdsoon.cn  ,成功
+             * 一级域名:前面加.:sdsoon.cn  ,未成功
+             *
+             */
+                cookie.setDomain("sdsoon.cn");
+//            cookie.setDomain(getDomainName(request));
+
             cookie.setPath("/");
             response.addCookie(cookie);
         } catch (Exception e) {

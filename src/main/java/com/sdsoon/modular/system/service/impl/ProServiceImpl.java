@@ -1,5 +1,6 @@
 package com.sdsoon.modular.system.service.impl;
 
+import com.sdsoon.core.response.ex.EnumError;
 import com.sdsoon.core.response.ex.ResponseException;
 import com.sdsoon.core.util.DateUtil;
 import com.sdsoon.core.util.FileUtil;
@@ -8,6 +9,8 @@ import com.sdsoon.modular.system.mapper.SsProDocMapper;
 import com.sdsoon.modular.system.mapper.SsProMapper;
 import com.sdsoon.modular.system.po.SsPro;
 import com.sdsoon.modular.system.po.SsProDoc;
+import com.sdsoon.modular.system.po.SsProjectDoc;
+import com.sdsoon.modular.system.po.SsProjectPic;
 import com.sdsoon.modular.system.service.ProService;
 import com.sdsoon.modular.system.vo.AddPro;
 import com.sdsoon.modular.system.vo.SsProVo;
@@ -19,6 +22,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletResponse;
+import java.io.UnsupportedEncodingException;
 import java.text.ParseException;
 import java.util.Date;
 import java.util.List;
@@ -82,6 +87,31 @@ public class ProServiceImpl implements ProService {
             return ssProVo;
         }).collect(Collectors.toList());
         return collect;
+    }
+
+    @Override
+    public boolean downLoadProDoc(String downloadId, HttpServletResponse response) throws ResponseException, UnsupportedEncodingException {
+        if (StringUtils.isBlank(downloadId)) {
+            throw new ResponseException(EnumError.PARAMETER_VALIDATION_ERROR);
+        }
+        String path = null;
+        String filename = null;
+        if (downloadId.contains(DOC_ID_PREFIX)) {
+            path = DOC_REAL_SAVE_PATH;
+//            SsProjectDoc ssProjectDoc = ssProjectDocMapper.selectByPrimaryKey(downloadId);
+            SsProDoc ssProDoc = ssProDocMapper.selectByPrimaryKey(downloadId);
+            if (ssProDoc == null) {
+                return false;
+            }
+            filename = ssProDoc.getProNewDocName();
+        } else {
+            return false;
+        }
+        boolean b = FileUtil.downloadFile(path, filename, response);
+        if (b) {
+            return true;
+        }
+        return false;
     }
 
     //

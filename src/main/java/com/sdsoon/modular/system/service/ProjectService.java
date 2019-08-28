@@ -13,7 +13,7 @@ import java.io.UnsupportedEncodingException;
 public interface ProjectService {
     boolean setupProject(ProjectModel projectModel) throws ResponseException;
 
-    boolean setupProjectDemo(ProjectModel projectModel) throws ResponseException;
+//    boolean setupProjectDemo(ProjectModel projectModel) throws ResponseException;
 
     ProjectPoModel selectProjectById(String projectId) throws ResponseException;
 

@@ -4,6 +4,8 @@ import com.sdsoon.core.response.ex.ResponseException;
 import com.sdsoon.modular.system.vo.AddPro;
 import com.sdsoon.modular.system.vo.SsProVo;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.UnsupportedEncodingException;
 import java.text.ParseException;
 import java.util.List;
 
@@ -15,4 +17,5 @@ public interface ProService {
 
     List<SsProVo> selectProList();
 
+    boolean downLoadProDoc(String downloadId, HttpServletResponse response) throws ResponseException, UnsupportedEncodingException;
 }

@@ -36,7 +36,7 @@ import java.util.stream.Collectors;
  */
 @Service
 public class ProjectServiceImpl implements ProjectService {
-    @Override
+    /*@Override
     public boolean setupProjectDemo(ProjectModel projectModel) throws ResponseException {
         //添加project-manage
         if (StringUtils.isAnyBlank(
@@ -51,9 +51,9 @@ public class ProjectServiceImpl implements ProjectService {
         SsProjectManage ssProjectManage = convertProjectModelFromSsProjectManage(projectModel);
         int i = ssProjectManageMapper.insertSelective(ssProjectManage);
         if (i == 1) {
-            /**
+            *//**
              *doc,pic,mission
-             */
+             *//*
             List<MultipartFile> docFiles = projectModel.getDocFiles();
             for (MultipartFile docFile : docFiles) {
                 //添加doc->db
@@ -105,7 +105,7 @@ public class ProjectServiceImpl implements ProjectService {
             return true;
         }
         return false;
-    }
+    }*/
 
     @Override
     public ProjectPoModel selectProjectById(String projectId) throws ResponseException {

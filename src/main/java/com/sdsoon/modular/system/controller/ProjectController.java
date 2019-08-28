@@ -1,10 +1,8 @@
 package com.sdsoon.modular.system.controller;
 
-import com.alibaba.fastjson.JSON;
 import com.sdsoon.core.response.ReturnResult;
 import com.sdsoon.core.response.ex.ResponseException;
 import com.sdsoon.core.util.JsonResult;
-import com.sdsoon.modular.system.model.ProjectMissionModel;
 import com.sdsoon.modular.system.model.ProjectModel;
 import com.sdsoon.modular.system.model.ProjectPoModel;
 import com.sdsoon.modular.system.service.ProService;
@@ -14,13 +12,11 @@ import com.sdsoon.modular.system.vo.SsProVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.UnsupportedEncodingException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -41,11 +37,21 @@ public class ProjectController {
     //项目管理:添加
     @PostMapping("/pro/set")
     public JsonResult setupPro(AddPro addPro) throws ResponseException, ParseException {
-        boolean b = proService.insertPro(addPro);
-        if (b) {
-            return JsonResult.ok();
+        if (addPro.getProName() != null) {
+            boolean b = proService.insertPro(addPro);
+            if (b) {
+                return JsonResult.ok();
+            }
+            return JsonResult.error();
         }
-        return JsonResult.error();
+        return JsonResult.ok();
+    }
+
+    @GetMapping("/pro/dlprodoc")
+    public void downLoadProDoc(@RequestParam("downloadId") String downloadId,
+                               HttpServletResponse response) throws ResponseException, ParseException, UnsupportedEncodingException {
+
+        boolean b = proService.downLoadProDoc(downloadId, response);
     }
 
     @PostMapping("/pro/list")
@@ -120,77 +126,77 @@ public class ProjectController {
     }
     */
 
-    @PostMapping("/setup/demo2")
-    public ReturnResult setupDemo2(MultipartFile docFile1,
-                                   MultipartFile docFile2,
-                                   MultipartFile docFile3,
-                                   MultipartFile picFile1,
-                                   MultipartFile picFile2,
-                                   MultipartFile picFile3,
-                                   String createTime1,
-                                   String endTime1,
-                                   String missionDes1,
-                                   String createTime2,
-                                   String endTime2,
-                                   String missionDes2,
-                                   String createTime3,
-                                   String endTime3,
-                                   String missionDes3
-    ) throws ResponseException {
-
-        //mission
-        List<ProjectMissionModel> projectMissions = new ArrayList<>();
-        ProjectMissionModel projectMissionModel1 = new ProjectMissionModel();
-        ProjectMissionModel projectMissionModel2 = new ProjectMissionModel();
-        ProjectMissionModel projectMissionModel3 = new ProjectMissionModel();
-        projectMissionModel1.setProjectMissionId(uuid());
-        projectMissionModel2.setProjectMissionId(uuid());
-        projectMissionModel3.setProjectMissionId(uuid());
-        projectMissionModel1.setProjectMissionCreateTime(createTime1);
-        projectMissionModel2.setProjectMissionCreateTime(createTime2);
-        projectMissionModel3.setProjectMissionCreateTime(createTime3);
-        projectMissionModel1.setProjectMissionEndTime(endTime1);
-        projectMissionModel2.setProjectMissionEndTime(endTime2);
-        projectMissionModel3.setProjectMissionEndTime(endTime3);
-        projectMissionModel1.setProjectMissionDescription(missionDes1);
-        projectMissionModel2.setProjectMissionDescription(missionDes2);
-        projectMissionModel3.setProjectMissionDescription(missionDes3);
-        projectMissions.add(projectMissionModel1);
-        projectMissions.add(projectMissionModel2);
-        projectMissions.add(projectMissionModel3);
-        //doc
-        List<MultipartFile> docFiles = new ArrayList<>();
-        docFiles.add(docFile1);
-        docFiles.add(docFile2);
-        docFiles.add(docFile3);
-        //pic
-        List<MultipartFile> picFiles = new ArrayList<>();
-        picFiles.add(picFile1);
-        picFiles.add(picFile2);
-        picFiles.add(picFile3);
-
-
-        ProjectModel projectModel = new ProjectModel();
-        projectModel.setProjectName("项目名");
-        projectModel.setProjectTechnology("工艺");
-        projectModel.setProjectStandard("标准");
-        projectModel.setProjectDescription("项目描述");
-        projectModel.setProjectLeaderName("负责人名字");
-        projectModel.setProjectLeaderPhone("负责人手机");
-
-        projectModel.setProjectMissions(projectMissions);
-        projectModel.setPicFiles(picFiles);
-        projectModel.setDocFiles(docFiles);
-
-        String s = JSON.toJSONString(projectModel, true);
-        System.out.println(s);
-
-        boolean b = projectService.setupProjectDemo(projectModel);
-        if (b) {
-            return ReturnResult.create(HttpStatus.CREATED);
-        }
-        return ReturnResult.create(null);
-    }
+//    @PostMapping("/setup/demo2")
+//    public ReturnResult setupDemo2(MultipartFile docFile1,
+//                                   MultipartFile docFile2,
+//                                   MultipartFile docFile3,
+//                                   MultipartFile picFile1,
+//                                   MultipartFile picFile2,
+//                                   MultipartFile picFile3,
+//                                   String createTime1,
+//                                   String endTime1,
+//                                   String missionDes1,
+//                                   String createTime2,
+//                                   String endTime2,
+//                                   String missionDes2,
+//                                   String createTime3,
+//                                   String endTime3,
+//                                   String missionDes3
+//    ) throws ResponseException {
+//
+//        //mission
+//        List<ProjectMissionModel> projectMissions = new ArrayList<>();
+//        ProjectMissionModel projectMissionModel1 = new ProjectMissionModel();
+//        ProjectMissionModel projectMissionModel2 = new ProjectMissionModel();
+//        ProjectMissionModel projectMissionModel3 = new ProjectMissionModel();
+//        projectMissionModel1.setProjectMissionId(uuid());
+//        projectMissionModel2.setProjectMissionId(uuid());
+//        projectMissionModel3.setProjectMissionId(uuid());
+//        projectMissionModel1.setProjectMissionCreateTime(createTime1);
+//        projectMissionModel2.setProjectMissionCreateTime(createTime2);
+//        projectMissionModel3.setProjectMissionCreateTime(createTime3);
+//        projectMissionModel1.setProjectMissionEndTime(endTime1);
+//        projectMissionModel2.setProjectMissionEndTime(endTime2);
+//        projectMissionModel3.setProjectMissionEndTime(endTime3);
+//        projectMissionModel1.setProjectMissionDescription(missionDes1);
+//        projectMissionModel2.setProjectMissionDescription(missionDes2);
+//        projectMissionModel3.setProjectMissionDescription(missionDes3);
+//        projectMissions.add(projectMissionModel1);
+//        projectMissions.add(projectMissionModel2);
+//        projectMissions.add(projectMissionModel3);
+//        //doc
+//        List<MultipartFile> docFiles = new ArrayList<>();
+//        docFiles.add(docFile1);
+//        docFiles.add(docFile2);
+//        docFiles.add(docFile3);
+//        //pic
+//        List<MultipartFile> picFiles = new ArrayList<>();
+//        picFiles.add(picFile1);
+//        picFiles.add(picFile2);
+//        picFiles.add(picFile3);
+//
+//
+//        ProjectModel projectModel = new ProjectModel();
+//        projectModel.setProjectName("项目名");
+//        projectModel.setProjectTechnology("工艺");
+//        projectModel.setProjectStandard("标准");
+//        projectModel.setProjectDescription("项目描述");
+//        projectModel.setProjectLeaderName("负责人名字");
+//        projectModel.setProjectLeaderPhone("负责人手机");
+//
+//        projectModel.setProjectMissions(projectMissions);
+//        projectModel.setPicFiles(picFiles);
+//        projectModel.setDocFiles(docFiles);
+//
+//        String s = JSON.toJSONString(projectModel, true);
+//        System.out.println(s);
+//
+//        boolean b = projectService.setupProjectDemo(projectModel);
+//        if (b) {
+//            return ReturnResult.create(HttpStatus.CREATED);
+//        }
+//        return ReturnResult.create(null);
+//    }
 
 
     public static void main(String args[]) throws ParseException {
