@@ -35,7 +35,8 @@
 <div class="layui-fluid">
     <div class="layui-card">
         <div class="layui-card-body">
-            <form class="layui-form" style="max-width: 700px;margin: 40px auto;" id="modelProForm" lay-filter="modelProForm" class="layui-form model-form">
+            <form class="layui-form" style="max-width: 700px;margin: 40px auto;" id="modelProForm"
+                  lay-filter="modelProForm" enctype="multipart/form-data" action="/project/pro/set" method="post">
                 <div class="layui-form-item">
                     <label class="layui-form-label">项目名称</label>
                     <div class="layui-input-block">
@@ -80,10 +81,17 @@
                                lay-verType="tips" lay-verify="required" required/>
                     </div>
                 </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">上传文档</label>
+                    <div class="layui-input-block">
+                        <input id="file-btn-upload" type="file" name="file" lay-verType="tips" lay-verify="required">
+                    </div>
+                </div>
 
                 <div class="layui-form-item">
                     <div class="layui-input-block">
-                        <button class="layui-btn" lay-filter="formSubmitBas" lay-submit>&emsp;提交&emsp;</button>
+                        <button id="laySubmit" class="layui-btn" lay-filter="formSubmitBas" lay-submit>&emsp;提交&emsp;
+                        </button>
                         <button type="reset" class="layui-btn layui-btn-primary">&emsp;重置&emsp;</button>
                     </div>
                 </div>
@@ -95,34 +103,50 @@
 <!-- js部分 -->
 <script type="text/javascript" src="../../assets/libs/layui/layui.js"></script>
 <script type="text/javascript" src="../../assets/js/common.js?v=314"></script>
+<script type="text/javascript" src="../../assets/js/jquery-1.11.1.min.js"></script>
 <script>
-    layui.use(['layer', 'form', 'laydate'], function () {
+//    $("#laySubmit").on("click", function () {
+//
+//    });
+    layui.use(['layer', 'form', 'laydate', 'upload', 'fileChoose'], function () {
         var $ = layui.jquery;
         var layer = layui.layer;
         var form = layui.form;
         var laydate = layui.laydate;
+        var upload = layui.upload;
+        var fileChoose = layui.fileChoose;
 
         // 渲染laydate
         laydate.render({
             elem: '#edtDateFormBas',
             range: true
         });
-//        var data = obj.data;
+        //
+        /*        upload.render({
+         elem: '#file-btn-upload',
+         accept: 'file',
+         url: '/project/pro/set',
+         //            bindAction: '#laySubmit', //关闭的上传按钮   html中此id所在元素也被注释
+         multiple: true,
+         //            auto: false,//选择文件后不自动上传
+         });*/
+
         // 监听表单提交
-        form.on('submit(formSubmitBas)', function (data) {
-//            layer.msg(JSON.stringify(data.field));
-//            return false;
-            layer.load(2);
-            $.post('/project/pro/set', data.field, function (res) {
-                layer.closeAll('loading');
-                if (res.code == 200) {
-                    layer.msg(res.msg, {icon: 1});
-                } else {
-                    layer.msg(res.msg, {icon: 2});
-                }
-            }, 'json');
-            return false;
-        });
+        /*        form.on('submit(formSubmitBas)', function (data) {
+         layer.load(2);
+         // 上传
+         $.post('/project/pro/set', 'multipart/form-data', data.field, function (res) {
+
+         layer.closeAll('loading');
+
+         if (res.code == 200) {
+         layer.msg(res.msg, {icon: 1});
+         } else {
+         layer.msg(res.msg, {icon: 2});
+         }
+         }, 'json');
+         return false;
+         });*/
     });
 </script>
 </body>

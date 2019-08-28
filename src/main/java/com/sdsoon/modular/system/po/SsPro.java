@@ -12,12 +12,6 @@ public class SsPro implements Serializable {
 
     private Date proEndTime;
 
-    private String proOldDocName;
-
-    private String proNewDocName;
-
-    private String proDocPath;
-
     private String proLeaderName;
 
     private Integer proLevel;
@@ -58,30 +52,6 @@ public class SsPro implements Serializable {
         this.proEndTime = proEndTime;
     }
 
-    public String getProOldDocName() {
-        return proOldDocName;
-    }
-
-    public void setProOldDocName(String proOldDocName) {
-        this.proOldDocName = proOldDocName == null ? null : proOldDocName.trim();
-    }
-
-    public String getProNewDocName() {
-        return proNewDocName;
-    }
-
-    public void setProNewDocName(String proNewDocName) {
-        this.proNewDocName = proNewDocName == null ? null : proNewDocName.trim();
-    }
-
-    public String getProDocPath() {
-        return proDocPath;
-    }
-
-    public void setProDocPath(String proDocPath) {
-        this.proDocPath = proDocPath == null ? null : proDocPath.trim();
-    }
-
     public String getProLeaderName() {
         return proLeaderName;
     }
@@ -116,9 +86,6 @@ public class SsPro implements Serializable {
         sb.append(", proStatus=").append(proStatus);
         sb.append(", proCreateTime=").append(proCreateTime);
         sb.append(", proEndTime=").append(proEndTime);
-        sb.append(", proOldDocName=").append(proOldDocName);
-        sb.append(", proNewDocName=").append(proNewDocName);
-        sb.append(", proDocPath=").append(proDocPath);
         sb.append(", proLeaderName=").append(proLeaderName);
         sb.append(", proLevel=").append(proLevel);
         sb.append(", proName=").append(proName);

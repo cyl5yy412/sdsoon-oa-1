@@ -10,6 +10,7 @@ import com.sdsoon.modular.system.model.ProjectPoModel;
 import com.sdsoon.modular.system.service.ProService;
 import com.sdsoon.modular.system.service.ProjectService;
 import com.sdsoon.modular.system.vo.AddPro;
+import com.sdsoon.modular.system.vo.SsProVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -37,15 +38,20 @@ public class ProjectController {
     @Autowired
     private ProService proService;
 
-    //项目管理
+    //项目管理:添加
     @PostMapping("/pro/set")
     public JsonResult setupPro(AddPro addPro) throws ResponseException, ParseException {
-
         boolean b = proService.insertPro(addPro);
         if (b) {
             return JsonResult.ok();
         }
         return JsonResult.error();
+    }
+
+    @PostMapping("/pro/list")
+    public ReturnResult proList() throws ResponseException, ParseException {
+        List<SsProVo> ssProVos = proService.selectProList();
+        return ReturnResult.create(ssProVos);
     }
 
     //添加立项

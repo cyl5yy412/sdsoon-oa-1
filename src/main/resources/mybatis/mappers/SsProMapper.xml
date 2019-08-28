@@ -6,9 +6,6 @@
     <result column="pro_status" jdbcType="INTEGER" property="proStatus" />
     <result column="pro_create_time" jdbcType="DATE" property="proCreateTime" />
     <result column="pro_end_time" jdbcType="DATE" property="proEndTime" />
-    <result column="pro_old_doc_name" jdbcType="VARCHAR" property="proOldDocName" />
-    <result column="pro_new_doc_name" jdbcType="VARCHAR" property="proNewDocName" />
-    <result column="pro_doc_path" jdbcType="VARCHAR" property="proDocPath" />
     <result column="pro_leader_name" jdbcType="VARCHAR" property="proLeaderName" />
     <result column="pro_level" jdbcType="INTEGER" property="proLevel" />
     <result column="pro_name" jdbcType="VARCHAR" property="proName" />
@@ -72,8 +69,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    pro_id, pro_status, pro_create_time, pro_end_time, pro_old_doc_name, pro_new_doc_name, 
-    pro_doc_path, pro_leader_name, pro_level, pro_name
+    pro_id, pro_status, pro_create_time, pro_end_time, pro_leader_name, pro_level, pro_name
   </sql>
   <select id="selectByExample" parameterType="com.sdsoon.modular.system.po.SsProExample" resultMap="BaseResultMap">
     select
@@ -107,12 +103,10 @@
   </delete>
   <insert id="insert" parameterType="com.sdsoon.modular.system.po.SsPro">
     insert into ss_pro (pro_id, pro_status, pro_create_time, 
-      pro_end_time, pro_old_doc_name, pro_new_doc_name, 
-      pro_doc_path, pro_leader_name, pro_level, 
+      pro_end_time, pro_leader_name, pro_level, 
       pro_name)
     values (#{proId,jdbcType=VARCHAR}, #{proStatus,jdbcType=INTEGER}, #{proCreateTime,jdbcType=DATE}, 
-      #{proEndTime,jdbcType=DATE}, #{proOldDocName,jdbcType=VARCHAR}, #{proNewDocName,jdbcType=VARCHAR}, 
-      #{proDocPath,jdbcType=VARCHAR}, #{proLeaderName,jdbcType=VARCHAR}, #{proLevel,jdbcType=INTEGER}, 
+      #{proEndTime,jdbcType=DATE}, #{proLeaderName,jdbcType=VARCHAR}, #{proLevel,jdbcType=INTEGER}, 
       #{proName,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.sdsoon.modular.system.po.SsPro">
@@ -129,15 +123,6 @@
       </if>
       <if test="proEndTime != null">
         pro_end_time,
-      </if>
-      <if test="proOldDocName != null">
-        pro_old_doc_name,
-      </if>
-      <if test="proNewDocName != null">
-        pro_new_doc_name,
-      </if>
-      <if test="proDocPath != null">
-        pro_doc_path,
       </if>
       <if test="proLeaderName != null">
         pro_leader_name,
@@ -161,15 +146,6 @@
       </if>
       <if test="proEndTime != null">
         #{proEndTime,jdbcType=DATE},
-      </if>
-      <if test="proOldDocName != null">
-        #{proOldDocName,jdbcType=VARCHAR},
-      </if>
-      <if test="proNewDocName != null">
-        #{proNewDocName,jdbcType=VARCHAR},
-      </if>
-      <if test="proDocPath != null">
-        #{proDocPath,jdbcType=VARCHAR},
       </if>
       <if test="proLeaderName != null">
         #{proLeaderName,jdbcType=VARCHAR},
@@ -203,15 +179,6 @@
       <if test="record.proEndTime != null">
         pro_end_time = #{record.proEndTime,jdbcType=DATE},
       </if>
-      <if test="record.proOldDocName != null">
-        pro_old_doc_name = #{record.proOldDocName,jdbcType=VARCHAR},
-      </if>
-      <if test="record.proNewDocName != null">
-        pro_new_doc_name = #{record.proNewDocName,jdbcType=VARCHAR},
-      </if>
-      <if test="record.proDocPath != null">
-        pro_doc_path = #{record.proDocPath,jdbcType=VARCHAR},
-      </if>
       <if test="record.proLeaderName != null">
         pro_leader_name = #{record.proLeaderName,jdbcType=VARCHAR},
       </if>
@@ -232,9 +199,6 @@
       pro_status = #{record.proStatus,jdbcType=INTEGER},
       pro_create_time = #{record.proCreateTime,jdbcType=DATE},
       pro_end_time = #{record.proEndTime,jdbcType=DATE},
-      pro_old_doc_name = #{record.proOldDocName,jdbcType=VARCHAR},
-      pro_new_doc_name = #{record.proNewDocName,jdbcType=VARCHAR},
-      pro_doc_path = #{record.proDocPath,jdbcType=VARCHAR},
       pro_leader_name = #{record.proLeaderName,jdbcType=VARCHAR},
       pro_level = #{record.proLevel,jdbcType=INTEGER},
       pro_name = #{record.proName,jdbcType=VARCHAR}
@@ -254,15 +218,6 @@
       <if test="proEndTime != null">
         pro_end_time = #{proEndTime,jdbcType=DATE},
       </if>
-      <if test="proOldDocName != null">
-        pro_old_doc_name = #{proOldDocName,jdbcType=VARCHAR},
-      </if>
-      <if test="proNewDocName != null">
-        pro_new_doc_name = #{proNewDocName,jdbcType=VARCHAR},
-      </if>
-      <if test="proDocPath != null">
-        pro_doc_path = #{proDocPath,jdbcType=VARCHAR},
-      </if>
       <if test="proLeaderName != null">
         pro_leader_name = #{proLeaderName,jdbcType=VARCHAR},
       </if>
@@ -280,9 +235,6 @@
     set pro_status = #{proStatus,jdbcType=INTEGER},
       pro_create_time = #{proCreateTime,jdbcType=DATE},
       pro_end_time = #{proEndTime,jdbcType=DATE},
-      pro_old_doc_name = #{proOldDocName,jdbcType=VARCHAR},
-      pro_new_doc_name = #{proNewDocName,jdbcType=VARCHAR},
-      pro_doc_path = #{proDocPath,jdbcType=VARCHAR},
       pro_leader_name = #{proLeaderName,jdbcType=VARCHAR},
       pro_level = #{proLevel,jdbcType=INTEGER},
       pro_name = #{proName,jdbcType=VARCHAR}
