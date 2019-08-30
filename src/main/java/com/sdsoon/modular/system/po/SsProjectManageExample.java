@@ -1,6 +1,8 @@
 package com.sdsoon.modular.system.po;
 
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 public class SsProjectManageExample {
@@ -102,6 +104,32 @@ public class SsProjectManageExample {
                 throw new RuntimeException("Between values for " + property + " cannot be null");
             }
             criteria.add(new Criterion(condition, value1, value2));
+        }
+
+        protected void addCriterionForJDBCDate(String condition, Date value, String property) {
+            if (value == null) {
+                throw new RuntimeException("Value for " + property + " cannot be null");
+            }
+            addCriterion(condition, new java.sql.Date(value.getTime()), property);
+        }
+
+        protected void addCriterionForJDBCDate(String condition, List<Date> values, String property) {
+            if (values == null || values.size() == 0) {
+                throw new RuntimeException("Value list for " + property + " cannot be null or empty");
+            }
+            List<java.sql.Date> dateList = new ArrayList<java.sql.Date>();
+            Iterator<Date> iter = values.iterator();
+            while (iter.hasNext()) {
+                dateList.add(new java.sql.Date(iter.next().getTime()));
+            }
+            addCriterion(condition, dateList, property);
+        }
+
+        protected void addCriterionForJDBCDate(String condition, Date value1, Date value2, String property) {
+            if (value1 == null || value2 == null) {
+                throw new RuntimeException("Between values for " + property + " cannot be null");
+            }
+            addCriterion(condition, new java.sql.Date(value1.getTime()), new java.sql.Date(value2.getTime()), property);
         }
 
         public Criteria andProjectIdIsNull() {
@@ -591,6 +619,316 @@ public class SsProjectManageExample {
 
         public Criteria andProjectLeaderPhoneNotBetween(String value1, String value2) {
             addCriterion("project_leader_phone not between", value1, value2, "projectLeaderPhone");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectCreateTimeIsNull() {
+            addCriterion("project_create_time is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectCreateTimeIsNotNull() {
+            addCriterion("project_create_time is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectCreateTimeEqualTo(Date value) {
+            addCriterionForJDBCDate("project_create_time =", value, "projectCreateTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectCreateTimeNotEqualTo(Date value) {
+            addCriterionForJDBCDate("project_create_time <>", value, "projectCreateTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectCreateTimeGreaterThan(Date value) {
+            addCriterionForJDBCDate("project_create_time >", value, "projectCreateTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectCreateTimeGreaterThanOrEqualTo(Date value) {
+            addCriterionForJDBCDate("project_create_time >=", value, "projectCreateTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectCreateTimeLessThan(Date value) {
+            addCriterionForJDBCDate("project_create_time <", value, "projectCreateTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectCreateTimeLessThanOrEqualTo(Date value) {
+            addCriterionForJDBCDate("project_create_time <=", value, "projectCreateTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectCreateTimeIn(List<Date> values) {
+            addCriterionForJDBCDate("project_create_time in", values, "projectCreateTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectCreateTimeNotIn(List<Date> values) {
+            addCriterionForJDBCDate("project_create_time not in", values, "projectCreateTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectCreateTimeBetween(Date value1, Date value2) {
+            addCriterionForJDBCDate("project_create_time between", value1, value2, "projectCreateTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectCreateTimeNotBetween(Date value1, Date value2) {
+            addCriterionForJDBCDate("project_create_time not between", value1, value2, "projectCreateTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectEndTimeIsNull() {
+            addCriterion("project_end_time is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectEndTimeIsNotNull() {
+            addCriterion("project_end_time is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectEndTimeEqualTo(Date value) {
+            addCriterionForJDBCDate("project_end_time =", value, "projectEndTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectEndTimeNotEqualTo(Date value) {
+            addCriterionForJDBCDate("project_end_time <>", value, "projectEndTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectEndTimeGreaterThan(Date value) {
+            addCriterionForJDBCDate("project_end_time >", value, "projectEndTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectEndTimeGreaterThanOrEqualTo(Date value) {
+            addCriterionForJDBCDate("project_end_time >=", value, "projectEndTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectEndTimeLessThan(Date value) {
+            addCriterionForJDBCDate("project_end_time <", value, "projectEndTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectEndTimeLessThanOrEqualTo(Date value) {
+            addCriterionForJDBCDate("project_end_time <=", value, "projectEndTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectEndTimeIn(List<Date> values) {
+            addCriterionForJDBCDate("project_end_time in", values, "projectEndTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectEndTimeNotIn(List<Date> values) {
+            addCriterionForJDBCDate("project_end_time not in", values, "projectEndTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectEndTimeBetween(Date value1, Date value2) {
+            addCriterionForJDBCDate("project_end_time between", value1, value2, "projectEndTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectEndTimeNotBetween(Date value1, Date value2) {
+            addCriterionForJDBCDate("project_end_time not between", value1, value2, "projectEndTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectStatusIsNull() {
+            addCriterion("project_status is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectStatusIsNotNull() {
+            addCriterion("project_status is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectStatusEqualTo(Integer value) {
+            addCriterion("project_status =", value, "projectStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectStatusNotEqualTo(Integer value) {
+            addCriterion("project_status <>", value, "projectStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectStatusGreaterThan(Integer value) {
+            addCriterion("project_status >", value, "projectStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectStatusGreaterThanOrEqualTo(Integer value) {
+            addCriterion("project_status >=", value, "projectStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectStatusLessThan(Integer value) {
+            addCriterion("project_status <", value, "projectStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectStatusLessThanOrEqualTo(Integer value) {
+            addCriterion("project_status <=", value, "projectStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectStatusIn(List<Integer> values) {
+            addCriterion("project_status in", values, "projectStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectStatusNotIn(List<Integer> values) {
+            addCriterion("project_status not in", values, "projectStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectStatusBetween(Integer value1, Integer value2) {
+            addCriterion("project_status between", value1, value2, "projectStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectStatusNotBetween(Integer value1, Integer value2) {
+            addCriterion("project_status not between", value1, value2, "projectStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectLevelIsNull() {
+            addCriterion("project_level is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectLevelIsNotNull() {
+            addCriterion("project_level is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectLevelEqualTo(Integer value) {
+            addCriterion("project_level =", value, "projectLevel");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectLevelNotEqualTo(Integer value) {
+            addCriterion("project_level <>", value, "projectLevel");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectLevelGreaterThan(Integer value) {
+            addCriterion("project_level >", value, "projectLevel");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectLevelGreaterThanOrEqualTo(Integer value) {
+            addCriterion("project_level >=", value, "projectLevel");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectLevelLessThan(Integer value) {
+            addCriterion("project_level <", value, "projectLevel");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectLevelLessThanOrEqualTo(Integer value) {
+            addCriterion("project_level <=", value, "projectLevel");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectLevelIn(List<Integer> values) {
+            addCriterion("project_level in", values, "projectLevel");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectLevelNotIn(List<Integer> values) {
+            addCriterion("project_level not in", values, "projectLevel");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectLevelBetween(Integer value1, Integer value2) {
+            addCriterion("project_level between", value1, value2, "projectLevel");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectLevelNotBetween(Integer value1, Integer value2) {
+            addCriterion("project_level not between", value1, value2, "projectLevel");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectDocInfoIsNull() {
+            addCriterion("project_doc_info is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectDocInfoIsNotNull() {
+            addCriterion("project_doc_info is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectDocInfoEqualTo(String value) {
+            addCriterion("project_doc_info =", value, "projectDocInfo");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectDocInfoNotEqualTo(String value) {
+            addCriterion("project_doc_info <>", value, "projectDocInfo");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectDocInfoGreaterThan(String value) {
+            addCriterion("project_doc_info >", value, "projectDocInfo");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectDocInfoGreaterThanOrEqualTo(String value) {
+            addCriterion("project_doc_info >=", value, "projectDocInfo");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectDocInfoLessThan(String value) {
+            addCriterion("project_doc_info <", value, "projectDocInfo");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectDocInfoLessThanOrEqualTo(String value) {
+            addCriterion("project_doc_info <=", value, "projectDocInfo");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectDocInfoLike(String value) {
+            addCriterion("project_doc_info like", value, "projectDocInfo");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectDocInfoNotLike(String value) {
+            addCriterion("project_doc_info not like", value, "projectDocInfo");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectDocInfoIn(List<String> values) {
+            addCriterion("project_doc_info in", values, "projectDocInfo");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectDocInfoNotIn(List<String> values) {
+            addCriterion("project_doc_info not in", values, "projectDocInfo");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectDocInfoBetween(String value1, String value2) {
+            addCriterion("project_doc_info between", value1, value2, "projectDocInfo");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectDocInfoNotBetween(String value1, String value2) {
+            addCriterion("project_doc_info not between", value1, value2, "projectDocInfo");
             return (Criteria) this;
         }
     }

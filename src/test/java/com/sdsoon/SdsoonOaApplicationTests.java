@@ -1,10 +1,10 @@
 package com.sdsoon;
 
 import com.sdsoon.core.response.ex.ResponseException;
-import com.sdsoon.modular.system.mapper.*;
+import com.sdsoon.modular.system.mapper.SsPermissionMapper;
+import com.sdsoon.modular.system.mapper.SsRoleMapper;
+import com.sdsoon.modular.system.mapper.SsUserInfoMapper;
 import com.sdsoon.modular.system.po.SsPermission;
-import com.sdsoon.modular.system.po.SsPro;
-import com.sdsoon.modular.system.po.SsProDoc;
 import com.sdsoon.modular.system.po.SsUserInfoExample;
 import com.sdsoon.modular.system.service.ProjectService;
 import org.junit.Test;
@@ -45,16 +45,6 @@ public class SdsoonOaApplicationTests {
 
     @Autowired
     private ProjectService projectService;
-    @Resource
-    private SsProMapper ssProMapper;
-    @Resource
-    private SsProDocMapper ssProDocMapper;
-    @Test
-    public void show() throws ResponseException {
-        List<SsPro> ssPros = ssProMapper.selectByExample(null);
-        List<SsProDoc> ssProDocs = ssProDocMapper.selectByExample(null);
-        System.out.println(ssProDocs);
-        System.out.println(ssPros);
-    }
+
 
 }

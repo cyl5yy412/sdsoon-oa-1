@@ -19,7 +19,7 @@ import java.util.List;
  * Created By Chr on 2019/8/21.
  */
 @Controller
-public class DailyController {
+public class HDailyTaskController {
 
     @Autowired
     private DailyTaskService dailyTaskService;

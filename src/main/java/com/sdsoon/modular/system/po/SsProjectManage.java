@@ -1,6 +1,7 @@
 package com.sdsoon.modular.system.po;
 
 import java.io.Serializable;
+import java.util.Date;
 
 public class SsProjectManage implements Serializable {
     private String projectId;
@@ -16,6 +17,16 @@ public class SsProjectManage implements Serializable {
     private String projectLeaderName;
 
     private String projectLeaderPhone;
+
+    private Date projectCreateTime;
+
+    private Date projectEndTime;
+
+    private Integer projectStatus;
+
+    private Integer projectLevel;
+
+    private String projectDocInfo;
 
     private static final long serialVersionUID = 1L;
 
@@ -75,6 +86,46 @@ public class SsProjectManage implements Serializable {
         this.projectLeaderPhone = projectLeaderPhone == null ? null : projectLeaderPhone.trim();
     }
 
+    public Date getProjectCreateTime() {
+        return projectCreateTime;
+    }
+
+    public void setProjectCreateTime(Date projectCreateTime) {
+        this.projectCreateTime = projectCreateTime;
+    }
+
+    public Date getProjectEndTime() {
+        return projectEndTime;
+    }
+
+    public void setProjectEndTime(Date projectEndTime) {
+        this.projectEndTime = projectEndTime;
+    }
+
+    public Integer getProjectStatus() {
+        return projectStatus;
+    }
+
+    public void setProjectStatus(Integer projectStatus) {
+        this.projectStatus = projectStatus;
+    }
+
+    public Integer getProjectLevel() {
+        return projectLevel;
+    }
+
+    public void setProjectLevel(Integer projectLevel) {
+        this.projectLevel = projectLevel;
+    }
+
+    public String getProjectDocInfo() {
+        return projectDocInfo;
+    }
+
+    public void setProjectDocInfo(String projectDocInfo) {
+        this.projectDocInfo = projectDocInfo == null ? null : projectDocInfo.trim();
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -88,6 +139,11 @@ public class SsProjectManage implements Serializable {
         sb.append(", projectStandard=").append(projectStandard);
         sb.append(", projectLeaderName=").append(projectLeaderName);
         sb.append(", projectLeaderPhone=").append(projectLeaderPhone);
+        sb.append(", projectCreateTime=").append(projectCreateTime);
+        sb.append(", projectEndTime=").append(projectEndTime);
+        sb.append(", projectStatus=").append(projectStatus);
+        sb.append(", projectLevel=").append(projectLevel);
+        sb.append(", projectDocInfo=").append(projectDocInfo);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

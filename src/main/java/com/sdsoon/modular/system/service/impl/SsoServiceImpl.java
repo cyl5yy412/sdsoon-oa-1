@@ -125,6 +125,18 @@ public class SsoServiceImpl implements SsoService {
     }
 
 
+    @Override
+    public boolean logout(HttpServletRequest request, HttpServletResponse response) throws ResponseException {
+        //清除cookie
+        CookieUtil.deleteCookie(request, response, SSO_COOKIE_NAME);
+        //清除redis
+//        String redisKey = redisKey(userId);
+//        redisTemplate.delete(redisKey);
+        return true;
+
+    }
+
+
     private SsoUserModel convertUserInfoFromSsoUserModel(SsUserInfo ssUserInfo) {
 
         SsoUserModel ssoUserModel = new SsoUserModel();

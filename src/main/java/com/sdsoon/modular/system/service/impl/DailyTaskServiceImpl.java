@@ -2,7 +2,7 @@ package com.sdsoon.modular.system.service.impl;
 
 import com.sdsoon.core.response.ex.EnumError;
 import com.sdsoon.core.response.ex.ResponseException;
-import com.sdsoon.core.util.StringUtil;
+import com.sdsoon.core.util.DateUtil;
 import com.sdsoon.modular.system.mapper.SsDailyTaskMapper;
 import com.sdsoon.modular.system.po.SsDailyTask;
 import com.sdsoon.modular.system.service.DailyTaskService;
@@ -13,8 +13,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -103,15 +101,9 @@ public class DailyTaskServiceImpl implements DailyTaskService {
         }
         DailyTaskVo dailyTaskVo = new DailyTaskVo();
         BeanUtils.copyProperties(ssDailyTask, dailyTaskVo);
-        String dateFormat = dateFromat(ssDailyTask.getDailyCreateTime());
+        String dateFormat = DateUtil.dateFromat(ssDailyTask.getDailyCreateTime());
         dailyTaskVo.setDailyCreateTime(dateFormat);
         return dailyTaskVo;
-    }
-
-    private String dateFromat(Date date) {
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        String format = simpleDateFormat.format(date);
-        return format;
     }
 
 

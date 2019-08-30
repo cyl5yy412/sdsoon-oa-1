@@ -2,13 +2,9 @@ package com.sdsoon.modular.system.controller;
 
 import com.sdsoon.core.response.ReturnResult;
 import com.sdsoon.core.response.ex.ResponseException;
-import com.sdsoon.core.util.JsonResult;
-import com.sdsoon.modular.system.model.ProjectModel;
 import com.sdsoon.modular.system.model.ProjectPoModel;
-import com.sdsoon.modular.system.service.ProService;
 import com.sdsoon.modular.system.service.ProjectService;
-import com.sdsoon.modular.system.vo.AddPro;
-import com.sdsoon.modular.system.vo.SsProVo;
+import com.sdsoon.modular.system.vo.AddMissionVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -18,7 +14,6 @@ import java.io.UnsupportedEncodingException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
 import java.util.UUID;
 
 /**
@@ -31,47 +26,31 @@ import java.util.UUID;
 public class ProjectController {
     @Autowired
     private ProjectService projectService;
-    @Autowired
-    private ProService proService;
 
-    //项目管理:添加
-    @PostMapping("/pro/set")
-    public JsonResult setupPro(AddPro addPro) throws ResponseException, ParseException {
-        if (addPro.getProName() != null) {
-            boolean b = proService.insertPro(addPro);
-            if (b) {
-                return JsonResult.ok();
-            }
-            return JsonResult.error();
-        }
-        return JsonResult.ok();
-    }
+    //派发项目列表
+//    @PostMapping("/list")
+//    public ReturnResult projectList() throws ResponseException, ParseException {
+//        projectService.projectList();
+//        return null;
+//    }
 
-    //项目管理:下载
-    @GetMapping("/pro/dlprodoc")
-    public void downLoadProDoc(@RequestParam("downloadId") String downloadId,
-                               HttpServletResponse response) throws ResponseException, ParseException, UnsupportedEncodingException {
+    //立项列项列表
+//    @PostMapping("/setlist")
+//    public ReturnResult projectSetList() throws ResponseException, ParseException {
+//        return null;
+//    }
 
-        boolean b = proService.downLoadProDoc(downloadId, response);
-    }
-
-    @PostMapping("/pro/list")
-    public ReturnResult proList() throws ResponseException, ParseException {
-        List<SsProVo> ssProVos = proService.selectProList();
-        return ReturnResult.create(ssProVos);
-    }
-
-    //添加任务节点
+    //添加立项任务节点:mission
     @PostMapping("/setup")
-    public ReturnResult setup(@RequestBody ProjectModel projectModel) throws ResponseException {
-        boolean b = projectService.setupProject(projectModel);
+    public ReturnResult addMission(@RequestBody AddMissionVo addMissionVo) throws ResponseException {
+        boolean b = projectService.addMission(addMissionVo);
         if (b) {
             return ReturnResult.create(HttpStatus.CREATED);
         }
         return ReturnResult.create(null);
     }
 
-    //查询任务节点内容
+    //查询立项所有内容
     @PostMapping("/get")
     public ReturnResult select(String projectId) throws ResponseException {
         ProjectPoModel projectPoModel = projectService.selectProjectById(projectId);

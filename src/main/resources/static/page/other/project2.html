@@ -36,12 +36,14 @@
     <div class="layui-card">
         <div class="layui-card-body">
             <form class="layui-form" style="max-width: 700px;margin: 40px auto;" id="modelProForm"
-                  lay-filter="modelProForm" enctype="multipart/form-data">
+                  lay-filter="modelProForm">
+                <input name="picId" type="hidden"/>
+                <input name="docId" type="hidden"/>
                 <div class="layui-form-item">
                     <label class="layui-form-label">项目名称</label>
                     <div class="layui-input-block">
                         <input name="proName" placeholder="请输入项目名称" type="text" class="layui-input" maxlength="20"
-                               lay-verType="tips" lay-verify="required" />
+                               lay-verType="tips" lay-verify="required"/>
                     </div>
                 </div>
 
@@ -49,7 +51,8 @@
                     <label class="layui-form-label">起止日期:</label>
                     <div class="layui-input-block">
                         <input id="edtDateFormBas" name="date" placeholder="请选择开始和结束日期" type="text"
-                               class="layui-input date-icon" autocomplete="off" lay-verType="tips" lay-verify="required"/>
+                               class="layui-input date-icon" autocomplete="off" lay-verType="tips"
+                               lay-verify="required"/>
                     </div>
                 </div>
 
@@ -77,16 +80,76 @@
                     <label class="layui-form-label">负责人</label>
                     <div class="layui-input-block">
                         <input name="proLeader" placeholder="请输入负责人" type="text" class="layui-input" maxlength="20"
-                               lay-verType="tips" lay-verify="required" />
+                               lay-verType="tips" lay-verify="required"/>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">负责人电话</label>
+                    <div class="layui-input-block">
+                        <input name="proLeader" placeholder="请输入负责人电话" type="text" class="layui-input" maxlength="20"
+                               lay-verType="tips" lay-verify="required" required/>
                     </div>
                 </div>
                 <div class="layui-form-item">
-                    <label class="layui-form-label">上传文档</label>
+                    <label class="layui-form-label">工艺</label>
                     <div class="layui-input-block">
-                        <input id="file-btn-upload" type="file" name="file" lay-verType="tips" lay-verify="required">
-                        <!--<button id="proDocSubmit" class="layui-btn" lay-filter="formSubmitBas" lay-submit>&emsp;上传文档&emsp;</button>-->
+                        <input name="proName" placeholder="请输入工艺" type="text" class="layui-input" maxlength="20"
+                               lay-verType="tips" lay-verify="required" required/>
                     </div>
                 </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">标准</label>
+                    <div class="layui-input-block">
+                        <input name="proName" placeholder="请输入标准" type="text" class="layui-input" maxlength="20"
+                               lay-verType="tips" lay-verify="required" required/>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">文档信息:</label>
+                    <div class="layui-input-block">
+                        <input name="className" placeholder="请输入文档信息" type="text" class="layui-input" maxlength="20"
+                               lay-verType="tips" lay-verify="required" required/>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">项目说明</label>
+                    <div class="layui-input-block">
+                        <textarea name="roleDescription" placeholder="请输入项目说明内容" class="layui-textarea"
+                                  maxlength="200"></textarea>
+                    </div>
+                </div>
+                <!--<div class="layui-form-item">-->
+                <!--<label class="layui-form-label">上传文档</label>-->
+                <!--<div class="layui-input-block">-->
+                <!--<input id="file-btn-upload" type="file" name="file" lay-verType="tips">-->
+                <!--&lt;!&ndash;<button id="proDocSubmit" class="layui-btn" lay-filter="formSubmitBas" lay-submit>&emsp;上传文档&emsp;</button>&ndash;&gt;-->
+                <!--</div>-->
+                <!--</div>-->
+                <div class="layui-form-item">
+                    <!--<fieldset class="layui-elem-field layui-field-title" style="margin-top: 30px;">-->
+                    <!--<legend>高级应用：制作一个多文件列表</legend>-->
+                    <!--</fieldset>-->
+
+                    <div class="layui-upload">
+                        <button type="button" class="layui-btn layui-btn-normal" id="testList">选择多文件</button>
+                        <div class="layui-upload-list">
+                            <table class="layui-table">
+                                <thead>
+                                <tr>
+                                    <th>文件名</th>
+                                    <th>大小</th>
+                                    <th>状态</th>
+                                    <th>操作</th>
+                                </tr>
+                                </thead>
+                                <tbody id="demoList"></tbody>
+                            </table>
+                        </div>
+                        <button type="button" class="layui-btn" id="testListAction">开始上传</button>
+                    </div>
+                </div>
+
 
                 <div class="layui-form-item">
                     <div class="layui-input-block">
@@ -122,39 +185,39 @@
             range: true
         });
         //
-        function extra_data(input,data){
-            var item=[];
-            $.each(data,function(k,v){
-                item.push('<input type="hidden" name="'+k+'" value="'+v+'">');
-            });
-            $(input).after(item.join(''));
-        }
-        var fileupload = upload.render({
-            elem: '#file-btn-upload',
-            accept: 'file',
-            url: '/project/pro/set',
-            bindAction: '#laySubmit', //关闭的上传按钮   html中此id所在元素也被注释
-            multiple: true,
-            auto: false,//选择文件后不自动上传
-            method: 'post',
-            number: 1,//上传几个
-            before:function (input) {
-//                private String proName;
-//                private String date;
-//                private String proStatus;
-                var data={"proName":"name","date":"2019"};
-                extra_data(input,data)
-            },
-            done: function (res, index, upload) {
-                if (res.code == 200) {
-                    layer.msg(res.msg, {icon: 1});
-                } else {
-                    layer.msg(res.msg, {icon: 2});
-                }
-            },
+        /* function extra_data(input,data){
+         var item=[];
+         $.each(data,function(k,v){
+         item.push('<input type="hidden" name="'+k+'" value="'+v+'">');
+         });
+         $(input).after(item.join(''));
+         }
+         before:function (input) {
+         //自定义json before提交
+         //                private String proName;
+         //                private String date;
+         //                private String proStatus;
+         var data={"proName":"name","date":"2019"};
+         extra_data(input,data)
+         },*/
+        /*    var fileupload = upload.render({
+         elem: '#file-btn-upload',
+         accept: 'file',
+         url: '/project/pro/set',
+         //            bindAction: '#laySubmit', //关闭的上传按钮   html中此id所在元素也被注释
+         multiple: true,
+         //            auto: false,//选择文件后不自动上传
+         method: 'post',
+         number: 1,//上传几个
+         done: function (res, index, upload) {
+         if (res.code == 200) {
+         layer.msg(res.msg, {icon: 1});
+         } else {
+         layer.msg(res.msg, {icon: 2});
+         }
+         },
+         });*/
 
-        });
- /*
         // 监听表单提交
         form.on('submit(formSubmitBas)', function (data) {
             layer.load(2);
@@ -168,7 +231,69 @@
                 }
             }, 'json');
             return false;
-        });*/
+        });
+
+
+        //////////////////////////////////////////
+        //多文件列表示例
+        var demoListView = $('#demoList')
+            , uploadListIns = upload.render({
+            elem: '#testList'
+            , url: '/pro/upload'
+            , method: 'post'
+//            , data: {
+//                'projectId': $("#hidden_trainSchemeId").val()
+//            }
+            , accept: 'file'
+            , multiple: true
+            , auto: false
+            , bindAction: '#testListAction'
+            , choose: function (obj) {
+                var files = this.files = obj.pushFile(); //将每次选择的文件追加到文件队列
+                //读取本地文件
+                obj.preview(function (index, file, result) {
+                    var tr = $(['<tr id="upload-' + index + '">'
+                        , '<td>' + file.name + '</td>'
+                        , '<td>' + (file.size / 1014).toFixed(1) + 'kb</td>'
+                        , '<td>等待上传</td>'
+                        , '<td>'
+                        , '<button class="layui-btn layui-btn-xs demo-reload layui-hide">重传</button>'
+                        , '<button class="layui-btn layui-btn-xs layui-btn-danger demo-delete">删除</button>'
+                        , '</td>'
+                        , '</tr>'].join(''));
+
+                    //单个重传
+                    tr.find('.demo-reload').on('click', function () {
+                        obj.upload(index, file);
+                    });
+
+                    //删除
+                    tr.find('.demo-delete').on('click', function () {
+                        delete files[index]; //删除对应的文件
+                        tr.remove();
+                        uploadListIns.config.elem.next()[0].value = ''; //清空 input file 值，以免删除后出现同名文件不可选
+                    });
+
+                    demoListView.append(tr);
+                });
+            }
+            , done: function (res, index, upload) {
+                if (res.code == 200) { //上传成功
+                    var tr = demoListView.find('tr#upload-' + index)
+                        , tds = tr.children();
+                    tds.eq(2).html('<span style="color: #5FB878;">上传成功</span>');
+                    tds.eq(3).html(''); //清空操作
+                    return delete this.files[index]; //删除文件队列已经上传成功的文件
+                }
+                this.error(index, upload);
+            }
+            , error: function (index, upload) {
+                var tr = demoListView.find('tr#upload-' + index)
+                    , tds = tr.children();
+                tds.eq(2).html('<span style="color: #FF5722;">上传失败</span>');
+                tds.eq(3).find('.demo-reload').removeClass('layui-hide'); //显示重传
+            }
+        });
     });
 </script>
 </body>

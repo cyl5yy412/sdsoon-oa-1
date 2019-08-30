@@ -69,6 +69,16 @@ public class UserController extends BaseController {
         //登陆页登陆
         return () -> ReturnResult.create(null);
     }
+
+    //退出
+  /*  @PostMapping("/logout")
+    public Callable<ReturnResult> logout(String userId,
+                                         HttpServletRequest request,//
+                                         HttpServletResponse response) throws UnsupportedEncodingException, ResponseException {
+        boolean b = ssoService.logout(request, response);
+        return () -> ReturnResult.create(b);
+
+    }*/
 /*
     @PostMapping("/register")
     public ReturnResult register(@RequestParam("userName") String userName,//

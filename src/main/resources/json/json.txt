@@ -7,26 +7,15 @@
 			MultipartFile2
 		},
 		{
-			"bytes":"U3RlcCBPdXQgKFNoaWZ0ICsgRjgpo7qyvbP2o6y007K9yOu1xLe9t6jE2s3Ls/a1vbe9t6i199PDtKajrLTLyrG3vbeo0tHWtNDQzeqxz6Os1rvKx7u5w7vT0M3qs8m4s9a1oaMNCg0KDQogUnVuIHRvIEN1cnNvciAoQWx0ICsgRjkpo7rUy9DQtb254rHqtKajrMTjv8nS1L2rueKx6raozru1vcTj0OjSqrLpv7S1xMTH0rvQ0KOsyLu688q508PV4rj2uabE3KOstPrC67vh1MvQ0NbBueKx6tDQo6y2+LK70OjSqrTyts+146Gj",
-			"contentType":"text/plain",
-			"empty":false,
-			"inputStream":{
-				"channel":{
-					"open":true
-				},
-				"fD":{}
-			},
-			"name":"docFile3",
-			"originalFilename":"新建文本文档.txt",
-			"size":240
+			MultipartFile3
 		}
 	],
 	"picFiles":[
 		{
-		MultipartFile1
+		    MultipartFile1
 		},
 		{
-		MultipartFile1
+		    MultipartFile2
 		},
 
 	],
@@ -53,4 +42,5 @@
 	"projectName":"项目名",
 	"projectStandard":"标准",
 	"projectTechnology":"工艺"
+	"projectGProId":"4b23effa833c453bb164f77041e00d2d"
 }

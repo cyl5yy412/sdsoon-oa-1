@@ -2,8 +2,10 @@ package com.sdsoon.modular.system.service.impl;
 
 import com.sdsoon.core.response.ex.EnumError;
 import com.sdsoon.core.response.ex.ResponseException;
+import com.sdsoon.core.util.DateUtil;
 import com.sdsoon.core.util.FileUtil;
 import com.sdsoon.core.util.IDUtil;
+import com.sdsoon.core.util.PageResult;
 import com.sdsoon.modular.system.mapper.SsProjectDocMapper;
 import com.sdsoon.modular.system.mapper.SsProjectManageMapper;
 import com.sdsoon.modular.system.mapper.SsProjectMissionMapper;
@@ -16,6 +18,9 @@ import com.sdsoon.modular.system.po.SsProjectManage;
 import com.sdsoon.modular.system.po.SsProjectMission;
 import com.sdsoon.modular.system.po.SsProjectPic;
 import com.sdsoon.modular.system.service.ProjectService;
+import com.sdsoon.modular.system.vo.AddMissionVo;
+import com.sdsoon.modular.system.vo.DailyTaskVo;
+import com.sdsoon.modular.system.vo.h.SsProjectManageVo;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Value;
@@ -26,6 +31,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 import java.io.UnsupportedEncodingException;
+import java.text.ParseException;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -51,9 +57,11 @@ public class ProjectServiceImpl implements ProjectService {
         SsProjectManage ssProjectManage = convertProjectModelFromSsProjectManage(projectModel);
         int i = ssProjectManageMapper.insertSelective(ssProjectManage);
         if (i == 1) {
-            *//**
-             *doc,pic,mission
-             *//*
+            */
+
+    /**
+     * doc,pic,mission
+     *//*
             List<MultipartFile> docFiles = projectModel.getDocFiles();
             for (MultipartFile docFile : docFiles) {
                 //添加doc->db
@@ -106,7 +114,6 @@ public class ProjectServiceImpl implements ProjectService {
         }
         return false;
     }*/
-
     @Override
     public ProjectPoModel selectProjectById(String projectId) throws ResponseException {
         if (StringUtils.isBlank(projectId)) {
@@ -140,76 +147,62 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Transactional
     @Override
-    public boolean setupProject(ProjectModel projectModel) throws ResponseException {
+    public boolean setupProject(ProjectModel projectModel) throws ResponseException, ParseException {
         //添加project-manage
-        if (StringUtils.isAnyBlank(
-                projectModel.getProjectName(),
+        if (StringUtils.isAnyBlank(projectModel.getProjectName(),
                 projectModel.getProjectTechnology(),
                 projectModel.getProjectStandard(),
                 projectModel.getProjectDescription(),
                 projectModel.getProjectLeaderName(),
-                projectModel.getProjectLeaderPhone())) {
-            throw new ResponseException(EnumError.PARAMETER_VALIDATION_ERROR);
+                projectModel.getProjectLeaderPhone(),
+                projectModel.getProjectDocInfo(),
+                projectModel.getDate(),
+                String.valueOf(projectModel.getProjectLevel()).trim(),
+                String.valueOf(projectModel.getProjectStatus()).trim())) {
+            return false;
         }
         SsProjectManage ssProjectManage = convertProjectModelFromSsProjectManage(projectModel);
         int i = ssProjectManageMapper.insertSelective(ssProjectManage);
         if (i == 1) {
             /**
-             *doc,pic,mission
+             *doc,pic
              */
-            List<MultipartFile> docFiles = projectModel.getDocFiles();
-            for (MultipartFile docFile : docFiles) {
-                //添加doc->db
-                SsProjectDoc ssProjectDoc = addDoc(ssProjectManage.getProjectId(), docFile);
-                if (ssProjectDoc == null) {
-                    throw new ResponseException(EnumError.DOC_UPLOAD_FAIL);
-                }
-                //上传doc
-                boolean b = upLoadDoc(docFile, ssProjectDoc.getProjectDocNewName());
-                if (!b) {
-                    throw new ResponseException(EnumError.DOC_UPLOAD_FAIL);
-                }
-            }
-            List<MultipartFile> picFiles = projectModel.getPicFiles();
-            for (MultipartFile picFile : picFiles) {
-                //添加pic:db
-                SsProjectPic ssProjectPic = addPic(ssProjectManage.getProjectId(), picFile);
-                if (ssProjectPic == null) {
-                    throw new ResponseException(EnumError.PIC_UPLOAD_FAIL);
-                }
-                //上传pic
-                boolean b = upLoadPic(picFile, ssProjectPic.getProjectPicNewName());
-                if (!b) {
-                    throw new ResponseException(EnumError.PIC_UPLOAD_FAIL);
-                }
-            }
-            //添加mission
-            List<ProjectMissionModel> projectMissionModels = projectModel.getProjectMissions();
-            if (projectMissionModels.size() == 0 || projectMissionModels == null) {
-                throw new ResponseException(EnumError.MISSION_FAIL);
-            }
-            List<SsProjectMission> projectMissions = projectMissionModels.stream().map(projectMissionModel -> {
-                SsProjectMission ssProjectMission = convertMissionModelFromBean(projectMissionModel);
-                return ssProjectMission;
-            }).collect(Collectors.toList());
-            for (SsProjectMission ssProjectMission : projectMissions) {
-                String missionId = UUID.randomUUID().toString().replaceAll("-", "");
-                ssProjectMission.setProjectMissionId(missionId);
-                ssProjectMission.setProjectGProjectId(ssProjectManage.getProjectId());
-//                int i1 = ssProjectMissionMapper.insertSelective(ssProjectMission);
-//                if (i1!=1) {
-//                    throw new ResponseException(EnumError.MISSION_FAIL);
+//            List<MultipartFile> docFiles = projectModel.getDocFiles();
+//            if (docFiles != null || docFiles.size() != 0) {
+//                for (MultipartFile docFile : docFiles) {
+//                    //添加doc->db
+//                    SsProjectDoc ssProjectDoc = addDoc(ssProjectManage.getProjectId(), docFile);
+//                    if (ssProjectDoc == null) {
+//                        return false;
+//                    }
+//                    //上传doc
+//                    boolean b = upLoadDoc(docFile, ssProjectDoc.getProjectDocNewName());
+//                    if (!b) {
+//                        return false;
+//                    }
 //                }
-            }
-            int i2 = ssProjectMissionMapper.insertMissions(projectMissions);
-            if (i2 < projectMissions.size()) {
-                throw new ResponseException(EnumError.MISSION_FAIL);
-            }
+//            }
+//            List<MultipartFile> picFiles = projectModel.getPicFiles();
+//            if (picFiles == null || picFiles.size() != 0) {
+//                for (MultipartFile picFile : picFiles) {
+//                    //添加pic:db
+//                    SsProjectPic ssProjectPic = addPic(ssProjectManage.getProjectId(), picFile);
+//                    if (ssProjectPic == null) {
+//                        return false;
+//                    }
+//                    //上传pic
+//                    boolean b = upLoadPic(picFile, ssProjectPic.getProjectPicNewName());
+//                    if (!b) {
+//                        return false;
+//                    }
+//                }
+//            }
             return true;
         }
         return false;
     }
 
+    @Transactional
     @Override
     public boolean download(String downloadId, HttpServletResponse response) throws ResponseException, UnsupportedEncodingException {
         if (StringUtils.isBlank(downloadId)) {
@@ -241,6 +234,139 @@ public class ProjectServiceImpl implements ProjectService {
         return false;
     }
 
+    @Transactional
+    @Override
+    public boolean addMission(AddMissionVo addMissionVo) throws ResponseException {
+        if (addMissionVo == null || addMissionVo.getMissions() == null || addMissionVo.getMissions().size() == 0) {
+            throw new ResponseException(EnumError.PARAMETER_VALIDATION_ERROR);
+        }
+        List<ProjectMissionModel> missions = addMissionVo.getMissions();
+
+        List<SsProjectMission> projectMissions = missions.stream().map(projectMissionModel -> {
+            SsProjectMission ssProjectMission = convertMissionModelFromBean(projectMissionModel);
+            return ssProjectMission;
+        }).collect(Collectors.toList());
+        for (SsProjectMission ssProjectMission : projectMissions) {
+            String missionId = UUID.randomUUID().toString().replaceAll("-", "");
+            ssProjectMission.setProjectMissionId(missionId);
+            ssProjectMission.setProjectGProjectId(addMissionVo.getMissions().get(0).getProjectGProjectId());
+        }
+        int i = ssProjectMissionMapper.insertMissions(projectMissions);
+        if (i < projectMissions.size()) {
+            throw new ResponseException(EnumError.MISSION_FAIL);
+        }
+        return true;
+    }
+
+    @Override
+    public boolean uploadFile(ProjectModel projectModel) {
+
+        /**
+         *doc,pic
+         */
+        List<MultipartFile> docFiles = projectModel.getDocFiles();
+        List<MultipartFile> picFiles = projectModel.getPicFiles();
+        if (docFiles == null && docFiles.size() == 0 && picFiles == null && picFiles.size() == 0) {
+            return false;
+        }
+        if (docFiles != null || docFiles.size() != 0) {
+            for (MultipartFile docFile : docFiles) {
+                //添加doc->db
+                SsProjectDoc ssProjectDoc = addDoc(projectModel.getProjectId(), docFile);
+                if (ssProjectDoc == null) {
+                    return false;
+                }
+                //上传doc
+                boolean b = upLoadDoc(docFile, ssProjectDoc.getProjectDocNewName());
+                if (!b) {
+                    return false;
+                }
+            }
+        }
+        if (picFiles == null || picFiles.size() != 0) {
+            for (MultipartFile picFile : picFiles) {
+                //添加pic:db
+                SsProjectPic ssProjectPic = addPic(projectModel.getProjectId(), picFile);
+                if (ssProjectPic == null) {
+                    return false;
+                }
+                //上传pic
+                boolean b = upLoadPic(picFile, ssProjectPic.getProjectPicNewName());
+                if (!b) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    @Override
+    public boolean uploadAll(List<MultipartFile> file) {
+        if (file == null || file.size() == 0) {
+            return false;
+        }
+        // 校验图片格式
+        boolean isLegal = false;
+        //
+        for (MultipartFile multipartFile : file) {
+            String originalFilename = multipartFile.getOriginalFilename();
+            for (String type : IMAGE_TYPE) {
+                if (StringUtils.endsWithIgnoreCase(originalFilename, type)) {//pic
+//                    isLegal = true;
+//                    break;
+                    //添加pic:db
+                    SsProjectPic ssProjectPic = addPic("xxxxxxxx", multipartFile);
+                    if (ssProjectPic == null) {
+                        return false;
+                    }
+                    //上传pic
+                    boolean b = upLoadPic(multipartFile, ssProjectPic.getProjectPicNewName());
+                    if (!b) {
+                        return false;
+                    }
+                } else {//doc
+                    //添加doc->db
+                    SsProjectDoc ssProjectDoc = addDoc("xxxxxxxx", multipartFile);
+                    if (ssProjectDoc == null) {
+                        return false;
+                    }
+                    //上传doc
+                    boolean b = upLoadDoc(multipartFile, ssProjectDoc.getProjectDocNewName());
+                    if (!b) {
+                        return false;
+                    }
+                }
+
+            }
+        }
+        return true;
+    }
+
+    @Override
+    public PageResult<SsProjectManageVo> selectAllProjects(Integer page, Integer limit) {
+        long total = ssProjectManageMapper.countByExample(null);
+        List<SsProjectManage> ssProjectManages = ssProjectManageMapper.selectAllProjects(page - 1, limit);
+
+        List<SsProjectManageVo> ssProjectManageVos = ssProjectManages.stream().map(ssProjectManage -> {
+            SsProjectManageVo ssProjectManageVo = convertSsProjectManageVoFromDto(ssProjectManage);
+            return ssProjectManageVo;
+        }).collect(Collectors.toList());
+        return new PageResult<>(ssProjectManageVos, total);
+    }
+
+    private SsProjectManageVo convertSsProjectManageVoFromDto(SsProjectManage ssProjectManage) {
+        if (ssProjectManage == null) {
+            return null;
+        }
+        SsProjectManageVo ssProjectManageVo = new SsProjectManageVo();
+        BeanUtils.copyProperties(ssProjectManage, ssProjectManageVo);
+        String create = DateUtil.dateFromat(ssProjectManage.getProjectCreateTime());
+        String end = DateUtil.dateFromat(ssProjectManage.getProjectEndTime());
+        ssProjectManageVo.setProjectCreateTime(create);
+        ssProjectManageVo.setProjectEndTime(end);
+        return ssProjectManageVo;
+    }
+
     //
     private SsProjectMission convertMissionModelFromBean(ProjectMissionModel projectModel) {
         if (projectModel == null) {
@@ -256,7 +382,7 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     //projectModel->ssBean
-    private SsProjectManage convertProjectModelFromSsProjectManage(ProjectModel projectModel) {
+    private SsProjectManage convertProjectModelFromSsProjectManage(ProjectModel projectModel) throws ParseException {
         if (projectModel == null) {
             return null;
         }
@@ -264,6 +390,15 @@ public class ProjectServiceImpl implements ProjectService {
         BeanUtils.copyProperties(projectModel, ssProjectManage);
         String projectId = UUID.randomUUID().toString().replaceAll("-", "");
         ssProjectManage.setProjectId(projectId);
+        //date
+        String date = projectModel.getDate();//2019-07-31 - 2019-09-15
+        String[] split = date.split(" ", 3);
+        String createTime = split[0];
+        Date create = DateUtil.convertStrDate2Date(createTime);
+        String endTime = split[2];
+        Date end = DateUtil.convertStrDate2Date(endTime);
+        ssProjectManage.setProjectCreateTime(create);
+        ssProjectManage.setProjectEndTime(end);
         return ssProjectManage;
     }
 
@@ -349,4 +484,23 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
 
+//            //添加mission
+//            List<ProjectMissionModel> projectMissionModels = projectModel.getProjectMissions();
+//            if (projectMissionModels.size() == 0 || projectMissionModels == null) {
+//                return false;
+//            }
+//            List<SsProjectMission> projectMissions = projectMissionModels.stream().map(projectMissionModel -> {
+//                SsProjectMission ssProjectMission = convertMissionModelFromBean(projectMissionModel);
+//                return ssProjectMission;
+//            }).collect(Collectors.toList());
+//            for (SsProjectMission ssProjectMission : projectMissions) {
+//                String missionId = UUID.randomUUID().toString().replaceAll("-", "");
+//                ssProjectMission.setProjectMissionId(missionId);
+//                ssProjectMission.setProjectGProjectId(ssProjectManage.getProjectId());
+//            }
+//            int i2 = ssProjectMissionMapper.insertMissions(projectMissions);
+//            if (i2 < projectMissions.size()) {
+//                throw new ResponseException(EnumError.MISSION_FAIL);
+//            }
+//            return true;
 }

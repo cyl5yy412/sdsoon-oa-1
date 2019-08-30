@@ -30,5 +30,9 @@ public interface SsProjectManageMapper {
 
     int updateByPrimaryKey(SsProjectManage record);
 
+    //
     ProjectPoModel selectProjectById(@Param("projectId") String projectId);
+
+
+    List<SsProjectManage> selectAllProjects(@Param("page") Integer page, @Param("limit") Integer limit);
 }

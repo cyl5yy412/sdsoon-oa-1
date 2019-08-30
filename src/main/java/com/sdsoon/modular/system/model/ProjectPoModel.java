@@ -5,6 +5,7 @@ import com.sdsoon.modular.system.po.SsProjectMission;
 import com.sdsoon.modular.system.po.SsProjectPic;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -28,6 +29,16 @@ public class ProjectPoModel implements Serializable {
     private String projectLeaderName;
 
     private String projectLeaderPhone;
+
+    private Date projectCreateTime;
+
+    private Date projectEndTime;
+
+    private Integer projectStatus;
+
+    private Integer projectLevel;
+
+    private String projectDocInfo;
     //mission
     List<SsProjectMission> projectMissions;
     //pic
@@ -38,7 +49,7 @@ public class ProjectPoModel implements Serializable {
     public ProjectPoModel() {
     }
 
-    public ProjectPoModel(String projectId, String projectName, String projectDescription, String projectTechnology, String projectStandard, String projectLeaderName, String projectLeaderPhone, List<SsProjectMission> projectMissions, List<SsProjectPic> projectPics, List<SsProjectDoc> projectDocs) {
+    public ProjectPoModel(String projectId, String projectName, String projectDescription, String projectTechnology, String projectStandard, String projectLeaderName, String projectLeaderPhone, Date projectCreateTime, Date projectEndTime, Integer projectStatus, Integer projectLevel, String projectDocInfo, List<SsProjectMission> projectMissions, List<SsProjectPic> projectPics, List<SsProjectDoc> projectDocs) {
         this.projectId = projectId;
         this.projectName = projectName;
         this.projectDescription = projectDescription;
@@ -46,6 +57,11 @@ public class ProjectPoModel implements Serializable {
         this.projectStandard = projectStandard;
         this.projectLeaderName = projectLeaderName;
         this.projectLeaderPhone = projectLeaderPhone;
+        this.projectCreateTime = projectCreateTime;
+        this.projectEndTime = projectEndTime;
+        this.projectStatus = projectStatus;
+        this.projectLevel = projectLevel;
+        this.projectDocInfo = projectDocInfo;
         this.projectMissions = projectMissions;
         this.projectPics = projectPics;
         this.projectDocs = projectDocs;
@@ -105,6 +121,46 @@ public class ProjectPoModel implements Serializable {
 
     public void setProjectLeaderPhone(String projectLeaderPhone) {
         this.projectLeaderPhone = projectLeaderPhone;
+    }
+
+    public Date getProjectCreateTime() {
+        return projectCreateTime;
+    }
+
+    public void setProjectCreateTime(Date projectCreateTime) {
+        this.projectCreateTime = projectCreateTime;
+    }
+
+    public Date getProjectEndTime() {
+        return projectEndTime;
+    }
+
+    public void setProjectEndTime(Date projectEndTime) {
+        this.projectEndTime = projectEndTime;
+    }
+
+    public Integer getProjectStatus() {
+        return projectStatus;
+    }
+
+    public void setProjectStatus(Integer projectStatus) {
+        this.projectStatus = projectStatus;
+    }
+
+    public Integer getProjectLevel() {
+        return projectLevel;
+    }
+
+    public void setProjectLevel(Integer projectLevel) {
+        this.projectLevel = projectLevel;
+    }
+
+    public String getProjectDocInfo() {
+        return projectDocInfo;
+    }
+
+    public void setProjectDocInfo(String projectDocInfo) {
+        this.projectDocInfo = projectDocInfo;
     }
 
     public List<SsProjectMission> getProjectMissions() {

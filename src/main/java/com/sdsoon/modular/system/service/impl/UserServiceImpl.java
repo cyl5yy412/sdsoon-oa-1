@@ -75,17 +75,6 @@ public class UserServiceImpl implements UserService {
         return newStr;
     }
 
-    public static String show(String str) throws NoSuchAlgorithmException, UnsupportedEncodingException {
-        //确定计算方法
-        MessageDigest md5 = MessageDigest.getInstance("MD5");
-        BASE64Encoder base64Encoder = new BASE64Encoder();
-        //加密字符串
-        String newStr = base64Encoder.encode(md5.digest(str.getBytes("utf-8")));
-        System.out.println(newStr);
-        return newStr;
-    }
-    public static void main(String args[]) throws UnsupportedEncodingException, NoSuchAlgorithmException {
-        show("123456");
-    }
+
 
 }

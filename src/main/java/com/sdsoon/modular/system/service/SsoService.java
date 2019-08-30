@@ -35,4 +35,6 @@ public interface SsoService {
      * @throws UnsupportedEncodingException
      */
     boolean authLoginCheck(HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException;
+
+    boolean logout(HttpServletRequest request, HttpServletResponse response) throws ResponseException;
 }

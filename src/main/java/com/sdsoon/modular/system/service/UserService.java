@@ -3,6 +3,8 @@ package com.sdsoon.modular.system.service;
 import com.sdsoon.core.response.ex.ResponseException;
 import com.sdsoon.modular.system.po.SsUserInfo;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
 

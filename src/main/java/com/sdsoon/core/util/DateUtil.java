@@ -9,6 +9,7 @@ import java.util.Date;
  */
 public class DateUtil {
 
+    //str->date固定格式
     public static Date convertStrDate2Date(String date) throws ParseException {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
 //        String format = simpleDateFormat.format(date);
@@ -16,4 +17,10 @@ public class DateUtil {
         return parse;
     }
 
+    //date->str固定格式
+    public static String dateFromat(Date date) {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        String format = simpleDateFormat.format(date);
+        return format;
+    }
 }

@@ -9,6 +9,11 @@
         <result column="project_standard" jdbcType="VARCHAR" property="projectStandard"/>
         <result column="project_leader_name" jdbcType="VARCHAR" property="projectLeaderName"/>
         <result column="project_leader_phone" jdbcType="VARCHAR" property="projectLeaderPhone"/>
+        <result column="project_create_time" jdbcType="DATE" property="projectCreateTime"/>
+        <result column="project_end_time" jdbcType="DATE" property="projectEndTime"/>
+        <result column="project_status" jdbcType="INTEGER" property="projectStatus"/>
+        <result column="project_level" jdbcType="INTEGER" property="projectLevel"/>
+        <result column="project_doc_info" jdbcType="VARCHAR" property="projectDocInfo"/>
     </resultMap>
     <sql id="Example_Where_Clause">
         <where>
@@ -72,7 +77,8 @@
     </sql>
     <sql id="Base_Column_List">
     project_id, project_name, project_description, project_technology, project_standard, 
-    project_leader_name, project_leader_phone
+    project_leader_name, project_leader_phone, project_create_time, project_end_time, 
+    project_status, project_level, project_doc_info
   </sql>
     <select id="selectByExample" parameterType="com.sdsoon.modular.system.po.SsProjectManageExample"
             resultMap="BaseResultMap">
@@ -108,10 +114,14 @@
     <insert id="insert" parameterType="com.sdsoon.modular.system.po.SsProjectManage">
     insert into ss_project_manage (project_id, project_name, project_description, 
       project_technology, project_standard, project_leader_name, 
-      project_leader_phone)
+      project_leader_phone, project_create_time, project_end_time, 
+      project_status, project_level, project_doc_info
+      )
     values (#{projectId,jdbcType=VARCHAR}, #{projectName,jdbcType=VARCHAR}, #{projectDescription,jdbcType=VARCHAR}, 
       #{projectTechnology,jdbcType=VARCHAR}, #{projectStandard,jdbcType=VARCHAR}, #{projectLeaderName,jdbcType=VARCHAR}, 
-      #{projectLeaderPhone,jdbcType=VARCHAR})
+      #{projectLeaderPhone,jdbcType=VARCHAR}, #{projectCreateTime,jdbcType=DATE}, #{projectEndTime,jdbcType=DATE}, 
+      #{projectStatus,jdbcType=INTEGER}, #{projectLevel,jdbcType=INTEGER}, #{projectDocInfo,jdbcType=VARCHAR}
+      )
   </insert>
     <insert id="insertSelective" parameterType="com.sdsoon.modular.system.po.SsProjectManage">
         insert into ss_project_manage
@@ -137,6 +147,21 @@
             <if test="projectLeaderPhone != null">
                 project_leader_phone,
             </if>
+            <if test="projectCreateTime != null">
+                project_create_time,
+            </if>
+            <if test="projectEndTime != null">
+                project_end_time,
+            </if>
+            <if test="projectStatus != null">
+                project_status,
+            </if>
+            <if test="projectLevel != null">
+                project_level,
+            </if>
+            <if test="projectDocInfo != null">
+                project_doc_info,
+            </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="projectId != null">
@@ -159,6 +184,21 @@
             </if>
             <if test="projectLeaderPhone != null">
                 #{projectLeaderPhone,jdbcType=VARCHAR},
+            </if>
+            <if test="projectCreateTime != null">
+                #{projectCreateTime,jdbcType=DATE},
+            </if>
+            <if test="projectEndTime != null">
+                #{projectEndTime,jdbcType=DATE},
+            </if>
+            <if test="projectStatus != null">
+                #{projectStatus,jdbcType=INTEGER},
+            </if>
+            <if test="projectLevel != null">
+                #{projectLevel,jdbcType=INTEGER},
+            </if>
+            <if test="projectDocInfo != null">
+                #{projectDocInfo,jdbcType=VARCHAR},
             </if>
         </trim>
     </insert>
@@ -193,6 +233,21 @@
             <if test="record.projectLeaderPhone != null">
                 project_leader_phone = #{record.projectLeaderPhone,jdbcType=VARCHAR},
             </if>
+            <if test="record.projectCreateTime != null">
+                project_create_time = #{record.projectCreateTime,jdbcType=DATE},
+            </if>
+            <if test="record.projectEndTime != null">
+                project_end_time = #{record.projectEndTime,jdbcType=DATE},
+            </if>
+            <if test="record.projectStatus != null">
+                project_status = #{record.projectStatus,jdbcType=INTEGER},
+            </if>
+            <if test="record.projectLevel != null">
+                project_level = #{record.projectLevel,jdbcType=INTEGER},
+            </if>
+            <if test="record.projectDocInfo != null">
+                project_doc_info = #{record.projectDocInfo,jdbcType=VARCHAR},
+            </if>
         </set>
         <if test="_parameter != null">
             <include refid="Update_By_Example_Where_Clause"/>
@@ -206,7 +261,12 @@
         project_technology = #{record.projectTechnology,jdbcType=VARCHAR},
         project_standard = #{record.projectStandard,jdbcType=VARCHAR},
         project_leader_name = #{record.projectLeaderName,jdbcType=VARCHAR},
-        project_leader_phone = #{record.projectLeaderPhone,jdbcType=VARCHAR}
+        project_leader_phone = #{record.projectLeaderPhone,jdbcType=VARCHAR},
+        project_create_time = #{record.projectCreateTime,jdbcType=DATE},
+        project_end_time = #{record.projectEndTime,jdbcType=DATE},
+        project_status = #{record.projectStatus,jdbcType=INTEGER},
+        project_level = #{record.projectLevel,jdbcType=INTEGER},
+        project_doc_info = #{record.projectDocInfo,jdbcType=VARCHAR}
         <if test="_parameter != null">
             <include refid="Update_By_Example_Where_Clause"/>
         </if>
@@ -232,6 +292,21 @@
             <if test="projectLeaderPhone != null">
                 project_leader_phone = #{projectLeaderPhone,jdbcType=VARCHAR},
             </if>
+            <if test="projectCreateTime != null">
+                project_create_time = #{projectCreateTime,jdbcType=DATE},
+            </if>
+            <if test="projectEndTime != null">
+                project_end_time = #{projectEndTime,jdbcType=DATE},
+            </if>
+            <if test="projectStatus != null">
+                project_status = #{projectStatus,jdbcType=INTEGER},
+            </if>
+            <if test="projectLevel != null">
+                project_level = #{projectLevel,jdbcType=INTEGER},
+            </if>
+            <if test="projectDocInfo != null">
+                project_doc_info = #{projectDocInfo,jdbcType=VARCHAR},
+            </if>
         </set>
         where project_id = #{projectId,jdbcType=VARCHAR}
     </update>
@@ -242,9 +317,15 @@
       project_technology = #{projectTechnology,jdbcType=VARCHAR},
       project_standard = #{projectStandard,jdbcType=VARCHAR},
       project_leader_name = #{projectLeaderName,jdbcType=VARCHAR},
-      project_leader_phone = #{projectLeaderPhone,jdbcType=VARCHAR}
+      project_leader_phone = #{projectLeaderPhone,jdbcType=VARCHAR},
+      project_create_time = #{projectCreateTime,jdbcType=DATE},
+      project_end_time = #{projectEndTime,jdbcType=DATE},
+      project_status = #{projectStatus,jdbcType=INTEGER},
+      project_level = #{projectLevel,jdbcType=INTEGER},
+      project_doc_info = #{projectDocInfo,jdbcType=VARCHAR}
     where project_id = #{projectId,jdbcType=VARCHAR}
   </update>
+
     <!--  -->
     <resultMap id="BaseResultMap_project" type="com.sdsoon.modular.system.model.ProjectPoModel">
         <id column="project_id" jdbcType="VARCHAR" property="projectId"/>
@@ -254,6 +335,11 @@
         <result column="project_standard" jdbcType="VARCHAR" property="projectStandard"/>
         <result column="project_leader_name" jdbcType="VARCHAR" property="projectLeaderName"/>
         <result column="project_leader_phone" jdbcType="VARCHAR" property="projectLeaderPhone"/>
+        <result column="project_create_time" jdbcType="DATE" property="projectCreateTime"/>
+        <result column="project_end_time" jdbcType="DATE" property="projectEndTime"/>
+        <result column="project_status" jdbcType="INTEGER" property="projectStatus"/>
+        <result column="project_level" jdbcType="INTEGER" property="projectLevel"/>
+        <result column="project_doc_info" jdbcType="VARCHAR" property="projectDocInfo"/>
         <!-- mission -->
         <collection property="projectMissions" ofType="com.sdsoon.modular.system.po.SsProjectMission">
             <id column="project_mission_id" jdbcType="VARCHAR" property="projectMissionId"/>
@@ -280,16 +366,20 @@
         </collection>
     </resultMap>
     <select id="selectProjectById" resultMap="BaseResultMap_project">
-      SELECT
-	    s.*,m.*,d.*,p.*
-      FROM
-        ss_project_manage s
-        LEFT JOIN ss_project_mission m
-        on s.project_id=m.project_g_project_id
-        LEFT JOIN ss_project_doc d
-        on d.project_g_project_id=s.project_id
-        LEFT JOIN ss_project_pic p
-        on p.project_g_project_id=s.project_id
-        WHERE s.project_id = #{projectId,jdbcType=VARCHAR}
+    SELECT
+    s.*,m.*,d.*,p.*
+    FROM
+    ss_project_manage s
+    LEFT JOIN ss_project_mission m
+    on s.project_id=m.project_g_project_id
+    LEFT JOIN ss_project_doc d
+    on d.project_g_project_id=s.project_id
+    LEFT JOIN ss_project_pic p
+    on p.project_g_project_id=s.project_id
+    WHERE s.project_id = #{projectId,jdbcType=VARCHAR}
+  </select>
+    <!--  -->
+    <select id="selectAllProjects" parameterType="int" resultMap="BaseResultMap">
+        SELECT * FROM ss_project_manage s ORDER BY s.project_end_time DESC
     </select>
 </mapper>

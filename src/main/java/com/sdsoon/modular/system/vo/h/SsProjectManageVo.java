@@ -1,18 +1,13 @@
-package com.sdsoon.modular.system.model;
-
-import org.springframework.web.multipart.MultipartFile;
+package com.sdsoon.modular.system.vo.h;
 
 import java.io.Serializable;
-import java.util.List;
 
 /**
- * Created By Chr on 2019/8/22.
+ * Created By Chr on 2019/8/30.
  */
-public class ProjectModel implements Serializable {
+public class SsProjectManageVo implements Serializable {
+    private static final long serialVersionUID = 1869749435022988658L;
 
-    private static final long serialVersionUID = 3328508504390757358L;
-
-    //manage
     private String projectId;
 
     private String projectName;
@@ -27,7 +22,9 @@ public class ProjectModel implements Serializable {
 
     private String projectLeaderPhone;
 
-    private String date;
+    private String projectCreateTime;
+
+    private String projectEndTime;
 
     private Integer projectStatus;
 
@@ -35,16 +32,10 @@ public class ProjectModel implements Serializable {
 
     private String projectDocInfo;
 
-    //doc
-    List<MultipartFile> docFiles;
-    //pic
-    List<MultipartFile> picFiles;
-
-
-    public ProjectModel() {
+    public SsProjectManageVo() {
     }
 
-    public ProjectModel(String projectId, String projectName, String projectDescription, String projectTechnology, String projectStandard, String projectLeaderName, String projectLeaderPhone, String date, Integer projectStatus, Integer projectLevel, String projectDocInfo, List<MultipartFile> docFiles, List<MultipartFile> picFiles) {
+    public SsProjectManageVo(String projectId, String projectName, String projectDescription, String projectTechnology, String projectStandard, String projectLeaderName, String projectLeaderPhone, String projectCreateTime, String projectEndTime, Integer projectStatus, Integer projectLevel, String projectDocInfo) {
         this.projectId = projectId;
         this.projectName = projectName;
         this.projectDescription = projectDescription;
@@ -52,12 +43,11 @@ public class ProjectModel implements Serializable {
         this.projectStandard = projectStandard;
         this.projectLeaderName = projectLeaderName;
         this.projectLeaderPhone = projectLeaderPhone;
-        this.date = date;
+        this.projectCreateTime = projectCreateTime;
+        this.projectEndTime = projectEndTime;
         this.projectStatus = projectStatus;
         this.projectLevel = projectLevel;
         this.projectDocInfo = projectDocInfo;
-        this.docFiles = docFiles;
-        this.picFiles = picFiles;
     }
 
     public static long getSerialVersionUID() {
@@ -120,12 +110,20 @@ public class ProjectModel implements Serializable {
         this.projectLeaderPhone = projectLeaderPhone;
     }
 
-    public String getDate() {
-        return date;
+    public String getProjectCreateTime() {
+        return projectCreateTime;
     }
 
-    public void setDate(String date) {
-        this.date = date;
+    public void setProjectCreateTime(String projectCreateTime) {
+        this.projectCreateTime = projectCreateTime;
+    }
+
+    public String getProjectEndTime() {
+        return projectEndTime;
+    }
+
+    public void setProjectEndTime(String projectEndTime) {
+        this.projectEndTime = projectEndTime;
     }
 
     public Integer getProjectStatus() {
@@ -150,21 +148,5 @@ public class ProjectModel implements Serializable {
 
     public void setProjectDocInfo(String projectDocInfo) {
         this.projectDocInfo = projectDocInfo;
-    }
-
-    public List<MultipartFile> getDocFiles() {
-        return docFiles;
-    }
-
-    public void setDocFiles(List<MultipartFile> docFiles) {
-        this.docFiles = docFiles;
-    }
-
-    public List<MultipartFile> getPicFiles() {
-        return picFiles;
-    }
-
-    public void setPicFiles(List<MultipartFile> picFiles) {
-        this.picFiles = picFiles;
     }
 }
