@@ -147,23 +147,24 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Transactional
     @Override
-    public boolean setupProject(ProjectModel projectModel) throws ResponseException, ParseException {
+    public String setupProject(ProjectModel projectModel) throws ResponseException, ParseException {
         //添加project-manage
         if (StringUtils.isAnyBlank(projectModel.getProjectName(),
+                projectModel.getDate(),
                 projectModel.getProjectTechnology(),
                 projectModel.getProjectStandard(),
                 projectModel.getProjectDescription(),
                 projectModel.getProjectLeaderName(),
                 projectModel.getProjectLeaderPhone(),
                 projectModel.getProjectDocInfo(),
-                projectModel.getDate(),
                 String.valueOf(projectModel.getProjectLevel()).trim(),
                 String.valueOf(projectModel.getProjectStatus()).trim())) {
-            return false;
+            return null;
         }
         SsProjectManage ssProjectManage = convertProjectModelFromSsProjectManage(projectModel);
         int i = ssProjectManageMapper.insertSelective(ssProjectManage);
         if (i == 1) {
+            String projectId = ssProjectManage.getProjectId();
             /**
              *doc,pic
              */
@@ -197,9 +198,9 @@ public class ProjectServiceImpl implements ProjectService {
 //                    }
 //                }
 //            }
-            return true;
+            return projectId;
         }
-        return false;
+        return null;
     }
 
     @Transactional

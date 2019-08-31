@@ -27,11 +27,12 @@ public class HProjectController {
     //添加立项
     @PostMapping("/setup")
     public JsonResult setup(ProjectModel projectModel) throws ResponseException, ParseException {
-        boolean b = projectService.setupProject(projectModel);
-        if (b) {
-            return JsonResult.ok();
+        String projectId = projectService.setupProject(projectModel);
+        if (projectId.trim() == null || projectId.trim().length() == 0) {
+            return JsonResult.error();
         }
-        return JsonResult.error();
+        System.out.println(projectId);
+        return JsonResult.ok(projectId);
     }
 
     @PostMapping("/uploadfile")
@@ -45,7 +46,7 @@ public class HProjectController {
 
     //多文件上传 file:多种类型,判断后缀名后上传
     @PostMapping("/upload")
-    public JsonResult uploadAll(List<MultipartFile> file,String projectId) throws ResponseException, ParseException {
+    public JsonResult uploadAll(List<MultipartFile> file, String projectId) throws ResponseException, ParseException {
 
 //        boolean b = projectService.uploadAll(file);
 

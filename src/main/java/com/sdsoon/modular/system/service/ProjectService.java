@@ -18,7 +18,7 @@ import java.util.List;
  */
 public interface ProjectService {
     //后台
-    boolean setupProject(ProjectModel projectModel) throws ResponseException, ParseException;
+    String setupProject(ProjectModel projectModel) throws ResponseException, ParseException;
 
 //    boolean setupProjectDemo(ProjectModel projectModel) throws ResponseException;
 
