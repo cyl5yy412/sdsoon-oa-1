@@ -35,7 +35,7 @@ public interface ProjectService {
     boolean uploadFile(ProjectModel projectModel);
 
     //后台
-    boolean uploadAll(List<MultipartFile> file);
+    boolean uploadAll(List<MultipartFile> file,String projectId);
 
     //后台
     PageResult<SsProjectManageVo> selectAllProjects(Integer page, Integer limit);

@@ -48,7 +48,7 @@ public class HProjectController {
     @PostMapping("/upload")
     public JsonResult uploadAll(List<MultipartFile> file, String projectId) throws ResponseException, ParseException {
 
-//        boolean b = projectService.uploadAll(file);
+//        boolean b = projectService.uploadAll(file,projectId);
 
         return JsonResult.ok();
     }

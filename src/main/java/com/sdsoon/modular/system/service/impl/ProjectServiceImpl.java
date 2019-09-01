@@ -302,12 +302,12 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public boolean uploadAll(List<MultipartFile> file) {
-        if (file == null || file.size() == 0) {
+    public boolean uploadAll(List<MultipartFile> file, String projectId) {
+        if (file == null || file.size() == 0 || StringUtils.isBlank(projectId)) {
             return false;
         }
         // 校验图片格式
-        boolean isLegal = false;
+//        boolean isLegal = false;
         //
         for (MultipartFile multipartFile : file) {
             String originalFilename = multipartFile.getOriginalFilename();
@@ -316,7 +316,7 @@ public class ProjectServiceImpl implements ProjectService {
 //                    isLegal = true;
 //                    break;
                     //添加pic:db
-                    SsProjectPic ssProjectPic = addPic("xxxxxxxx", multipartFile);
+                    SsProjectPic ssProjectPic = addPic(projectId, multipartFile);
                     if (ssProjectPic == null) {
                         return false;
                     }
@@ -327,7 +327,7 @@ public class ProjectServiceImpl implements ProjectService {
                     }
                 } else {//doc
                     //添加doc->db
-                    SsProjectDoc ssProjectDoc = addDoc("xxxxxxxx", multipartFile);
+                    SsProjectDoc ssProjectDoc = addDoc(projectId, multipartFile);
                     if (ssProjectDoc == null) {
                         return false;
                     }
