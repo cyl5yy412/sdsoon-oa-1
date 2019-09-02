@@ -194,12 +194,14 @@ public class ProjectController {
     public static void main(String args[]) throws ParseException {
         Date d = new Date();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+//        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String format = sdf.format(d);
         Date parse = sdf.parse(format);
         long time = parse.getTime();
         System.out.println(format);
         System.out.println(time);
         String s = "1566403200000";
+        String a = "1567395537000";
         Long timeL = Long.valueOf(s);
         Date date = new Date(timeL);
         System.out.println(date);
