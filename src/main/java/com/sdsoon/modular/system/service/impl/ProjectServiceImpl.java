@@ -301,47 +301,42 @@ public class ProjectServiceImpl implements ProjectService {
         return true;
     }
 
+    @Transactional
     @Override
     public boolean uploadAll(List<MultipartFile> file, String projectId) {
         if (file == null || file.size() == 0 || StringUtils.isBlank(projectId)) {
             return false;
         }
-        // 校验图片格式
-//        boolean isLegal = false;
-        //
         for (MultipartFile multipartFile : file) {
             String originalFilename = multipartFile.getOriginalFilename();
-            for (String type : IMAGE_TYPE) {
-                if (StringUtils.endsWithIgnoreCase(originalFilename, type)) {//pic
-//                    isLegal = true;
-//                    break;
-                    //添加pic:db
-                    SsProjectPic ssProjectPic = addPic(projectId, multipartFile);
-                    if (ssProjectPic == null) {
-                        return false;
-                    }
-                    //上传pic
-                    boolean b = upLoadPic(multipartFile, ssProjectPic.getProjectPicNewName());
-                    if (!b) {
-                        return false;
-                    }
-                } else {//doc
-                    //添加doc->db
-                    SsProjectDoc ssProjectDoc = addDoc(projectId, multipartFile);
-                    if (ssProjectDoc == null) {
-                        return false;
-                    }
-                    //上传doc
-                    boolean b = upLoadDoc(multipartFile, ssProjectDoc.getProjectDocNewName());
-                    if (!b) {
-                        return false;
-                    }
+            String suffix = StringUtils.substringAfterLast(originalFilename, ".");
+            if (StringUtils.equalsAnyIgnoreCase(suffix, "bmp", "jpg", "jpeg", "gif", "png")) {
+                //添加pic:db
+                SsProjectPic ssProjectPic = addPic(projectId, multipartFile);
+                if (ssProjectPic == null) {
+                    return false;
                 }
-
+                //上传pic
+                boolean b = upLoadPic(multipartFile, ssProjectPic.getProjectPicNewName());
+                if (!b) {
+                    return false;
+                }
+            } else {
+                //添加doc->db
+                SsProjectDoc ssProjectDoc = addDoc(projectId, multipartFile);
+                if (ssProjectDoc == null) {
+                    return false;
+                }
+                //上传doc
+                boolean b = upLoadDoc(multipartFile, ssProjectDoc.getProjectDocNewName());
+                if (!b) {
+                    return false;
+                }
             }
         }
         return true;
     }
+
 
     @Override
     public PageResult<SsProjectManageVo> selectAllProjects(Integer page, Integer limit) {
@@ -404,6 +399,7 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     //doc上传:添加db
+    @Transactional
     private SsProjectDoc addDoc(String projectId, MultipartFile docFile) {
         // 文件原始名称
         String originalFileName = docFile.getOriginalFilename();
@@ -426,6 +422,7 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     //pic添加db
+    @Transactional
     private SsProjectPic addPic(String projectId, MultipartFile picFile) {
         // 校验图片格式
         boolean isLegal = false;

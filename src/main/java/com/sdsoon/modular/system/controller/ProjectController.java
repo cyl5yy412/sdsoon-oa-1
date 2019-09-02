@@ -41,7 +41,7 @@ public class ProjectController {
 //    }
 
     //添加立项任务节点:mission
-    @PostMapping("/setup")
+    @PostMapping("/setup/mission")
     public ReturnResult addMission(@RequestBody AddMissionVo addMissionVo) throws ResponseException {
         boolean b = projectService.addMission(addMissionVo);
         if (b) {
