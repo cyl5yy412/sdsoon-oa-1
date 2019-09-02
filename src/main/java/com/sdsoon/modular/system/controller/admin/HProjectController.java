@@ -6,7 +6,6 @@ import com.sdsoon.core.util.PageResult;
 import com.sdsoon.modular.system.model.ProjectModel;
 import com.sdsoon.modular.system.service.ProjectService;
 import com.sdsoon.modular.system.vo.h.SsProjectManageVo;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -32,9 +31,8 @@ public class HProjectController {
         if (projectId.trim() == null || projectId.trim().length() == 0) {
             return JsonResult.error();
         }
-        return JsonResult.ok();
+        return JsonResult.ok(projectId);
     }
-
 
     //多文件上传 file:多种类型,判断后缀名后上传
     @PostMapping("/upload")
@@ -63,37 +61,5 @@ public class HProjectController {
 //        return JsonResult.error();
 //    }
 
-
-    public static void main(String args[]) {
-//        List<ProjectMissionModel> list = new ArrayList<>();
-//        ProjectMissionModel projectMissionModel1 = new ProjectMissionModel();
-//        projectMissionModel1.setProjectMissionId();
-//        projectMissionModel1.setProjectGProjectId();
-//        projectMissionModel1.setProjectMissionCreateTime();
-//        projectMissionModel1.setProjectMissionEndTime();
-//        projectMissionModel1.setProjectMissionId();
-//
-//        ProjectMissionModel projectMissionMode2 = new ProjectMissionModel();
-//        projectMissionModel1.setProjectMissionId();
-//        projectMissionModel1.setProjectGProjectId();
-//        projectMissionModel1.setProjectMissionCreateTime();
-//        projectMissionModel1.setProjectMissionEndTime();
-//        projectMissionModel1.setProjectMissionId();
-//
-//        ProjectMissionModel projectMissionMode3 = new ProjectMissionModel();
-//        projectMissionModel1.setProjectMissionId();
-//        projectMissionModel1.setProjectGProjectId();
-//        projectMissionModel1.setProjectMissionCreateTime();
-//        projectMissionModel1.setProjectMissionEndTime();
-//        projectMissionModel1.setProjectMissionId();
-//
-//        AddMissionVo addMissionVo = new AddMissionVo();
-//        addMissionVo.setMissions(list);
-        String s = "jdk-nio.步骤.png";
-        String s1 = StringUtils.substringAfterLast(s, ".");
-        System.out.println(s1);
-    }
-
-    private static final String[] IMAGE_TYPE = new String[]{".bmp", ".jpg", ".jpeg", ".gif", ".png"};
 
 }

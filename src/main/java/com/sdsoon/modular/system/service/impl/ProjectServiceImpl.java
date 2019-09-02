@@ -247,11 +247,11 @@ public class ProjectServiceImpl implements ProjectService {
             SsProjectMission ssProjectMission = convertMissionModelFromBean(projectMissionModel);
             return ssProjectMission;
         }).collect(Collectors.toList());
-        for (SsProjectMission ssProjectMission : projectMissions) {
-            String missionId = UUID.randomUUID().toString().replaceAll("-", "");
-            ssProjectMission.setProjectMissionId(missionId);
-            ssProjectMission.setProjectGProjectId(addMissionVo.getMissions().get(0).getProjectGProjectId());
-        }
+//        for (SsProjectMission ssProjectMission : projectMissions) {
+//            String missionId = UUID.randomUUID().toString().replaceAll("-", "");
+//            ssProjectMission.setProjectMissionId(missionId);
+//            ssProjectMission.setProjectGProjectId(addMissionVo.getMissions().get(0).getProjectGProjectId());
+//        }
         int i = ssProjectMissionMapper.insertMissions(projectMissions);
         if (i < projectMissions.size()) {
             throw new ResponseException(EnumError.MISSION_FAIL);
@@ -374,6 +374,8 @@ public class ProjectServiceImpl implements ProjectService {
         Long endTime = Long.valueOf(projectModel.getProjectMissionEndTime());
         ssProjectMission.setProjectMissionCreateTime(new Date(createLong));
         ssProjectMission.setProjectMissionEndTime(new Date(endTime));
+        String missionId = UUID.randomUUID().toString().replaceAll("-", "");
+        ssProjectMission.setProjectMissionId(missionId);
         return ssProjectMission;
     }
 

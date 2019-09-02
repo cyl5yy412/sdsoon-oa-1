@@ -234,7 +234,7 @@
             $.post('/pro/setup', data.field, function (res) {
                 layer.closeAll('loading');
                 if (res.code == 200) {
-                    layer.msg(res.msg, {icon: 1});
+                    layer.msg("操作成功", {icon: 1});
 //                    $("#projectId_hidden").attr("value", res.msg);
                     $("#projectId_hidden").val(res.msg);
 //                    projectId_val = res.msg;

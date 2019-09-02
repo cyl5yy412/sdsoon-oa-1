@@ -2,6 +2,7 @@ package com.sdsoon.modular.system.controller;
 
 import com.sdsoon.core.response.ReturnResult;
 import com.sdsoon.core.response.ex.ResponseException;
+import com.sdsoon.modular.system.model.ProjectMissionModel;
 import com.sdsoon.modular.system.model.ProjectPoModel;
 import com.sdsoon.modular.system.service.ProjectService;
 import com.sdsoon.modular.system.vo.AddMissionVo;
@@ -13,7 +14,9 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.UnsupportedEncodingException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -106,7 +109,7 @@ public class ProjectController {
     }
     */
 
-//    @PostMapping("/setup/demo2")
+    //    @PostMapping("/setup/demo2")
 //    public ReturnResult setupDemo2(MultipartFile docFile1,
 //                                   MultipartFile docFile2,
 //                                   MultipartFile docFile3,
@@ -177,7 +180,16 @@ public class ProjectController {
 //        }
 //        return ReturnResult.create(null);
 //    }
-
+//添加立项任务节点:mission
+    @PostMapping("/setup/mission/demo")
+    public ReturnResult addMissionDemo() throws ResponseException {
+        AddMissionVo vo = show();
+        boolean b = projectService.addMission(vo);
+        if (b) {
+            return ReturnResult.create(HttpStatus.CREATED);
+        }
+        return ReturnResult.create(null);
+    }
 
     public static void main(String args[]) throws ParseException {
         Date d = new Date();
@@ -210,5 +222,32 @@ public class ProjectController {
     private String uuid() {
         String s = UUID.randomUUID().toString().replaceAll("-", "");
         return s;
+    }
+
+    public AddMissionVo show() {
+        String gid = "695b1acedf034b09be4246fba42c56ce";
+        List<ProjectMissionModel> list = new ArrayList<>();
+        ProjectMissionModel projectMissionModel1 = new ProjectMissionModel();
+        projectMissionModel1.setProjectGProjectId(gid);
+        projectMissionModel1.setProjectMissionCreateTime("1560403200000");
+        projectMissionModel1.setProjectMissionEndTime("1516403200000");
+        projectMissionModel1.setProjectMissionDescription("model1");
+        list.add(projectMissionModel1);
+        ProjectMissionModel projectMissionMode2 = new ProjectMissionModel();
+        projectMissionMode2.setProjectGProjectId(gid);
+        projectMissionMode2.setProjectMissionCreateTime("1563403200000");
+        projectMissionMode2.setProjectMissionEndTime("1546403200000");
+        projectMissionMode2.setProjectMissionDescription("model2");
+        list.add(projectMissionMode2);
+
+        ProjectMissionModel projectMissionMode3 = new ProjectMissionModel();
+        projectMissionMode3.setProjectGProjectId(gid);
+        projectMissionMode3.setProjectMissionCreateTime("1066403200000");
+        projectMissionMode3.setProjectMissionEndTime("1266403200000");
+        projectMissionMode3.setProjectMissionDescription("model3");
+        list.add(projectMissionMode3);
+        AddMissionVo addMissionVo = new AddMissionVo();
+        addMissionVo.setMissions(list);
+        return addMissionVo;
     }
 }
