@@ -3,6 +3,7 @@ package com.sdsoon.modular.system.controller.admin;
 import com.sdsoon.core.response.ex.ResponseException;
 import com.sdsoon.core.util.JsonResult;
 import com.sdsoon.core.util.PageResult;
+import com.sdsoon.modular.system.model.ProjectMissionModel;
 import com.sdsoon.modular.system.model.ProjectModel;
 import com.sdsoon.modular.system.service.ProjectService;
 import com.sdsoon.modular.system.vo.h.SsProjectManageVo;
@@ -50,6 +51,13 @@ public class HProjectController {
     public PageResult<SsProjectManageVo> list(@RequestParam("page") Integer page, @RequestParam("limit") Integer limit) throws ResponseException {
         PageResult<SsProjectManageVo> ssProjectManageVoPageResult = projectService.selectAllProjects(page, limit);
         return ssProjectManageVoPageResult;
+    }
+
+    //查看任务节点
+    @PostMapping
+    public PageResult<ProjectMissionModel> missionList(String projectId) {
+        PageResult<ProjectMissionModel> projectMissionModelPageResult = projectService.selectMissionByProjectId(projectId);
+        return projectMissionModelPageResult;
     }
 
 //    @PostMapping("/uploadfile")

@@ -62,7 +62,8 @@ public class FileUtil {
         }
         //通过文件名查找文件信息fileInfo=selectByFileName(fileName);
         //查看文件信息,存储路径
-        res.setContentType("application/force-download");// 设置强制下载不打开
+//        res.setContentType("application/force-download");// 设置强制下载不打开
+        res.setContentType("application/x-download");// 设置强制下载不打开
         res.addHeader("Content-Disposition", //
                 "attachment;fileName=" +
                         new String(fileName.getBytes("utf-8"), "iso8859-1"));// 设置文件名
@@ -155,5 +156,8 @@ public class FileUtil {
         return null;
 
      */
+    public static void main(String args[]) {
+
+    }
 
 }

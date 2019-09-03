@@ -1,10 +1,11 @@
 package com.sdsoon;
 
-import com.sdsoon.core.response.ex.ResponseException;
-import com.sdsoon.modular.system.mapper.SsPermissionMapper;
-import com.sdsoon.modular.system.mapper.SsRoleMapper;
-import com.sdsoon.modular.system.mapper.SsUserInfoMapper;
+import com.sdsoon.core.util.PageResult;
+import com.sdsoon.modular.system.mapper.*;
+import com.sdsoon.modular.system.model.ProjectMissionModel;
 import com.sdsoon.modular.system.po.SsPermission;
+import com.sdsoon.modular.system.po.SsProjectMission;
+import com.sdsoon.modular.system.po.SsProjectMissionExample;
 import com.sdsoon.modular.system.po.SsUserInfoExample;
 import com.sdsoon.modular.system.service.ProjectService;
 import org.junit.Test;
@@ -46,5 +47,24 @@ public class SdsoonOaApplicationTests {
     @Autowired
     private ProjectService projectService;
 
+    @Resource
+    private SsProjectManageMapper ssProjectManageMapper;
+    @Resource
+    private SsProjectDocMapper ssProjectDocMapper;
+    @Resource
+    private SsProjectPicMapper ssProjectPicMapper;
+    @Resource
+    private SsProjectMissionMapper ssProjectMissionMapper;
+    @Test
+    public void show2() {
+        String id="695b1acedf034b09be4246fba42c56ce";
+        SsProjectMissionExample example = new SsProjectMissionExample();
+        SsProjectMissionExample.Criteria criteria = example.createCriteria();
+        criteria.andProjectGProjectIdEqualTo(id);
+        List<SsProjectMission> ssProjectMissions = ssProjectMissionMapper.selectByExample(example);
+        long total = ssProjectMissionMapper.countByExample(example);
+        System.out.println(total);
+        System.out.println(ssProjectMissions);
+    }
 
 }

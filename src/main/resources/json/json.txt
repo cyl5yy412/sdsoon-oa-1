@@ -1,46 +1,22 @@
 {
-	"docFiles":[
+	"missions":[
 		{
-			MultipartFile1
-		},
-		{
-			MultipartFile2
-		},
-		{
-			MultipartFile3
-		}
-	],
-	"picFiles":[
-		{
-		    MultipartFile1
-		},
-		{
-		    MultipartFile2
-		},
-
-	],
-	"projectDescription":"项目描述",
-	"projectLeaderName":"负责人名字",
-	"projectLeaderPhone":"负责人手机",
-	"projectMissions":[
-		{
+			"projectGProjectId":"695b1acedf034b09be4246fba42c56ce",
 			"projectMissionCreateTime":"1560403200000",
-			"projectMissionDescription":"des111",
-			"projectMissionEndTime":"1561403200000",
+			"projectMissionDescription":"model1",
+			"projectMissionEndTime":"1516403200000"
 		},
 		{
+			"projectGProjectId":"695b1acedf034b09be4246fba42c56ce",
 			"projectMissionCreateTime":"1563403200000",
-			"projectMissionDescription":"des222",
-			"projectMissionEndTime":"1566403200000",
+			"projectMissionDescription":"model2",
+			"projectMissionEndTime":"1546403200000"
 		},
 		{
-			"projectMissionCreateTime":"1566403200000",
-			"projectMissionDescription":"des333",
-			"projectMissionEndTime":"1569403200000",
+			"projectGProjectId":"695b1acedf034b09be4246fba42c56ce",
+			"projectMissionCreateTime":"1066403200000",
+			"projectMissionDescription":"model3",
+			"projectMissionEndTime":"1266403200000"
 		}
-	],
-	"projectName":"项目名",
-	"projectStandard":"标准",
-	"projectTechnology":"工艺"
-	"projectGProId":"4b23effa833c453bb164f77041e00d2d"
+	]
 }

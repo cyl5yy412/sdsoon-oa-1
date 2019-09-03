@@ -1,21 +1,25 @@
 package com.sdsoon.modular.system.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.sdsoon.core.response.ReturnResult;
 import com.sdsoon.core.response.ex.ResponseException;
+import com.sdsoon.core.util.PageResult;
 import com.sdsoon.modular.system.model.ProjectMissionModel;
 import com.sdsoon.modular.system.model.ProjectPoModel;
 import com.sdsoon.modular.system.service.ProjectService;
 import com.sdsoon.modular.system.vo.AddMissionVo;
+import com.sdsoon.modular.system.vo.h.SsProjectManageVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
-import java.io.UnsupportedEncodingException;
+import javax.swing.filechooser.FileSystemView;
+import java.io.*;
+import java.net.URL;
+import java.net.URLConnection;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -63,17 +67,51 @@ public class ProjectController {
         return ReturnResult.create(projectPoModel);
     }
 
+    @GetMapping("/list")
+    public PageResult<SsProjectManageVo> list(@RequestParam("page") Integer page, @RequestParam("limit") Integer limit) throws ResponseException {
+        PageResult<SsProjectManageVo> ssProjectManageVoPageResult = projectService.selectAllProjects(page, limit);
+        return ssProjectManageVoPageResult;
+    }
+
     //下载任务节点的文件
-    @GetMapping("/download")
-    public void downLoad(@RequestParam("downloadId") String downloadId,
+    @GetMapping("/download/{downloadId}")
+    public void downLoad(@PathVariable("downloadId") String downloadId,
                          HttpServletResponse response
-    ) throws ResponseException, UnsupportedEncodingException {
-        boolean b = projectService.download(downloadId, response);
-        //返回信息会把返回的信息加到下载的doc中
-//        if (b) {
-//            return ReturnResult.create(HttpStatus.OK);
-//        }
-//        return ReturnResult.create(null);
+    ) throws ResponseException, IOException {
+//        boolean b = projectService.download(downloadId, response);
+
+        downloadNet(response);
+
+    }
+
+    //
+    public void downloadNet(HttpServletResponse response) throws IOException {
+        // 下载网络文件
+        int bytesum = 0;
+        int byteread = 0;
+
+//        URL url = new URL("windine.blogdriver.com/logo.gif");
+        URL url = new URL("http://oa.sdsoon.cn:8099/images/1567392147878268.java");
+        FileSystemView fsv = FileSystemView.getFileSystemView();
+        File com = fsv.getHomeDirectory();
+        URLConnection conn = url.openConnection();
+        try (
+                InputStream inStream = conn.getInputStream();
+                FileOutputStream fs = new FileOutputStream(com.getPath() + "/abc.java");
+        ) {
+
+            byte[] buffer = new byte[1204];
+            int length;
+            while ((byteread = inStream.read(buffer)) != -1) {
+                bytesum += byteread;
+                System.out.println(bytesum);
+                fs.write(buffer, 0, byteread);
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 /*
@@ -192,7 +230,7 @@ public class ProjectController {
     }
 
     public static void main(String args[]) throws ParseException {
-        Date d = new Date();
+/*        Date d = new Date();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 //        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String format = sdf.format(d);
@@ -204,21 +242,13 @@ public class ProjectController {
         String a = "1567395537000";
         Long timeL = Long.valueOf(s);
         Date date = new Date(timeL);
-        System.out.println(date);
+        System.out.println(date);*/
 
 
-//        ProjectModel projectModel = new ProjectModel();
-//        projectModel.setProjectName();
-//        projectModel.setProjectTechnology();
-//        projectModel.setProjectStandard();
-//        projectModel.setProjectDescription();
-//        projectModel.setProjectLeaderName();
-//        projectModel.setProjectLeaderPhone();
-//
-//        projectModel.setDocFiles();
-//        projectModel.setPicFiles();
-//        projectModel.setProjectMissions();
-
+///////////////////////
+        AddMissionVo vo = new ProjectController().show();
+        String s = JSON.toJSONString(vo, true);
+        System.out.println(s);
     }
 
     private String uuid() {

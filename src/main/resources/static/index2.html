@@ -13,40 +13,53 @@
     hello
     <br>
 
+    <div>
+        <a href="http://localhost:8099/images/1567392147878268.java"
+           download="1567392147878268.java">
+            下载
+        </a>
+    </div>
+    <div>
+        <a href="http://oa.sdsoon.cn:8099/images/1567392147878268.java"
+           download="1567392147878268.java">
+            下载
+        </a>
+    </div>
 </div>
 <script>
     var img_arr = [];
 
     $(function () {
         $.ajax({
-            url: "/project/get",
-            type: "post",
+            url: "/project/download/doc_718c8500f25a4a84bdcc38e0f8d5b6d3",
+            type: "get",
             dataType: "json",
-            data: {
-                "projectId": "6a0c9ecf46fd4556a6d578d1ee0a5942"
-            },
+//            data: {
+//                "projectId": "6a0c9ecf46fd4556a6d578d1ee0a5942"
+//            },
             success: function (data) {
-                if (data.status == "success") {
-                    img_arr = data.data.projectPics;
-                    debugger;
-                    reloadDom();
-                } else {
-                    alert("获取商品信息失败");
-                }
+//                if (data.status == "success") {
+//                    img_arr = data.data.projectPics;
+//                    debugger;
+//                    reloadDom();
+//                } else {
+//                    alert("获取商品信息失败");
+//                }
+                Console.log("yes!");
             }
         });
     });
-    function reloadDom() {
-        /**
-         * 不管http://127.0.0.1:8080/images/aqz.png 下是否有文件,
-         * 只要指定images路径下的图片,都会去虚拟路径下寻找图片:具体看sp的配置文件
-         * */
-        for (var i = 0; i < img_arr.length; i++) {
-            var imgName = img_arr[i];
-            var dom = "<img style='width: 100px;height: auto' src='" + "http://localhost:8099/images/" + imgName.projectPicNewName + "'/>";
-            $("#container").append(dom);
-        }
-    }
+//    function reloadDom() {
+//        /**
+//         * 不管http://127.0.0.1:8080/images/aqz.png 下是否有文件,
+//         * 只要指定images路径下的图片,都会去虚拟路径下寻找图片:具体看sp的配置文件
+//         * */
+//        for (var i = 0; i < img_arr.length; i++) {
+//            var imgName = img_arr[i];
+//            var dom = "<img style='width: 100px;height: auto' src='" + "http://localhost:8099/images/" + imgName.projectPicNewName + "'/>";
+//            $("#container").append(dom);
+//        }
+//    }
 
 </script>
 </body>

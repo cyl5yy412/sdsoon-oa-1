@@ -2,6 +2,7 @@ package com.sdsoon.modular.system.service;
 
 import com.sdsoon.core.response.ex.ResponseException;
 import com.sdsoon.core.util.PageResult;
+import com.sdsoon.modular.system.model.ProjectMissionModel;
 import com.sdsoon.modular.system.model.ProjectModel;
 import com.sdsoon.modular.system.model.ProjectPoModel;
 import com.sdsoon.modular.system.vo.AddMissionVo;
@@ -39,4 +40,7 @@ public interface ProjectService {
 
     //后台
     PageResult<SsProjectManageVo> selectAllProjects(Integer page, Integer limit);
+
+    //后台
+    PageResult<ProjectMissionModel> selectMissionByProjectId(String projectId);
 }

@@ -13,10 +13,7 @@ import com.sdsoon.modular.system.mapper.SsProjectPicMapper;
 import com.sdsoon.modular.system.model.ProjectMissionModel;
 import com.sdsoon.modular.system.model.ProjectModel;
 import com.sdsoon.modular.system.model.ProjectPoModel;
-import com.sdsoon.modular.system.po.SsProjectDoc;
-import com.sdsoon.modular.system.po.SsProjectManage;
-import com.sdsoon.modular.system.po.SsProjectMission;
-import com.sdsoon.modular.system.po.SsProjectPic;
+import com.sdsoon.modular.system.po.*;
 import com.sdsoon.modular.system.service.ProjectService;
 import com.sdsoon.modular.system.vo.AddMissionVo;
 import com.sdsoon.modular.system.vo.DailyTaskVo;
@@ -349,6 +346,36 @@ public class ProjectServiceImpl implements ProjectService {
         }).collect(Collectors.toList());
         return new PageResult<>(ssProjectManageVos, total);
     }
+
+    @Override
+    public PageResult<ProjectMissionModel> selectMissionByProjectId(String projectId) {
+        if (StringUtils.isBlank(projectId)) {
+            return null;
+        }
+        SsProjectMissionExample example = new SsProjectMissionExample();
+        SsProjectMissionExample.Criteria criteria = example.createCriteria();
+        criteria.andProjectGProjectIdEqualTo(projectId);
+        List<SsProjectMission> ssProjectMissions = ssProjectMissionMapper.selectByExample(example);
+        long total = ssProjectMissionMapper.countByExample(example);
+        List<ProjectMissionModel> collect = ssProjectMissions.stream().map(ssProjectMission -> {
+            ProjectMissionModel projectMissionModel = convertMissionBeanFromModel(ssProjectMission);
+            return projectMissionModel;
+        }).collect(Collectors.toList());
+
+        return new PageResult<>(collect, total);
+    }
+
+    private ProjectMissionModel convertMissionBeanFromModel(SsProjectMission ssProjectMission) {
+        if (ssProjectMission == null) {
+            return null;
+        }
+        ProjectMissionModel projectMissionModel = new ProjectMissionModel();
+        BeanUtils.copyProperties(ssProjectMission, projectMissionModel);
+        projectMissionModel.setProjectMissionCreateTime(DateUtil.dateFromat(ssProjectMission.getProjectMissionCreateTime()));
+        projectMissionModel.setProjectMissionEndTime(DateUtil.dateFromat(ssProjectMission.getProjectMissionEndTime()));
+        return projectMissionModel;
+    }
+
 
     private SsProjectManageVo convertSsProjectManageVoFromDto(SsProjectManage ssProjectManage) {
         if (ssProjectManage == null) {
