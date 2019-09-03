@@ -81,34 +81,16 @@
             </div>
         </div>
 
-        <!--<div class="layui-form-item">-->
-        <!--<label class="layui-form-label">部门</label>-->
-        <!--<div class="layui-input-block">-->
-        <!--<select name="userDept" xm-select="userDept" lay-verType="tips" lay-verify="required">-->
-        <!--<% for(dept in data) { %>-->
-        <!--<option value="${user.userDeptNo}">${dept.userDept}</option>-->
-        <!--<% } %>-->
-        <!--</select>-->
-        <!--</div>-->
-        <!--</div>-->
-
-        <!--<div class="layui-form-item">-->
-        <!--<label class="layui-form-label">创建时间</label>-->
-        <!--<div class="layui-input-block">-->
-        <!--<input name="dailyCreateTime" placeholder="请输入日清创建时间" type="text" class="layui-input" maxlength="20"-->
-        <!--lay-verType="tips" lay-verify="required" required/>-->
-        <!--</div>-->
-        <!--</div>-->
-
-        <div class="layui-inline layui-col-md4">
+        <div class="layui-form-item">
             <label class="layui-form-label">日清时间:</label>
             <div class="layui-input-block">
-                <input id="edtDateFormAdv2" name="txTime" type="text" placeholder="请选择时间"
+                <input id="edtDateFormAdv2" name="dailyCreateTime" type="text" placeholder="请选择时间"
                        class="layui-input date-icon" autocomplete="off" lay-verType="tips"
                        lay-verify="required"
                        required/>
             </div>
         </div>
+
         <div class="layui-form-item">
             <label class="layui-form-label">日清备注</label>
             <div class="layui-input-block">
@@ -151,11 +133,6 @@
                 {field: 'dailyDescriptioin', sort: true, title: '日清描述'},
                 {align: 'center', toolbar: '#tableBarUser', title: '操作', minWidth: 200}
             ]]
-        });
-
-        laydate.render({
-            elem: '#edtDateFormAdv2',
-            type: 'date'  // datetime可选择年、月、日、时、分、秒
         });
 
 
@@ -221,6 +198,10 @@
                             }
                         }, 'json');
                         return false;
+                    });
+                    laydate.render({
+                        elem: '#edtDateFormAdv2',
+                        type: 'date'  // datetime可选择年、月、日、时、分、秒
                     });
                 }
             });

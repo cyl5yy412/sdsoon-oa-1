@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.text.ParseException;
 import java.util.List;
 
 /**
@@ -45,6 +46,15 @@ public class HDailyTaskController {
 
 
     //修改
+    @ResponseBody
+    @PostMapping("/dt/update")
+    public JsonResult update(DailyTaskVo dailyTaskVo) throws ResponseException, ParseException {
+        boolean b = dailyTaskService.update(dailyTaskVo);
+        if (b) {
+            return JsonResult.ok("修改成功");
+        }
+        return JsonResult.error("修改失败");
+    }
 
     /**
      * 删除日清

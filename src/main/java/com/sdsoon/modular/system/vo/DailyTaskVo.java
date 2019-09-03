@@ -10,7 +10,7 @@ public class DailyTaskVo implements Serializable {
     private String dailyTaskId;
     private Integer dailyStatus;
 
-    private Integer dailyCategory;
+    private String dailyCategory;
 
     private String dailyCreateTime;
 
@@ -19,12 +19,16 @@ public class DailyTaskVo implements Serializable {
     public DailyTaskVo() {
     }
 
-    public DailyTaskVo(String dailyTaskId, Integer dailyStatus, Integer dailyCategory, String dailyCreateTime, String dailyDescriptioin) {
+    public DailyTaskVo(String dailyTaskId, Integer dailyStatus, String dailyCategory, String dailyCreateTime, String dailyDescriptioin) {
         this.dailyTaskId = dailyTaskId;
         this.dailyStatus = dailyStatus;
         this.dailyCategory = dailyCategory;
         this.dailyCreateTime = dailyCreateTime;
         this.dailyDescriptioin = dailyDescriptioin;
+    }
+
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
     }
 
     public String getDailyTaskId() {
@@ -43,11 +47,11 @@ public class DailyTaskVo implements Serializable {
         this.dailyStatus = dailyStatus;
     }
 
-    public Integer getDailyCategory() {
+    public String getDailyCategory() {
         return dailyCategory;
     }
 
-    public void setDailyCategory(Integer dailyCategory) {
+    public void setDailyCategory(String dailyCategory) {
         this.dailyCategory = dailyCategory;
     }
 

@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.text.ParseException;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -95,6 +96,22 @@ public class DailyTaskServiceImpl implements DailyTaskService {
         return false;
     }
 
+    @Override
+    public boolean update(DailyTaskVo dailyTaskVo) throws ParseException {
+        if (dailyTaskVo == null || dailyTaskVo.getDailyTaskId() == null) {
+            return false;
+        }
+        SsDailyTask ssDailyTask = new SsDailyTask();
+        BeanUtils.copyProperties(dailyTaskVo, ssDailyTask);
+        ssDailyTask.setDailyCategory(Integer.valueOf(dailyTaskVo.getDailyCategory()));
+        Date date = DateUtil.convertStrDate2Date(dailyTaskVo.getDailyCreateTime());
+        ssDailyTask.setDailyCreateTime(date);
+        ssDailyTaskMapper.updateByPrimaryKeySelective(ssDailyTask);
+        return false;
+    }
+
+
+    //
     private DailyTaskVo convertDailyVoFromDto(SsDailyTask ssDailyTask) {
         if (ssDailyTask == null) {
             return null;
@@ -103,6 +120,14 @@ public class DailyTaskServiceImpl implements DailyTaskService {
         BeanUtils.copyProperties(ssDailyTask, dailyTaskVo);
         String dateFormat = DateUtil.dateFromat(ssDailyTask.getDailyCreateTime());
         dailyTaskVo.setDailyCreateTime(dateFormat);
+        switch (ssDailyTask.getDailyCategory()) {
+            case 1:
+                dailyTaskVo.setDailyCategory("总结");
+                break;
+            case 2:
+                dailyTaskVo.setDailyCategory("计划");
+                break;
+        }
         return dailyTaskVo;
     }
 
