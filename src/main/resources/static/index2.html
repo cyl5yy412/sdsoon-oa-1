@@ -30,14 +30,15 @@
     var img_arr = [];
 
     $(function () {
-        $.ajax({
-            url: "/project/download/doc_718c8500f25a4a84bdcc38e0f8d5b6d3",
-            type: "get",
-            dataType: "json",
+//        $.ajax({
+//            url: "/project/download?downloadId=doc_718c8500f25a4a84bdcc38e0f8d5b6d3",
+//            url: "/project/download2/doc_718c8500f25a4a84bdcc38e0f8d5b6d3",
+//            type: "get",
+//            dataType: "json",
 //            data: {
 //                "projectId": "6a0c9ecf46fd4556a6d578d1ee0a5942"
 //            },
-            success: function (data) {
+//            success: function (data) {
 //                if (data.status == "success") {
 //                    img_arr = data.data.projectPics;
 //                    debugger;
@@ -45,9 +46,10 @@
 //                } else {
 //                    alert("获取商品信息失败");
 //                }
-                Console.log("yes!");
-            }
-        });
+//                Console.log("yes!");
+//            }
+//        });
+        window.open("http://oa.sdsoon.cn:8099/project/download?downloadId=doc_718c8500f25a4a84bdcc38e0f8d5b6d3")
     });
 //    function reloadDom() {
 //        /**

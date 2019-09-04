@@ -23,4 +23,20 @@ public class DateUtil {
         String format = simpleDateFormat.format(date);
         return format;
     }
+
+    //获取date 具体到second
+    public static String getDateEsecond() {
+        Date date = new Date();
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String format = simpleDateFormat.format(date);
+        return format;
+    }
+
+    //获取date 具体到day
+    public static String getDateEday() {
+        Date date = new Date();
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String format = simpleDateFormat.format(date);
+        return format;
+    }
 }

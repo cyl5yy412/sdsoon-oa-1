@@ -16,7 +16,6 @@ import com.sdsoon.modular.system.model.ProjectPoModel;
 import com.sdsoon.modular.system.po.*;
 import com.sdsoon.modular.system.service.ProjectService;
 import com.sdsoon.modular.system.vo.AddMissionVo;
-import com.sdsoon.modular.system.vo.DailyTaskVo;
 import com.sdsoon.modular.system.vo.h.SsProjectManageVo;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
@@ -27,7 +26,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
-import java.io.UnsupportedEncodingException;
+import java.io.IOException;
 import java.text.ParseException;
 import java.util.Date;
 import java.util.List;
@@ -202,30 +201,34 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Transactional
     @Override
-    public boolean download(String downloadId, HttpServletResponse response) throws ResponseException, UnsupportedEncodingException {
+    public boolean download(String downloadId, HttpServletResponse response) throws ResponseException, IOException {
         if (StringUtils.isBlank(downloadId)) {
             throw new ResponseException(EnumError.PARAMETER_VALIDATION_ERROR);
         }
         String path = null;
-        String filename = null;
+        String newFileName = null;
+        String oldFileName = null;
         if (downloadId.contains(PIC_ID_PREFIX)) {
             path = IMG_REAL_SAVE_PATH;
             SsProjectPic ssProjectPic = ssProjectPicMapper.selectByPrimaryKey(downloadId);
             if (ssProjectPic == null) {
                 return false;
             }
-            filename = ssProjectPic.getProjectPicNewName();
+            newFileName = ssProjectPic.getProjectPicNewName();
+            oldFileName = ssProjectPic.getProjectPicOldName();
         } else if (downloadId.contains(DOC_ID_PREFIX)) {
             path = DOC_REAL_SAVE_PATH;
             SsProjectDoc ssProjectDoc = ssProjectDocMapper.selectByPrimaryKey(downloadId);
             if (ssProjectDoc == null) {
                 return false;
             }
-            filename = ssProjectDoc.getProjectDocNewName();
+            newFileName = ssProjectDoc.getProjectDocNewName();
+            oldFileName = ssProjectDoc.getProjectDocOldName();
         } else {
             return false;
         }
-        boolean b = FileUtil.downloadFile(path, filename, response);
+        boolean b = FileUtil.downloadFile(path, newFileName, oldFileName, response);
+//        boolean b = FileUtil.downloadNet(response, newFileName, oldFileName);
         if (b) {
             return true;
         }
@@ -363,6 +366,36 @@ public class ProjectServiceImpl implements ProjectService {
         }).collect(Collectors.toList());
 
         return new PageResult<>(collect, total);
+    }
+
+    @Transactional
+    @Override
+    public boolean updateProject(SsProjectManageVo ssProjectManageVo) throws ParseException {
+        if (ssProjectManageVo == null || ssProjectManageVo.getProjectId() == null) {
+            return false;
+        }
+        SsProjectManage ssProjectManage = new SsProjectManage();
+        BeanUtils.copyProperties(ssProjectManageVo, ssProjectManage);
+//        ssProjectManage.setProjectCreateTime(DateUtil.convertStrDate2Date(ssProjectManageVo.getProjectCreateTime()));
+//        ssProjectManage.setProjectEndTime(DateUtil.convertStrDate2Date(ssProjectManageVo.getProjectEndTime()));
+        int i = ssProjectManageMapper.updateByPrimaryKeySelective(ssProjectManage);
+        if (i == 1) {
+            return true;
+        }
+        return false;
+    }
+
+    @Transactional
+    @Override
+    public boolean delete(String projectId) {
+        if (StringUtils.isBlank(projectId)) {
+            return false;
+        }
+        int i = ssProjectManageMapper.deleteByPrimaryKey(projectId);
+        if (i == 1) {
+            return true;
+        }
+        return false;
     }
 
     private ProjectMissionModel convertMissionBeanFromModel(SsProjectMission ssProjectMission) {

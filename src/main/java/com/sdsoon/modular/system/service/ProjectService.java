@@ -10,7 +10,7 @@ import com.sdsoon.modular.system.vo.h.SsProjectManageVo;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
-import java.io.UnsupportedEncodingException;
+import java.io.IOException;
 import java.text.ParseException;
 import java.util.List;
 
@@ -27,7 +27,7 @@ public interface ProjectService {
     ProjectPoModel selectProjectById(String projectId) throws ResponseException;
 
     //中台
-    boolean download(String downloadId, HttpServletResponse response) throws ResponseException, UnsupportedEncodingException;
+    boolean download(String downloadId, HttpServletResponse response) throws ResponseException, IOException;
 
     //中台
     boolean addMission(AddMissionVo addMissionVo) throws ResponseException;
@@ -43,4 +43,10 @@ public interface ProjectService {
 
     //后台
     PageResult<ProjectMissionModel> selectMissionByProjectId(String projectId);
+
+    //后台
+    boolean updateProject(SsProjectManageVo ssProjectManageVo) throws ParseException;
+
+    //后台
+    boolean delete(String projectId);
 }

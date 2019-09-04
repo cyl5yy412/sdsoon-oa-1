@@ -54,20 +54,28 @@ public class HProjectController {
     }
 
     //查看任务节点
-    @PostMapping
+    @GetMapping("/list/mission")
     public PageResult<ProjectMissionModel> missionList(String projectId) {
         PageResult<ProjectMissionModel> projectMissionModelPageResult = projectService.selectMissionByProjectId(projectId);
         return projectMissionModelPageResult;
     }
 
-//    @PostMapping("/uploadfile")
-//    public JsonResult uploadFile(ProjectModel projectModel) throws ResponseException, ParseException {
-//        boolean b = projectService.uploadFile(projectModel);
-//        if (b) {
-//            return JsonResult.ok();
-//        }
-//        return JsonResult.error();
-//    }
+    @PostMapping("/project/update")
+    public JsonResult updateProject(SsProjectManageVo ssProjectManageVo) throws ParseException {
+        boolean b = projectService.updateProject(ssProjectManageVo);
+        if (b) {
+            return JsonResult.ok();
+        }
+        return JsonResult.error();
+    }
 
+    @PostMapping("/project/delete")
+    public JsonResult deleteProject(String projectId) throws ParseException {
+        boolean b = projectService.delete(projectId);
+        if (b) {
+            return JsonResult.ok();
+        }
+        return JsonResult.error();
+    }
 
 }

@@ -1,77 +1,20 @@
-<!DOCTYPE html>
-<html lang="en">
+﻿<!DOCTYPE html>
+<html>
 <head>
-    <meta charset="UTF-8">
+    <meta charset="utf-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <title>弹窗实例</title>
+    <title>用户管理</title>
     <link rel="stylesheet" href="../../assets/libs/layui/css/layui.css"/>
     <link rel="stylesheet" href="../../assets/module/admin.css?v=314"/>
     <!--[if lt IE 9]>
     <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
-    <style>
-        /** 评论列表弹窗样式 */
-        .layui-layer-content > .layui-table-view {
-            margin: 0;
-        }
-
-        /** 查看详情弹窗样式 */
-        .paper-info-group {
-            padding: 15px 25px;
-        }
-
-        .paper-info-group h3 {
-            font-weight: bold;
-            color: #000000;
-            padding-bottom: 8px;
-        }
-
-        .paper-info-group p {
-            color: #666;
-            padding-bottom: 12px;
-            font-size: 16px;
-        }
-
-        .paper-info-group .paper-info-group-imgs {
-            padding-top: 5px;
-        }
-
-        .paper-info-group .paper-info-group-imgs img {
-            margin-right: 15px;
-            margin-bottom: 15px;
-            cursor: zoom-in;
-        }
-
-        .paper-info-group .paper-info-group-imgs img:last-child {
-            margin-right: 0;
-        }
-
-        /** 状态列 */
-        *[lay-event] {
-            cursor: pointer;
-        }
-
-        /* 日期组件不显示秒 */
-        .laydate-time-list li:last-child {
-            display: none;
-        }
-
-        .laydate-time-list li {
-            width: 50% !important;
-        }
-
-        .laydate-time-list ol li {
-            padding-left: 55px !important;
-            width: 100% !important;
-        }
-
-    </style>
 </head>
 <body>
 
-<!-- 加载动画 -->
+<!-- 页面加载loading -->
 <div class="page-loading">
     <div class="ball-loader">
         <span></span><span></span><span></span><span></span>
@@ -80,313 +23,178 @@
 
 <!-- 正文开始 -->
 <div class="layui-fluid">
-<!--    <div class="layui-card">
-        &lt;!&ndash;<div class="layui-card-header">表单弹窗实例</div>&ndash;&gt;
-        <div class="layui-card-body">
-            <button id="demoEDBtnAddCourseS" class="layui-btn">添加项目</button>
-        </div>
-    </div>-->
     <div class="layui-card">
-        <!--<div class="layui-card-header">表格+弹窗实例</div>-->
-        <div class="layui-card-body">
-            <table id="demoTableED1" lay-filter="demoTableED1"></table>
+        <div class="layui-card-body table-tool-mini">
+            <div class="layui-form toolbar">
+                <div class="layui-form-item">
+                    <!--<div class="layui-inline">-->
+                    <!--<label class="layui-form-label w-auto">账&emsp;号：</label>-->
+                    <!--<div class="layui-input-inline mr0">-->
+                    <!--<input name="username" class="layui-input" type="text" placeholder="输入账号"/>-->
+                    <!--</div>-->
+                    <!--</div>-->
+                    <!--<div class="layui-inline">-->
+                    <!--<label class="layui-form-label w-auto">用户名：</label>-->
+                    <!--<div class="layui-input-inline mr0">-->
+                    <!--<input name="nickName" class="layui-input" type="text" placeholder="输入用户名"/>-->
+                    <!--</div>-->
+                    <!--</div>-->
+                    <div class="layui-inline" style="padding-right: 110px;">
+                        <!--<button class="layui-btn icon-btn" lay-filter="formSubSearchUser" lay-submit>-->
+                        <!--<i class="layui-icon">&#xe615;</i>搜索-->
+                        <!--</button>-->
+                        <!--<button id="btnAddUser" class="layui-btn icon-btn"><i class="layui-icon">&#xe654;</i>添加</button>-->
+                    </div>
+                </div>
+            </div>
+
+            <table class="layui-table" id="tableUser" lay-filter="tableUser"></table>
         </div>
     </div>
-
- <!--   <div>
-        <div class="layui-upload-list">
-            <table class="layui-table">
-                <thead>
-                <tr>
-                    <th>文件名</th>
-                    <th>大小</th>
-                    <th>状态</th>
-                    <th>操作</th>
-                </tr>
-                </thead>
-                <tbody id="demoList"></tbody>
-            </table>
-        </div>
-        <button type="button" class="layui-btn" id="testListAction">开始上传</button>
-    </div>-->
 </div>
 
-
-<!-- 添加排课表单弹窗 -->
-<script type="text/html" id="EDModelAddCourseS">
-    <form id="EDCourseForm" lay-filter="EDCourseForm" class="layui-form model-form layui-row">
-        <input name="projectId" type="hidden" id="projectId_hidden" value="projectId"/>
-        <div class="layui-row">
-            <div class="layui-col-md6">
-                <div class="layui-form-item">
-                    <label class="layui-form-label">项目名称</label>
-                    <div class="layui-input-block">
-                        <input name="proName" placeholder="请输入项目名称" type="text" class="layui-input" maxlength="20"
-                               lay-verType="tips" lay-verify="required" required/>
-                    </div>
-                </div>
-            </div>
-            <div class="layui-col-md6">
-                <div class="layui-form-item">
-                    <label class="layui-form-label">程度</label>
-                    <div class="layui-input-block">
-                        <select name="proLevel" xm-select="userDept" lay-verType="tips" lay-verify="required">
-                            <option value="">请选择</option>
-                            <option value="1">重要</option>
-                            <option value="2">非重要</option>
-                        </select>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="layui-row">
-            <div class="layui-col-md6">
-                <div class="layui-form-item">
-                    <label class="layui-form-label">负责人</label>
-                    <div class="layui-input-block">
-                        <input name="proLeader" placeholder="请输入负责人" type="text" class="layui-input" maxlength="20"
-                               lay-verType="tips" lay-verify="required" required/>
-                    </div>
-                </div>
-            </div>
-            <div class="layui-col-md6">
-                <div class="layui-form-item">
-                    <label class="layui-form-label">负责人电话</label>
-                    <div class="layui-input-block">
-                        <input name="proLeader" placeholder="请输入负责人电话" type="text" class="layui-input" maxlength="20"
-                               lay-verType="tips" lay-verify="required" required/>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="layui-row">
-            <div class="layui-col-md6">
-                <div class="layui-form-item">
-                    <label class="layui-form-label">工艺</label>
-                    <div class="layui-input-block">
-                        <input name="proName" placeholder="请输入工艺" type="text" class="layui-input" maxlength="20"
-                               lay-verType="tips" lay-verify="required" required/>
-                    </div>
-                </div>
-            </div>
-            <div class="layui-col-md6">
-                <div class="layui-form-item">
-                    <label class="layui-form-label">标准</label>
-                    <div class="layui-input-block">
-                        <input name="proName" placeholder="请输入标准" type="text" class="layui-input" maxlength="20"
-                               lay-verType="tips" lay-verify="required" required/>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="layui-row">
-            <div class="layui-col-md6">
-                <div class="layui-form-item">
-                    <label class="layui-form-label">文档信息:</label>
-                    <div class="layui-input-block">
-                        <input name="className" placeholder="请输入文档信息" type="text" class="layui-input" maxlength="20"
-                               lay-verType="tips" lay-verify="required" required/>
-                    </div>
-                </div>
-            </div>
-            <div class="layui-col-md6">
-                <div class="layui-form-item">
-                    <label class="layui-form-label">起止日期:</label>
-                    <div class="layui-input-block">
-                        <input id="EDdateRange" name="dateRange" placeholder="请选择起止日期" autocomplete="off"
-                               class="layui-input date-icon" lay-verType="tips" lay-verify="required" required/>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="layui-row">
-            <div class="layui-col-md12">
-                <div class="layui-form-item">
-                    <label class="layui-form-label">项目说明</label>
-                    <div class="layui-input-block">
-                        <textarea name="roleDescription" placeholder="请输入项目说明内容" class="layui-textarea"
-                                  maxlength="200"></textarea>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-
-        <div class="layui-form-item text-center">
-            <button class="layui-btn layui-btn-primary" type="button" ew-event="closePageDialog">取消</button>
-            <button class="layui-btn" lay-filter="EDCourseSModelSubmit" lay-submit>保存</button>
-        </div>
-    </form>
-</script>
-
 <!-- 表格操作列 -->
-<script type="text/html" id="demoTableED1Bar">
-    <a class="layui-btn layui-btn-primary layui-btn-sm" lay-event="view"><i class="layui-icon">&#xe6b2;</i>查看</a>
-    <a class="layui-btn layui-btn-sm" lay-event="comments"><i class="layui-icon">&#xe63a;</i>评论</a>
-</script>
+<script type="text/html" id="tableBarUser">
 
-<!-- 查看评论表格操作列 -->
-<script type="text/html" id="demoTableEDCommentsBar">
+    <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="edit">修改</a>
     <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
 </script>
-
-<!-- 查看评论弹窗 -->
-<script type="text/html" id="demoEDCommentsModel">
-    <table id="demoTableEDComments" lay-filter="demoTableEDComments" class="layui-hide"></table>
-    <div class="btn-circle" id="demoEDBtnAddComment" style="position: absolute; bottom: 60px;" title="发表评论">
-        <i class="layui-icon layui-icon-edit"></i>
-    </div>
-</script>
-
-<!-- 查看详情弹窗 -->
-<script type="text/html" id="demoEDInfoModel">
-    <div class="paper-info-group">
-        <h3>本周工作总结</h3>
-        <p>{{d.summary}}</p>
-        <h3>下周工作计划</h3>
-        <p>{{d.plan}}</p>
-        <h3>备注</h3>
-        <p>{{d.comments}}</p>
-        <div class="paper-info-group-imgs" id="paper-imgs">
-            <img src="{{d.img1}}" width="130px" height="130px">
-            <img src="{{d.img2}}" width="130px" height="130px">
-            <img src="{{d.img3}}" width="130px" height="130px">
-        </div>
-    </div>
-</script>
-
 <!-- 表格状态列 -->
-<script type="text/html" id="demoEDStateBar1">
-    {{# if(d.state==0){ }}
-    <span style="color: orange;cursor: default;" lay-tips="正在审核中，请耐心等待">待审核</span>
-    {{# }else if(d.state==1){ }}
-    <span class="icon-text" style="color: green;" lay-event="checkList">
-        已通过<i class="layui-icon layui-icon-tips"></i>
-    </span>
-    {{# } }}
+<script type="text/html" id="tableStateUser">
+    <input type="checkbox" lay-filter="ckStateUser" value="{{d.projectId}}" lay-skin="switch"
+           lay-text="进行|完成" {{d.projectStatus==1?'checked':''}}/>
 </script>
+<!-- 表单弹窗 -->
+<script type="text/html" id="modelUser">
+    <form id="modelUserForm" lay-filter="modelUserForm" class="layui-form model-form">
+        <input name="projectId" type="hidden"/>
+        <div class="layui-form-item">
+            <label class="layui-form-label">项目名称</label>
+            <div class="layui-input-block">
+                <input name="projectName" placeholder="请输入项目名称" type="text" class="layui-input" maxlength="20"
+                       lay-verType="tips" lay-verify="required"/>
+            </div>
+        </div>
 
-<!-- 审核记录 -->
-<script id="demoEDCheckList" type="text/html">
-    <div style="padding: 25px 0 0 30px;">
-        <ul class="layui-timeline">
-            <li class="layui-timeline-item">
-                <i class="layui-icon layui-timeline-axis">&#xe63f;</i>
-                <div class="layui-timeline-content layui-text">
-                    <div class="layui-timeline-title">
-                        <h3 class="inline-block">曲丽丽</h3>&emsp;2019-06-03 13:29
-                    </div>
-                    <p>提交了外出申请</p>
-                </div>
-            </li>
-            <li class="layui-timeline-item">
-                <i class="layui-icon layui-timeline-axis">&#xe63f;</i>
-                <div class="layui-timeline-content layui-text">
-                    <div class="layui-timeline-title">
-                        <h3 class="inline-block">
-                            林东东&nbsp;<span class="layui-badge layui-bg-green">组长</span>
-                        </h3>&emsp;2019-06-03 13:48
-                    </div>
-                    <p>同意了申请（速去速回！）</p>
-                </div>
-            </li>
-            <li class="layui-timeline-item">
-                <i class="layui-icon layui-timeline-axis">&#xe63f;</i>
-                <div class="layui-timeline-content layui-text">
-                    <div class="layui-timeline-title">
-                        <h3 class="inline-block">
-                            周星星&nbsp;<span class="layui-badge layui-bg-blue">经理</span>
-                        </h3>&emsp;2019-06-03 13:48
-                    </div>
-                    <p>同意了申请</p>
-                </div>
-            </li>
-            <li class="layui-timeline-item">
-                <i class="layui-icon layui-timeline-axis">&#xe63f;</i>
-                <div class="layui-timeline-content layui-text">
-                    <div class="layui-timeline-title">
-                        <h3 class="inline-block">
-                            付小小&nbsp;<span class="layui-badge layui-bg-orange">人事</span>
-                        </h3>&emsp;2019-06-03 13:48
-                    </div>
-                    <p>同意了申请</p>
-                </div>
-            </li>
-        </ul>
-    </div>
+        <!--<div class="layui-form-item">-->
+        <!--<label class="layui-form-label">起止日期:</label>-->
+        <!--<div class="layui-input-block">-->
+        <!--<input id="edtDateFormBas" name="date" placeholder="请选择开始和结束日期" type="text"-->
+        <!--class="layui-input date-icon" autocomplete="off" lay-verType="tips"-->
+        <!--lay-verify="required"/>-->
+        <!--</div>-->
+        <!--</div>-->
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">状态</label>
+            <div class="layui-input-block">
+                <select name="projectStatus" xm-select="userDept" lay-verType="tips" lay-verify="required">
+                    <option value="">请选择状态</option>
+                    <option value="1">进行</option>
+                    <option value="2">完成</option>
+                </select>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">程度</label>
+            <div class="layui-input-block">
+                <select name="projectLevel" xm-select="userDept" lay-verType="tips" lay-verify="required">
+                    <option value="">请选择</option>
+                    <option value="1">重要</option>
+                    <option value="2">非重要</option>
+                </select>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">负责人</label>
+            <div class="layui-input-block">
+                <input name="projectLeaderName" placeholder="请输入负责人" type="text" class="layui-input"
+                       maxlength="20"
+                       lay-verType="tips" lay-verify="required"/>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">负责人电话</label>
+            <div class="layui-input-block">
+                <input name="projectLeaderPhone" placeholder="请输入负责人电话" type="text" class="layui-input"
+                       maxlength="20"
+                       lay-verType="tips" lay-verify="required" required/>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">工艺</label>
+            <div class="layui-input-block">
+                <input name="projectTechnology" placeholder="请输入工艺" type="text" class="layui-input"
+                       maxlength="20"
+                       lay-verType="tips" lay-verify="required" required/>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">标准</label>
+            <div class="layui-input-block">
+                <input name="projectStandard" placeholder="请输入标准" type="text" class="layui-input" maxlength="20"
+                       lay-verType="tips" lay-verify="required" required/>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">起始时间:</label>
+            <div class="layui-input-block">
+                <input id="createTimeAdv1" name="projectCreateTime" type="text" placeholder="请选择时间"
+                       class="layui-input date-icon" autocomplete="off" lay-verType="tips"
+                       lay-verify="required"
+                />
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">终止时间:</label>
+            <div class="layui-input-block">
+                <input id="createTimeAdv2" name="projectEndTime" type="text" placeholder="请选择时间"
+                       class="layui-input date-icon" autocomplete="off" lay-verType="tips"
+                       lay-verify="required"
+                />
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">文档信息:</label>
+            <div class="layui-input-block">
+                <input name="projectDocInfo" placeholder="请输入文档信息" type="text" class="layui-input"
+                       maxlength="20"
+                       lay-verType="tips" lay-verify="required" required/>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">项目说明</label>
+            <div class="layui-input-block">
+                        <textarea name="projectDescription" placeholder="请输入项目说明内容" class="layui-textarea"
+                                  maxlength="200"></textarea>
+            </div>
+        </div>
+
+        <div class="layui-form-item text-right">
+            <button class="layui-btn layui-btn-primary" type="button" ew-event="closePageDialog">取消</button>
+            <button class="layui-btn" lay-filter="modelSubmitUser" lay-submit>保存</button>
+        </div>
+    </form>
 </script>
 
 <!-- js部分 -->
 <script type="text/javascript" src="../../assets/libs/layui/layui.js"></script>
 <script type="text/javascript" src="../../assets/js/common.js?v=314"></script>
-<script type="text/javascript" src="../../assets/js/jquery-1.11.1.min.js"></script>
 <script>
-    layui.use(['layer', 'admin', 'form', 'table', 'laytpl', 'util', 'laydate', 'cascader','upload', 'fileChoose'], function () {
+    layui.use(['layer', 'form', 'table', 'util', 'admin', 'laydate'], function () {
         var $ = layui.jquery;
         var layer = layui.layer;
-        var admin = layui.admin;
         var form = layui.form;
         var table = layui.table;
-        var laytpl = layui.laytpl;
         var util = layui.util;
+        var admin = layui.admin;
         var laydate = layui.laydate;
-        var cascader = layui.cascader;
-        var upload = layui.upload;
-        var fileChoose = layui.fileChoose;
-
-
-        // 添加排课
-        $('#demoEDBtnAddCourseS').click(function () {
-            var mData = {weekdays: '3,5,7'};  // 回显数据
-            admin.open({
-                type: 1,
-                title: '添加排课',
-                area: '670px',
-                content: $('#EDModelAddCourseS').html(),
-                success: function (layero, dIndex) {
-                    $(layero).children('.layui-layer-content').css('overflow', 'visible');
-                    if (mData) {  // 将逗号分隔的星期转成复选框对应的格式
-                        var weekdays = mData.weekdays.split(',');
-                        for (var i = 0; i < weekdays.length; i++) {
-                            mData['week_' + weekdays[i]] = weekdays[i];
-                        }
-                    }
-                    form.val('EDCourseForm', mData);  // 回显数据
-                    // 表单提交事件
-                    form.on('submit(EDCourseSModelSubmit)', function (data) {
-                        data.field.weekdays = '';  // 将星期复选框选中值变成逗号分隔
-                        for (var f in data.field) {
-                            if (f.indexOf('week_') == 0) {
-                                data.field.weekdays && (data.field.weekdays += ',');
-                                data.field.weekdays += data.field[f];
-                            }
-                        }
-                        console.log(data.field);
-                        layer.msg("表单验证通过", {icon: 1});
-                        return false;
-                    });
-                    // 日期范围
-                    laydate.render({
-                        elem: '#EDdateRange',
-                        range: true,
-                        trigger: 'click'
-                    });
-                    // 时间范围
-                    laydate.render({
-                        elem: '#EDtimeRange',
-                        type: 'time',
-                        format: 'HH:mm',
-                        range: true,
-                        trigger: 'click'
-                    });
-                }
-            });
-
-        });
 
         // 渲染表格
         var insTb = table.render({
-            elem: '#demoTableED1',
+            elem: '#tableUser',
             url: '/pro/list',
             page: true,
             cellMinWidth: 100,
@@ -397,191 +205,124 @@
                 {field: 'projectLeaderPhone', sort: true, title: '负责人手机'},
                 {field: 'projectCreateTime', sort: true, title: '开始时间'},
                 {field: 'projectEndTime', sort: true, title: '结束时间'},
-                {field: 'projectDocInfo', sort: true, title: '备注'},
-//                {
-//                    sort: true, title: '发布时间', templet: function (d) {
-//                    return util.toDateString(d.projectCreateTime);
-//                }
-//                },
-//                {
-//                    sort: true, title: '发布时间', templet: function (d) {
-//                    return util.toDateString(d.projectEndTime);
-//                }
-//                },
-//                {toolbar: '#demoEDStateBar1', sort: true, title: '状态'},
-                {align: 'center', toolbar: '#demoTableED1Bar', title: '操作', minWidth: 250}
+                {field: 'projectStandard', sort: true, title: '标准'},
+                {field: 'projectTechnology', sort: true, title: '工艺'},
+                {field: 'projectDocInfo', sort: true, title: '文档'},
+                {field: 'projectDescription', sort: true, title: '项目备注'},
+                {field: 'projectStatus', sort: true, templet: '#tableStateUser', title: '状态'},
+//                {align: 'center', toolbar: '#demoTableED1Bar', title: '操作', minWidth: 250}
+                {align: 'center', toolbar: '#tableBarUser', title: '操作', minWidth: 200}
             ]],
             size: 'lg'
         });
 
+        // 添加
+        $('#btnAddUser').click(function () {
+            showEditModel();
+        });
+
+        // 搜索
+        form.on('submit(formSubSearchUser)', function (data) {
+            insTb.reload({where: data.field}, 'data');
+        });
+
         // 工具条点击事件
-        table.on('tool(demoTableED1)', function (obj) {
+        table.on('tool(tableUser)', function (obj) {
             var data = obj.data;
             var layEvent = obj.event;
-            if (layEvent === 'comments') {  // 查看评论
-                showComments(data.id);
-            } else if (layEvent == 'view') {
-                showInfo(data);
-            } else if (layEvent == 'checkList') {
-                openCheckList(data);
-            } else if (layEvent == 'upfile') {
-                upfiile(data);
+            if (layEvent === 'edit') { // 修改
+                showEditModel(data);
+            } else if (layEvent === 'del') { // 删除
+                doDel(data.projectId, data.projectName);
             }
+
         });
 
-        // 查看详情
-        function showInfo(data) {
-            laytpl(demoEDInfoModel.innerHTML).render(data, function (html) {
-                admin.open({
-                    type: 1,
-                    title: '查看详情',
-                    area: '550px',
-                    content: html,
-                    success: function () {
-                        layer.photos({
-                            photos: '#paper-imgs',
-                            shade: .1,
-                            closeBtn: true
-                        });
-                    }
-                });
-            });
-        }
-
-        // 查看评论
-        function showComments(id) {
+        // 显示表单弹窗
+        function showEditModel(mUser) {
             admin.open({
                 type: 1,
-                area: '650px',
-                offset: '65px',
-                title: '查看评论',
-                content: $('#demoEDCommentsModel').html(),
-                success: function () {
-                    // 渲染表格
-                    var insTbCom = table.render({
-                        elem: '#demoTableEDComments',
-                        url: '../../json/e_d_c1.json?id=' + id,
-                        page: true,
-                        height: 400,
-                        cellMinWidth: 100,
-                        cols: [[
-                            {type: 'numbers', title: '#'},
-                            {field: 'nickName', sort: true, title: '评论人', width: 100},
-                            {field: 'content', sort: true, title: '评论内容'},
-                            {
-                                title: '评论时间', sort: true, templet: function (d) {
-                                return util.toDateString(d.createTime);
+                title: (mUser ? '修改' : '添加') + '用户',
+                content: $('#modelUser').html(),
+                success: function (layero, dIndex) {
+                    $(layero).children('.layui-layer-content').css('overflow', 'visible');
+                    //修改:添加
+                    var url = mUser ? '/pro/project/update' : '/user/add';
+                    // 回显数据
+                    form.val('modelUserForm', mUser);
+                    // 表单提交事件
+                    form.on('submit(modelSubmitUser)', function (data) {
+                        layer.load(2);
+                        $.post(url, data.field, function (res) {
+                            layer.closeAll('loading');
+                            if (res.code == 200) {
+                                layer.close(dIndex);
+                                layer.msg(res.msg, {icon: 1});
+                                insTb.reload({}, 'data');
+                            } else {
+                                layer.msg(res.msg, {icon: 2});
                             }
-                            },
-                            {align: 'center', toolbar: '#demoTableEDCommentsBar', title: '操作', minWidth: 80, width: 80}
-                        ]]
+                        }, 'json');
+                        return false;
                     });
-
-                    // 查看评论工具条点击事件
-                    table.on('tool(demoTableEDComments)', function (obj) {
-                        var data = obj.data;
-                        var layEvent = obj.event;
-                        if (layEvent === 'del') { // 删除
-                            layer.msg('删除成功', {icon: 1});
-                        }
+                    // 渲染laydate
+                    laydate.render({
+                        elem: '#createTimeAdv1',
+                        type: 'date',
+                        range: true
                     });
-
-                    // 发表评论
-                    $('#demoEDBtnAddComment').click(function () {
-                        layer.prompt({
-                            title: '发表评论',
-                            shade: .1,
-                            offset: '165px',
-                            skin: 'layui-layer-admin layui-layer-prompt',
-                            formType: 2
-                        }, function (value, index, elem) {
-                            layer.close(index);
-                            layer.msg('评论成功', {icon: 1});
-                        });
+                    laydate.render({
+                        elem: '#createTimeAdv2',
+                        type: 'date',
+                        range: true
                     });
-
                 }
             });
         }
 
-        // 审核记录弹窗
-        function openCheckList(d) {
-            laytpl(demoEDCheckList.innerHTML).render(d, function (html) {
-                admin.open({
-                    type: 1,
-                    title: '审核详情',
-                    content: html
-                });
+        // 删除
+        function doDel(projectId, projectName) {
+            layer.confirm('确定要删除“' + projectName + '”吗？', {
+                skin: 'layui-layer-admin',
+                shade: .1
+            }, function (i) {
+                layer.close(i);
+                layer.load(2);
+                $.post('/pro/project/delete', {
+                    projectId: projectId
+                }, function (res) {
+                    layer.closeAll('loading');
+                    if (res.code == 200) {
+                        layer.msg(res.msg, {icon: 1});
+                        insTb.reload({}, 'data');
+                    } else {
+                        layer.msg(res.msg, {icon: 2});
+                    }
+                }, 'json');
             });
         }
 
-
-
-
-
-
-        //////////////////////////////////////////
-        //多文件列表示例
-        var demoListView = $('#demoList')
-            , uploadListIns = upload.render({
-            elem: '#testList'
-            , url: '/pro/upload'
-            , method: 'post'
-            , data: {
-                'projectId': $("#projectId_hidden").val()
-            }
-            , accept: 'file'
-            , multiple: true
-            , auto: false
-            , bindAction: '#testListAction'
-            , choose: function (obj) {
-                var files = this.files = obj.pushFile(); //将每次选择的文件追加到文件队列
-                //读取本地文件
-                obj.preview(function (index, file, result) {
-                    var tr = $(['<tr id="upload-' + index + '">'
-                        , '<td>' + file.name + '</td>'
-                        , '<td>' + (file.size / 1014).toFixed(1) + 'kb</td>'
-                        , '<td>等待上传</td>'
-                        , '<td>'
-                        , '<button class="layui-btn layui-btn-xs demo-reload layui-hide">重传</button>'
-                        , '<button class="layui-btn layui-btn-xs layui-btn-danger demo-delete">删除</button>'
-                        , '</td>'
-                        , '</tr>'].join(''));
-
-                    //单个重传
-                    tr.find('.demo-reload').on('click', function () {
-                        obj.upload(index, file);
-                    });
-
-                    //删除
-                    tr.find('.demo-delete').on('click', function () {
-                        delete files[index]; //删除对应的文件
-                        tr.remove();
-                        uploadListIns.config.elem.next()[0].value = ''; //清空 input file 值，以免删除后出现同名文件不可选
-                    });
-
-                    demoListView.append(tr);
-                });
-            }
-            , done: function (res, index, upload) {
-                if (res.code == 200) { //上传成功
-                    var tr = demoListView.find('tr#upload-' + index)
-                        , tds = tr.children();
-                    tds.eq(2).html('<span style="color: #5FB878;">上传成功</span>');
-                    tds.eq(3).html(''); //清空操作
-                    return delete this.files[index]; //删除文件队列已经上传成功的文件
+        // 修改用户状态
+        form.on('switch(ckStateUser)', function (obj) {
+            layer.load(2);
+            $.post('/user/updateState', {
+                userId: obj.elem.value,
+                state: obj.elem.checked ? 0 : 1
+            }, function (res) {
+                layer.closeAll('loading');
+                if (res.code == 200) {
+                    layer.msg(res.msg, {icon: 1});
+                } else {
+                    layer.msg(res.msg, {icon: 2});
+                    $(obj.elem).prop('checked', !obj.elem.checked);
+                    form.render('checkbox');
                 }
-                this.error(index, upload);
-            }
-            , error: function (index, upload) {
-                var tr = demoListView.find('tr#upload-' + index)
-                    , tds = tr.children();
-                tds.eq(2).html('<span style="color: #FF5722;">上传失败</span>');
-                tds.eq(3).find('.demo-reload').removeClass('layui-hide'); //显示重传
-            }
+            }, 'json');
         });
+
 
     });
 </script>
+
 </body>
 </html>
