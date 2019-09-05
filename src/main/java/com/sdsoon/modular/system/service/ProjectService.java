@@ -49,4 +49,7 @@ public interface ProjectService {
 
     //后台
     boolean delete(String projectId);
+
+    //后台
+    boolean updateStatus(String projectId,String projectStatus);
 }

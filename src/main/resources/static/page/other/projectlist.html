@@ -65,6 +65,18 @@
            lay-text="进行|完成" {{d.projectStatus==1?'checked':''}}/>
 </script>
 <!-- 表单弹窗 -->
+<script type="text/html" id="modelMission">
+    <form id="modelMissionForm" lay-filter="modelUserForm" class="layui-form model-form">
+        <input name="projectId" type="hidden"/>
+        <div class="layui-form-item">
+            <label class="layui-form-label">任务名称</label>
+            <div class="layui-input-block">
+                <input name="projectName" placeholder="请输入项目名称" type="text" class="layui-input" maxlength="20"
+                       lay-verType="tips" lay-verify="required"/>
+            </div>
+        </div>
+    </form>
+</script>
 <script type="text/html" id="modelUser">
     <form id="modelUserForm" lay-filter="modelUserForm" class="layui-form model-form">
         <input name="projectId" type="hidden"/>
@@ -75,15 +87,6 @@
                        lay-verType="tips" lay-verify="required"/>
             </div>
         </div>
-
-        <!--<div class="layui-form-item">-->
-        <!--<label class="layui-form-label">起止日期:</label>-->
-        <!--<div class="layui-input-block">-->
-        <!--<input id="edtDateFormBas" name="date" placeholder="请选择开始和结束日期" type="text"-->
-        <!--class="layui-input date-icon" autocomplete="off" lay-verType="tips"-->
-        <!--lay-verify="required"/>-->
-        <!--</div>-->
-        <!--</div>-->
 
         <div class="layui-form-item">
             <label class="layui-form-label">状态</label>
@@ -305,9 +308,9 @@
         // 修改用户状态
         form.on('switch(ckStateUser)', function (obj) {
             layer.load(2);
-            $.post('/user/updateState', {
-                userId: obj.elem.value,
-                state: obj.elem.checked ? 0 : 1
+            $.post('/pro/project/updateStatus', {
+                projectId: obj.elem.value,
+                projectStatus: obj.elem.checked ? 1 : 2
             }, function (res) {
                 layer.closeAll('loading');
                 if (res.code == 200) {

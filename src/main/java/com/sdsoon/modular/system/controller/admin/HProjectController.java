@@ -78,4 +78,13 @@ public class HProjectController {
         return JsonResult.error();
     }
 
+    @PostMapping("/project/updateStatus")
+    public JsonResult updateStatus(String projectId, String projectStatus) {
+        boolean b = projectService.updateStatus(projectId, projectStatus);
+        if (b) {
+            return JsonResult.ok();
+        }
+        return JsonResult.error();
+    }
+
 }

@@ -398,6 +398,21 @@ public class ProjectServiceImpl implements ProjectService {
         return false;
     }
 
+    @Override
+    public boolean updateStatus(String projectId, String projectStatus) {
+        if (StringUtils.isAnyBlank(projectId, projectStatus)) {
+            return false;
+        }
+        SsProjectManage ssProjectManage = new SsProjectManage();
+        ssProjectManage.setProjectId(projectId);
+        ssProjectManage.setProjectStatus(Integer.valueOf(projectStatus));
+        int i = ssProjectManageMapper.updateByPrimaryKeySelective(ssProjectManage);
+        if (i == 1) {
+            return true;
+        }
+        return false;
+    }
+
     private ProjectMissionModel convertMissionBeanFromModel(SsProjectMission ssProjectMission) {
         if (ssProjectMission == null) {
             return null;
