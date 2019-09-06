@@ -395,7 +395,13 @@ public class ProjectServiceImpl implements ProjectService {
         if (StringUtils.isBlank(projectId)) {
             return false;
         }
+        ProjectPoModel projectPoModel = ssProjectManageMapper.selectProjectById(projectId);
+        List<SsProjectPic> projectPics = projectPoModel.getProjectPics();
+
+        List<SsProjectDoc> projectDocs = projectPoModel.getProjectDocs();
+        List<SsProjectMission> projectMissions = projectPoModel.getProjectMissions();
         int i = ssProjectManageMapper.deleteByPrimaryKey(projectId);
+
         if (i == 1) {
             return true;
         }
