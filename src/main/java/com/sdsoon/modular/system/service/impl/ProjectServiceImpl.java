@@ -17,6 +17,7 @@ import com.sdsoon.modular.system.po.*;
 import com.sdsoon.modular.system.service.ProjectService;
 import com.sdsoon.modular.system.vo.AddMissionVo;
 import com.sdsoon.modular.system.vo.h.SsProjectManageVo;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Value;
@@ -36,6 +37,7 @@ import java.util.stream.Collectors;
 /**
  * Created By Chr on 2019/8/22.
  */
+@Slf4j
 @Service
 public class ProjectServiceImpl implements ProjectService {
     /*@Override
@@ -161,6 +163,7 @@ public class ProjectServiceImpl implements ProjectService {
         int i = ssProjectManageMapper.insertSelective(ssProjectManage);
         if (i == 1) {
             String projectId = ssProjectManage.getProjectId();
+            log.debug("立项名字:{}",projectModel.getProjectName());
             /**
              *doc,pic
              */
@@ -256,6 +259,7 @@ public class ProjectServiceImpl implements ProjectService {
         if (i < projectMissions.size()) {
             throw new ResponseException(EnumError.MISSION_FAIL);
         }
+        log.debug("添加任务节点完成:{}",projectMissions.get(0).getProjectGProjectId());
         return true;
     }
 
@@ -407,6 +411,19 @@ public class ProjectServiceImpl implements ProjectService {
         ssProjectManage.setProjectId(projectId);
         ssProjectManage.setProjectStatus(Integer.valueOf(projectStatus));
         int i = ssProjectManageMapper.updateByPrimaryKeySelective(ssProjectManage);
+        if (i == 1) {
+            return true;
+        }
+        return false;
+    }
+
+    @Transactional
+    @Override
+    public boolean deleteMission(String projectMissionId) {
+        if (StringUtils.isBlank(projectMissionId)) {
+            return false;
+        }
+        int i = ssProjectMissionMapper.deleteByPrimaryKey(projectMissionId);
         if (i == 1) {
             return true;
         }

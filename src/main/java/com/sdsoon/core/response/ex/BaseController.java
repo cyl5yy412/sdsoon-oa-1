@@ -43,7 +43,7 @@ public class BaseController {
         //打印错误信息
         ex.printStackTrace();
         //记录日志
-        log.error(ex.getMessage());
+        log.error("BaseController:---:"+ex.getMessage());
         //返回包装类
         return ReturnResult.create(responseData, "fail");
 

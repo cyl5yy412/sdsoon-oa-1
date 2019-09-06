@@ -88,7 +88,7 @@ public class FileUtil {
                     os.write(buffer, 0, i);
                     i = bis.read(buffer);
                 }
-                log.info("下载成功");
+                log.debug("下载成功:{}",fileOldName);
             } catch (Exception e) {
                 e.printStackTrace();
             } finally {

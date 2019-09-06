@@ -55,26 +55,28 @@
 
 <!-- 表格操作列 -->
 <script type="text/html" id="tableBarUser">
-
+    <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="missions">查看任务</a>
     <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="edit">修改</a>
     <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+</script>
+<script type="text/html" id="tableBarMission">
+    <!--<a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="edit">修改</a>-->
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="delMission">删除</a>
 </script>
 <!-- 表格状态列 -->
 <script type="text/html" id="tableStateUser">
     <input type="checkbox" lay-filter="ckStateUser" value="{{d.projectId}}" lay-skin="switch"
            lay-text="进行|完成" {{d.projectStatus==1?'checked':''}}/>
 </script>
-<!-- 表单弹窗 -->
+<!-- 任务弹窗 -->
 <script type="text/html" id="modelMission">
-    <form id="modelMissionForm" lay-filter="modelUserForm" class="layui-form model-form">
+    <form id="modelMissionForm" lay-filter="modelMissionForm" class="layui-form model-form">
         <input name="projectId" type="hidden"/>
-        <div class="layui-form-item">
-            <label class="layui-form-label">任务名称</label>
-            <div class="layui-input-block">
-                <input name="projectName" placeholder="请输入项目名称" type="text" class="layui-input" maxlength="20"
-                       lay-verType="tips" lay-verify="required"/>
-            </div>
-        </div>
+        <input name="projectMissionId" type="hidden"/>
+        <table class="layui-table" id="missionTable" lay-filter="tableUser">
+            <!-- =============================================== -->
+
+        </table>
     </form>
 </script>
 <script type="text/html" id="modelUser">
@@ -237,6 +239,10 @@
                 showEditModel(data);
             } else if (layEvent === 'del') { // 删除
                 doDel(data.projectId, data.projectName);
+            } else if (layEvent === 'missions') {
+                showMissions(data.projectId);
+            } else if (layEvent === 'delMission') {
+                delMission(data.projectMissionId);
             }
 
         });
@@ -269,21 +275,21 @@
                         return false;
                     });
                     // 渲染laydate
-                    laydate.render({
-                        elem: '#createTimeAdv1',
-                        type: 'date',
-                        range: true
-                    });
-                    laydate.render({
-                        elem: '#createTimeAdv2',
-                        type: 'date',
-                        range: true
-                    });
+//                    laydate.render({
+//                        elem: '#createTimeAdv1',
+//                        type: 'date',
+//                        range: true
+//                    });
+//                    laydate.render({
+//                        elem: '#createTimeAdv2',
+//                        type: 'date',
+//                        range: true
+//                    });
                 }
             });
         }
 
-        // 删除
+        // 删除项目
         function doDel(projectId, projectName) {
             layer.confirm('确定要删除“' + projectName + '”吗？', {
                 skin: 'layui-layer-admin',
@@ -298,6 +304,28 @@
                     if (res.code == 200) {
                         layer.msg(res.msg, {icon: 1});
                         insTb.reload({}, 'data');
+                    } else {
+                        layer.msg(res.msg, {icon: 2});
+                    }
+                }, 'json');
+            });
+        }
+
+        //删除任务
+        function delMission(projectMissionId) {
+            layer.confirm('确定要删除“' + "该任务" + '”吗？', {
+                skin: 'layui-layer-admin',
+                shade: .1
+            }, function (i) {
+                layer.close(i);
+                layer.load(2);
+                $.post('/pro/mission/delete', {
+                    projectMissionId: projectMissionId
+                }, function (res) {
+                    layer.closeAll('loading');
+                    if (res.code == 200) {
+                        layer.msg(res.msg, {icon: 1});
+                        insTMission.reload({}, 'data');
                     } else {
                         layer.msg(res.msg, {icon: 2});
                     }
@@ -322,7 +350,37 @@
                 }
             }, 'json');
         });
+        //查看任务节点
+        var insTMission;
 
+        function showMissions(projectId) {
+            console.log(projectId);
+            var id = projectId;
+            admin.open({
+                type: 1,
+                content: $('#modelMission').html(),
+
+                success: function (layero, dIndex, projectId) {
+                    insTMission = table.render({
+                        elem: '#missionTable',
+                        url: '/pro/list/mission?projectId=' + id,
+                        page: true,
+                        cellMinWidth: 100,
+                        cols: [[
+                            {type: 'numbers', title: '#'},
+                            {field: 'projectMissionCreateTime', sort: true, title: '开始时间'},
+                            {field: 'projectMissionEndTime', sort: true, title: '结束时间'},
+                            {field: 'projectMissionDescription', sort: true, title: '项目备注'},
+                            {align: 'center', toolbar: '#tableBarMission', title: '操作', minWidth: 200}
+                        ]],
+                        size: 'lg'
+                    });
+
+                    return false;
+
+                }
+            })
+        }
 
     });
 </script>

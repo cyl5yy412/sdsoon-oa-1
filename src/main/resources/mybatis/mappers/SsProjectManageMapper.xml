@@ -377,6 +377,7 @@
     LEFT JOIN ss_project_pic p
     on p.project_g_project_id=s.project_id
     WHERE s.project_id = #{projectId,jdbcType=VARCHAR}
+    ORDER BY m.project_mission_create_time ASC
   </select>
     <!--  -->
     <select id="selectAllProjects" parameterType="int" resultMap="BaseResultMap">

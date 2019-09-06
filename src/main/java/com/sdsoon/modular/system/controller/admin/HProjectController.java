@@ -55,9 +55,18 @@ public class HProjectController {
 
     //查看任务节点
     @GetMapping("/list/mission")
-    public PageResult<ProjectMissionModel> missionList(String projectId) {
+    public PageResult<ProjectMissionModel> missionList(@RequestParam String projectId, @RequestParam("page") Integer page, @RequestParam("limit") Integer limit) {
         PageResult<ProjectMissionModel> projectMissionModelPageResult = projectService.selectMissionByProjectId(projectId);
         return projectMissionModelPageResult;
+    }
+    //删除任务
+    @PostMapping("/mission/delete")
+    public JsonResult deleteMission(String projectMissionId) throws ParseException {
+        boolean b = projectService.deleteMission(projectMissionId);
+        if (b) {
+            return JsonResult.ok();
+        }
+        return JsonResult.error();
     }
 
     @PostMapping("/project/update")

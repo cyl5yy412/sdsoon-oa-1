@@ -52,4 +52,7 @@ public interface ProjectService {
 
     //后台
     boolean updateStatus(String projectId,String projectStatus);
+
+    //后台
+    boolean deleteMission(String projectMissionId);
 }
