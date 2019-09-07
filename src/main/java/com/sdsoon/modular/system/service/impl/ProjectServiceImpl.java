@@ -163,7 +163,7 @@ public class ProjectServiceImpl implements ProjectService {
         int i = ssProjectManageMapper.insertSelective(ssProjectManage);
         if (i == 1) {
             String projectId = ssProjectManage.getProjectId();
-            log.debug("立项名字:{}",projectModel.getProjectName());
+            log.debug("立项名字:{}", projectModel.getProjectName());
             /**
              *doc,pic
              */
@@ -245,27 +245,31 @@ public class ProjectServiceImpl implements ProjectService {
             throw new ResponseException(EnumError.PARAMETER_VALIDATION_ERROR);
         }
         List<ProjectMissionModel> missions = addMissionVo.getMissions();
-
+        for (ProjectMissionModel projectMissionModel : missions) {
+            if (projectMissionModel.getProjectMissionDescription() == null) {
+                throw new ResponseException(EnumError.MISSION_DESC_NOT_LEGAL);
+            }
+            Long createTime = Long.valueOf(projectMissionModel.getProjectMissionCreateTime());
+            Long endTime = Long.valueOf(projectMissionModel.getProjectMissionEndTime());
+            long nowTime = System.currentTimeMillis();
+            if (createTime > endTime || createTime < nowTime) {
+                throw new ResponseException(EnumError.MISSION_PARAMETER_NOT_LEGAL);
+            }
+        }
         List<SsProjectMission> projectMissions = missions.stream().map(projectMissionModel -> {
             SsProjectMission ssProjectMission = convertMissionModelFromBean(projectMissionModel);
             return ssProjectMission;
         }).collect(Collectors.toList());
-//        for (SsProjectMission ssProjectMission : projectMissions) {
-//            String missionId = UUID.randomUUID().toString().replaceAll("-", "");
-//            ssProjectMission.setProjectMissionId(missionId);
-//            ssProjectMission.setProjectGProjectId(addMissionVo.getMissions().get(0).getProjectGProjectId());
-//        }
         int i = ssProjectMissionMapper.insertMissions(projectMissions);
         if (i < projectMissions.size()) {
             throw new ResponseException(EnumError.MISSION_FAIL);
         }
-        log.debug("添加任务节点完成:{}",projectMissions.get(0).getProjectGProjectId());
+        log.debug("添加任务节点完成:{}", projectMissions.get(0).getProjectGProjectId());
         return true;
     }
 
     @Override
     public boolean uploadFile(ProjectModel projectModel) {
-
         /**
          *doc,pic
          */
@@ -397,7 +401,6 @@ public class ProjectServiceImpl implements ProjectService {
         }
         ProjectPoModel projectPoModel = ssProjectManageMapper.selectProjectById(projectId);
         List<SsProjectPic> projectPics = projectPoModel.getProjectPics();
-
         List<SsProjectDoc> projectDocs = projectPoModel.getProjectDocs();
         List<SsProjectMission> projectMissions = projectPoModel.getProjectMissions();
         int i = ssProjectManageMapper.deleteByPrimaryKey(projectId);
@@ -468,9 +471,9 @@ public class ProjectServiceImpl implements ProjectService {
         }
         SsProjectMission ssProjectMission = new SsProjectMission();
         BeanUtils.copyProperties(projectModel, ssProjectMission);
-        Long createLong = Long.valueOf(projectModel.getProjectMissionCreateTime());
+        Long createTime = Long.valueOf(projectModel.getProjectMissionCreateTime());
         Long endTime = Long.valueOf(projectModel.getProjectMissionEndTime());
-        ssProjectMission.setProjectMissionCreateTime(new Date(createLong));
+        ssProjectMission.setProjectMissionCreateTime(new Date(createTime));
         ssProjectMission.setProjectMissionEndTime(new Date(endTime));
         String missionId = UUID.randomUUID().toString().replaceAll("-", "");
         ssProjectMission.setProjectMissionId(missionId);
@@ -601,4 +604,5 @@ public class ProjectServiceImpl implements ProjectService {
 //                throw new ResponseException(EnumError.MISSION_FAIL);
 //            }
 //            return true;
+
 }

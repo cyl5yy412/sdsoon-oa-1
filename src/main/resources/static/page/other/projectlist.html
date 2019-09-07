@@ -60,7 +60,7 @@
     <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
 </script>
 <script type="text/html" id="tableBarMission">
-    <!--<a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="edit">修改</a>-->
+    <!--<a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="editMission">修改</a>-->
     <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="delMission">删除</a>
 </script>
 <!-- 表格状态列 -->
@@ -73,7 +73,7 @@
     <form id="modelMissionForm" lay-filter="modelMissionForm" class="layui-form model-form">
         <input name="projectId" type="hidden"/>
         <input name="projectMissionId" type="hidden"/>
-        <table class="layui-table" id="missionTable" lay-filter="tableUser">
+        <table class="layui-table" id="missionTable" lay-filter="tableMission">
             <!-- =============================================== -->
 
         </table>
@@ -246,6 +246,13 @@
             }
 
         });
+        table.on('tool(missionTable)',function (obj) {
+            var data = obj.data;
+            var layEvent = obj.event;
+            if (layEvent === 'editMission') {
+                editMission(data);
+            }
+        });
 
         // 显示表单弹窗
         function showEditModel(mUser) {
@@ -352,15 +359,12 @@
         });
         //查看任务节点
         var insTMission;
-
         function showMissions(projectId) {
-            console.log(projectId);
             var id = projectId;
             admin.open({
                 type: 1,
                 content: $('#modelMission').html(),
-
-                success: function (layero, dIndex, projectId) {
+                success: function (projectId) {
                     insTMission = table.render({
                         elem: '#missionTable',
                         url: '/pro/list/mission?projectId=' + id,
@@ -373,10 +377,41 @@
                             {field: 'projectMissionDescription', sort: true, title: '项目备注'},
                             {align: 'center', toolbar: '#tableBarMission', title: '操作', minWidth: 200}
                         ]],
-                        size: 'lg'
                     });
 
                     return false;
+
+                }
+            })
+        };
+        //修改任务
+        function editMission(mMission) {
+            console.log("aaaaaaaaa");
+            admin.open({
+                type: 1,
+                title: (mMission ? '修改' : '添加') + '用户',
+                content: $('#modelMission').html(),
+                success: function (layero, dIndex) {
+                    $(layero).children('.layui-layer-content').css('overflow', 'visible');
+                    //修改:添加
+                    var url = mMission ? '/pro/project/update' : '/user/add';
+                    // 回显数据
+                    form.val('modelMissionForm', mMission);
+                    // 表单提交事件
+                    form.on('submit(modelSubmitUser)', function (data) {
+                        layer.load(2);
+                        $.post(url, data.field, function (res) {
+                            layer.closeAll('loading');
+                            if (res.code == 200) {
+                                layer.close(dIndex);
+                                layer.msg(res.msg, {icon: 1});
+                                insTb.reload({}, 'data');
+                            } else {
+                                layer.msg(res.msg, {icon: 2});
+                            }
+                        }, 'json');
+                        return false;
+                    });
 
                 }
             })

@@ -35,14 +35,15 @@ public enum EnumError implements CommonError {
     SHIRO_NOT_HAVE_PERMISSION(40000, "没有操作权限"),
     SHIRO_NOT_HAVE_CREDENTIALS(40001, "二级认证失败"),
     //upload fail
-    PIC_UPLOAD_FAIL(50000,"上传pic失败"),
-    DOC_UPLOAD_FAIL(50001,"上传doc失败"),
-    //
-    MISSION_FAIL(60000,"添加mission失败"),
+    PIC_UPLOAD_FAIL(50000, "上传pic失败"),
+    DOC_UPLOAD_FAIL(50001, "上传doc失败"),
+    //校验不合法
+    MISSION_FAIL(60000, "添加mission失败,请检查时间和任务节点信息"),
+    MISSION_PARAMETER_NOT_LEGAL(600001, "任务时间参数不合法"),
+    MISSION_DESC_NOT_LEGAL(600002,"任务描述不合法"),
     //
     ILLEGAL_LOGIN(90000, "非法捷径登陆"),
     UNAUTHORIZED_LOGIN(90001, "未授权"),
-
 
 
     //
