@@ -400,9 +400,15 @@ public class ProjectServiceImpl implements ProjectService {
             return false;
         }
         ProjectPoModel projectPoModel = ssProjectManageMapper.selectProjectById(projectId);
-        List<SsProjectPic> projectPics = projectPoModel.getProjectPics();
+        //projectId的删除pic
+//        List<SsProjectPic> projectPics = projectPoModel.getProjectPics();
+        int picNum = ssProjectPicMapper.deletes(projectPics);
+        //projectId的删除doc
         List<SsProjectDoc> projectDocs = projectPoModel.getProjectDocs();
+//        int docNum = ssProjectDocMapper.deletes(projectDocs);
+        //projectId的删除mission
         List<SsProjectMission> projectMissions = projectPoModel.getProjectMissions();
+//        int missionNum=ssProjectMissionMapper.deletes(projectMissions);
         int i = ssProjectManageMapper.deleteByPrimaryKey(projectId);
 
         if (i == 1) {

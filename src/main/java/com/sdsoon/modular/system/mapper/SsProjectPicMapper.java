@@ -28,4 +28,8 @@ public interface SsProjectPicMapper {
     int updateByPrimaryKeySelective(SsProjectPic record);
 
     int updateByPrimaryKey(SsProjectPic record);
+
+    //批量删除
+    int deletes(@Param("params") List<SsProjectPic> projectPics);
+
 }
