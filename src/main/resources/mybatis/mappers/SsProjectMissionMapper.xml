@@ -231,4 +231,8 @@
             #{mission.projectMissionDescription},#{mission.projectGProjectId})
         </foreach>
     </insert>
+    <!--  -->
+    <delete id="deleteByGId" parameterType="string">
+        DELETE FROM ss_project_mission m WHERE m.project_g_project_id = #{projectId}
+    </delete>
 </mapper>

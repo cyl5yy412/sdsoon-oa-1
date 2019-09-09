@@ -215,10 +215,14 @@
     where project_pic_id = #{projectPicId,jdbcType=VARCHAR}
   </update>
     <!--  -->
-    <delete id="deleteIds" parameterType="list">
+    <delete id="deletes" parameterType="list">
         DELETE FROM ss_project_pic p WHERE p.project_pic_id IN
         <foreach collection="params" item="param" index="index" open="(" separator="," close=")">
             #{param.projectPicId}
         </foreach>
+    </delete>
+    <!--  -->
+    <delete id="deleteByGId" parameterType="string">
+        DELETE FROM ss_project_pic p WHERE p.project_g_project_id =#{projectId}
     </delete>
 </mapper>

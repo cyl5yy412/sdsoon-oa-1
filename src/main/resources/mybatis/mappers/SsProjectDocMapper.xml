@@ -210,4 +210,15 @@
       project_g_project_id = #{projectGProjectId,jdbcType=VARCHAR}
     where project_doc_id = #{projectDocId,jdbcType=VARCHAR}
   </update>
+  <!--  -->
+  <delete id="deletes" parameterType="list">
+    DELETE FROM ss_project_doc d WHERE d.project_doc_id IN
+    <foreach collection="params" item="param" index="index" open="(" separator="," close=")">
+      #{param.projectDocId}
+    </foreach>
+  </delete>
+  <!--  -->
+  <delete id="deleteByGId" parameterType="string">
+    DELETE FROM ss_project_doc d WHERE d.project_g_project_id = #{projectId}
+  </delete>
 </mapper>

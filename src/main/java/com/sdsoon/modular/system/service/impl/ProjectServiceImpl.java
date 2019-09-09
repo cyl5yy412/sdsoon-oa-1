@@ -395,22 +395,25 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Transactional
     @Override
-    public boolean delete(String projectId) {
+    public boolean delete(String projectId) {//删除项目,极其pics,docs,missions
         if (StringUtils.isBlank(projectId)) {
             return false;
         }
-        ProjectPoModel projectPoModel = ssProjectManageMapper.selectProjectById(projectId);
+//        ProjectPoModel projectPoModel = ssProjectManageMapper.selectProjectById(projectId);
         //projectId的删除pic
 //        List<SsProjectPic> projectPics = projectPoModel.getProjectPics();
-        int picNum = ssProjectPicMapper.deletes(projectPics);
+//        int picNum = ssProjectPicMapper.deletes(projectPics);
+        int picNum = ssProjectPicMapper.deleteByGId(projectId);
         //projectId的删除doc
-        List<SsProjectDoc> projectDocs = projectPoModel.getProjectDocs();
+//        List<SsProjectDoc> projectDocs = projectPoModel.getProjectDocs();
 //        int docNum = ssProjectDocMapper.deletes(projectDocs);
+        int docNum = ssProjectDocMapper.deleteByGId(projectId);
         //projectId的删除mission
-        List<SsProjectMission> projectMissions = projectPoModel.getProjectMissions();
+//        List<SsProjectMission> projectMissions = projectPoModel.getProjectMissions();
 //        int missionNum=ssProjectMissionMapper.deletes(projectMissions);
-        int i = ssProjectManageMapper.deleteByPrimaryKey(projectId);
+        int missionNum = ssProjectMissionMapper.deleteByGId(projectId);
 
+        int i = ssProjectManageMapper.deleteByPrimaryKey(projectId);
         if (i == 1) {
             return true;
         }

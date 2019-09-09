@@ -55,9 +55,10 @@ public class SdsoonOaApplicationTests {
     private SsProjectPicMapper ssProjectPicMapper;
     @Resource
     private SsProjectMissionMapper ssProjectMissionMapper;
+
     @Test
     public void show2() {
-        String id="695b1acedf034b09be4246fba42c56ce";
+        String id = "695b1acedf034b09be4246fba42c56ce";
         SsProjectMissionExample example = new SsProjectMissionExample();
         SsProjectMissionExample.Criteria criteria = example.createCriteria();
         criteria.andProjectGProjectIdEqualTo(id);
@@ -67,4 +68,37 @@ public class SdsoonOaApplicationTests {
         System.out.println(ssProjectMissions);
     }
 
+    @Test
+    public void show3() {
+//        List<SsProjectPic> projectPics = new ArrayList<>();
+//        SsProjectPic ssProjectPic1 = new SsProjectPic();
+//        ssProjectPic1.setProjectPicId("123");
+//        SsProjectPic ssProjectPic2 = new SsProjectPic();
+//        ssProjectPic2.setProjectPicId("456");
+//        projectPics.add(ssProjectPic1);
+//        projectPics.add(ssProjectPic2);
+//        int picNum = ssProjectPicMapper.deletes(projectPics);
+//        System.out.println(picNum);
+        //
+//        List<SsProjectDoc> projectDocs = new ArrayList<>();
+//        SsProjectDoc ssProjectDoc1=new SsProjectDoc();
+//        ssProjectDoc1.setProjectDocId("123");
+//        ssProjectDoc1.setProjectGProjectId("sada");
+//        SsProjectDoc ssProjectDoc2=new SsProjectDoc();
+//        ssProjectDoc2.setProjectDocId("456");
+//        ssProjectDoc2.setProjectDocNewName("fs");
+//        projectDocs.add(ssProjectDoc1);
+//        projectDocs.add(ssProjectDoc2);
+//        int docNum = ssProjectDocMapper.deletes(projectDocs);
+//        System.out.println(docNum);
+        //
+        //根据gid删除
+        String projectId = "55";
+        int picNum = ssProjectPicMapper.deleteByGId(projectId);
+        System.out.println(picNum);
+        int docNum = ssProjectDocMapper.deleteByGId(projectId);
+        System.out.println(docNum);
+        int missionNum = ssProjectMissionMapper.deleteByGId(projectId);
+        System.out.println(missionNum);
+    }
 }

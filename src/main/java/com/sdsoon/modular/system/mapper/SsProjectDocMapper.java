@@ -28,4 +28,9 @@ public interface SsProjectDocMapper {
     int updateByPrimaryKeySelective(SsProjectDoc record);
 
     int updateByPrimaryKey(SsProjectDoc record);
+
+    //
+    int deletes(@Param("params") List<SsProjectDoc> projectDocs);
+
+    int deleteByGId(String projectId);
 }

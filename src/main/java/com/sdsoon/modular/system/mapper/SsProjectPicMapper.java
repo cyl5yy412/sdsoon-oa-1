@@ -32,4 +32,5 @@ public interface SsProjectPicMapper {
     //批量删除
     int deletes(@Param("params") List<SsProjectPic> projectPics);
 
+    int deleteByGId(String projectId);
 }
