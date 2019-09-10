@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+		<title>我的消息</title>
+		<link rel="stylesheet" href="../../../css/layui.css" media="all">
+		<script type="text/javascript" src="../../../js/common.js" ></script>
+		<style>
+			html,body{
+				height: 100%;
+			}
+			body::-webkit-scrollbar {
+				display: none;
+			}
+			.content{
+				height: 100%;
+				position: relative;
+				display: flex;
+			}
+			.content-left{
+				width: 75%;
+				position: relative;
+				border-right: 1px solid #f0f0f0;
+			}
+			.content-right{
+				flex: 1;
+				padding: 0 20px;
+			}
+			.cwls-cz,.cwls-cz-div{
+				display: flex;
+			}
+			.cwls-cz{
+				padding: 10px 15px 10px;
+				border-bottom: 1px solid #f0f0f0;
+				height: 34px;
+			}
+			.cwls-cz-flex{
+				display: flex;
+				background: #ffb800;
+				color: #fff;
+				padding: 0px 7px;
+				line-height: 34px;
+			}
+			.cwls-cz-xz{
+				flex: 1;
+			}
+			.cwls-cz-flex div{
+				font-size: 20px;
+			}
+			.cwls-cz-xz span{
+				margin-left: 5px;
+			}
+			.cwls-cz-rq{
+				margin-right: 15px;
+				line-height: 34px;
+				padding: 0 15px;
+				background: #fff;
+				border: 1px solid #f0f0f0;
+			}
+			.cwls-cz-rq-name{
+				color: #777;
+			}
+			.cwls-cz-rq-time{
+				width: 100px;
+				color: #c2c2c2;
+			}
+			.cwls-cz-rq .layui-icon{
+				font-size: 20px;
+			}
+			.cwls-cz-fl{
+				display: flex;
+				background: #fff;
+				padding: 0 13px;
+				border: 1px solid #f0f0f0;
+			}
+			.aioa-right-btn-name{
+				line-height: 34px;
+			}
+			.aioa-right-btn-jt{
+				width: 0px;
+				height: 0px;
+				margin-top: 14px;
+				border-left: 4px solid transparent;
+				border-right: 4px solid transparent;
+				border-top: 6px solid #393d49;
+				display: inline-block;
+				margin-left: 5px;
+			}
+			.cwls-cz-su{
+				background: #fff;
+				border: 1px solid #f0f0f0;
+				line-height: 34px;
+				padding: 0 10px;
+			}
+			.cwls-cz-su-mane{
+				color: #c2c2c2;
+			}
+			.cwls-cz-su input{
+				border: 0;
+				flex: 1;
+			}
+			.cwls-cz-su .layui-icon{
+				font-size: 20px;
+			}
+			.cwls-cz-img{
+				line-height: 30px;
+			}
+			/************************************/
+			.cwls-content{
+				padding: 10px 15px;
+				overflow-x: hidden;
+				overflow-y: scroll;
+				position: absolute;
+				left: 0;
+				top: 55px;
+				right: 0;
+				bottom: 0;
+			}
+			/* .layui-table td{
+				line-height: 26px;
+			} */
+			.layui-table thead tr{
+				background-color: #fff;
+			}
+			.txt-flex{
+				display: flex;
+				padding-left: 0 !important;
+			}
+			.th1{
+				width: 29%;
+			}
+			.th2{
+				width: 10%;
+			}
+			.th3{
+				width: 16%;
+			}
+			.txt-center{
+				text-align: center !important;
+			}
+			.txt-right{
+				text-align: right !important;
+			}
+			.content-flex{
+				position: relative;
+				display: flex;
+				padding-left: 0 !important;
+			}
+			.content-sxgy-img{
+				padding-right: 8px;
+			}
+			.content-sxgy-name{
+				background: #67C4FF;
+				color: #fff;
+				padding: 0 15px;
+			}
+			.content-sxgy-text{
+				padding-left: 8px;
+				overflow: hidden;
+				white-space: nowrap;
+				text-overflow: ellipsis;
+			}
+			.content-sxgy-span{
+				border: 1px solid #0E5AA1;
+				line-height: 18px;
+				color: #0E5AA1;
+				padding: 0 10px;
+				border-radius: 3px;
+				margin-left: 15px;
+			}
+			.content-sxgy-ts{
+				position: absolute;
+				left: 22px;
+				background: #fff;
+				box-shadow: 0px 0px 3px #c9c9c9;
+				height: 30px;
+				top: 5px;
+				line-height: 30px;
+				padding: 0 10px;
+				font-size: 12px;
+			}
+			.content-sxgy-btn1{
+				border-right: 1px solid #c2c2c2;
+				padding-right: 10px;
+			}
+			.content-sxgy-btn2{
+				color: #ffb800;
+				padding: 0 10px;
+			}
+			.content-sxgy-btn3{
+				border-left: 1px solid #c2c2c2;
+				padding-left: 10px;
+			}
+			.content-jd{
+				height: 4px;
+				border-radius: 3px;
+				overflow: hidden;
+				width: 100%;
+				background: #EDEDED;
+			}
+			.content-jd-color{
+				display: block;
+				height: 100%;
+				width: 50%;
+				background: #67C4FF;
+			}
+			.content-fbr-img{
+				float: right;
+				margin-top: -4px;
+			}
+			.content-fbr-img img{
+				height: 26px;
+				width: 26px;
+			}
+			.content-fbr-name{
+				float: right;
+				line-height: 20px;
+				padding-right: 8px;
+			}
+			/*********************right************************/
+			.content-right-renshu{
+				line-height: 55px;
+				font-weight: bold;
+			}
+			.layui-carousel{
+				background-color: #fff;
+			}
+			.layui-carousel>[carousel-item]>*{
+				background-color: #fff;
+			}
+			.man-list .item{
+				width: 33.333%;
+				text-align: center;
+				float: left;
+				margin: 10px 0;
+			}
+			.man-list .item img{
+				width: 35px;
+				height: 35px;
+				border-radius: 50%;
+			}
+			.none{
+				display: none;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="content">
+			<div class="content-left">
+				<div class="cwls-cz">
+					<div class=" cwls-cz-div cwls-cz-xz">
+						<div class="cwls-cz-flex">
+							<div class="layui-icon layui-icon-add-circle"></div>
+							<span>新增流水</span>
+						</div>
+					</div>
+					<div class="cwls-cz-div cwls-cz-su">
+						<div class="cwls-cz-su-mane">消息搜索：</div>
+						<input type="text" placeholder="输入消息关键词" />
+						<div class="cwls-cz-img">
+							<img src="../../../images/sousuo.png">
+						</div>
+					</div>
+				</div>
+				<div class="cwls-content">
+					<table class="layui-table" lay-skin="nob">
+					  <colgroup>
+						<col width="150">
+						<col width="200">
+						<col>
+					  </colgroup>
+					  <thead>
+						<tr>
+						  <th class="th1 txt-flex">
+							  <div><img src="../shixiang/img/h2.png" /></div>
+							  <div style="padding-left: 5px;">事项概要</div>
+						  </th>
+						  <th class="th3 txt-center">提交时间</th>
+						  <th class="th3 txt-right">发布人</th>
+						</tr> 
+					  </thead>
+					  <tbody>
+						<tr>
+						  <td class="content-flex">
+							  <div class="content-sxgy-img"><img src="../shixiang/img/h3.png" /></div>
+							  <div class="content-sxgy-name">报销</div>
+							  <div class="content-sxgy-text">人生就像是一场修行</div>
+							  <span class="content-sxgy-span">主要</span>
+							  <div class="content-sxgy-ts none">
+								  <span class="content-sxgy-btn1">未收款并回复</span>
+								  <span class="content-sxgy-btn2">已收款</span>
+							  </div>
+						  </td>
+						  <td class="txt-center">2016-11-29</td>
+						  <td>
+							  <div class="content-fbr-img"><img src="../shixiang/img/h5.png" /></div>
+							  <div class="content-fbr-name">张三</div>
+						  </td>
+						</tr>
+						<tr>
+						  <td class="content-flex">
+							  <div class="content-sxgy-img"><img src="../shixiang/img/h3.png" /></div>
+							  <div class="content-sxgy-name">报销</div>
+							  <div class="content-sxgy-text">人生就像是一场修行</div>
+							  <span class="content-sxgy-span">主要</span>
+							  <div class="content-sxgy-ts">
+								  <span class="content-sxgy-btn1">回复</span>
+								  <span class="content-sxgy-btn2">已读</span>
+								  <span class="content-sxgy-btn3">搁置</span>
+							  </div>
+						  </td>
+						  <td class="txt-center">2016-11-29</td>
+						  <td>
+							  <div class="content-fbr-img"><img src="../shixiang/img/h5.png" /></div>
+							  <div class="content-fbr-name">张三</div>
+						  </td>
+						</tr>
+						<tr>
+						  <td class="content-flex">
+							  <div class="content-sxgy-img"><img src="../shixiang/img/h3.png" /></div>
+							  <div class="content-sxgy-name">报销</div>
+							  <div class="content-sxgy-text">人生就像是一场修行</div>
+							  <span class="content-sxgy-span">主要</span>
+							  <div class="content-sxgy-ts none">
+								  <span class="content-sxgy-btn1">未收款并回复</span>
+								  <span class="content-sxgy-btn2">已收款</span>
+							  </div>
+						  </td>
+						  <td class="txt-center">2016-11-29</td>
+						  <td>
+							  <div class="content-fbr-img"><img src="../shixiang/img/h5.png" /></div>
+							  <div class="content-fbr-name">张三</div>
+						  </td>
+						</tr>
+						<!-- *********************************************** -->
+						<tr><td class="content-flex"><div class="content-sxgy-img"><img src="../shixiang/img/h3.png" /></div><div class="content-sxgy-name">报销</div><div class="content-sxgy-text">人生就像是一场修行</div><span class="content-sxgy-span">主要</span><div class="content-sxgy-ts none"><span class="content-sxgy-btn1">未收款并回复</span><span class="content-sxgy-btn2">已收款</span></div></td><td class="txt-center">2016-11-29</td><td><div class="content-fbr-img"><img src="../shixiang/img/h5.png" /></div><div class="content-fbr-name">张三</div></td></tr>
+						<tr><td class="content-flex"><div class="content-sxgy-img"><img src="../shixiang/img/h3.png" /></div><div class="content-sxgy-name">报销</div><div class="content-sxgy-text">人生就像是一场修行</div><span class="content-sxgy-span">主要</span><div class="content-sxgy-ts none"><span class="content-sxgy-btn1">未收款并回复</span><span class="content-sxgy-btn2">已收款</span></div></td><td class="txt-center">2016-11-29</td><td><div class="content-fbr-img"><img src="../shixiang/img/h5.png" /></div><div class="content-fbr-name">张三</div></td></tr>
+						<tr><td class="content-flex"><div class="content-sxgy-img"><img src="../shixiang/img/h3.png" /></div><div class="content-sxgy-name">报销</div><div class="content-sxgy-text">人生就像是一场修行</div><span class="content-sxgy-span">主要</span><div class="content-sxgy-ts none"><span class="content-sxgy-btn1">未收款并回复</span><span class="content-sxgy-btn2">已收款</span></div></td><td class="txt-center">2016-11-29</td><td><div class="content-fbr-img"><img src="../shixiang/img/h5.png" /></div><div class="content-fbr-name">张三</div></td></tr>
+						<tr><td class="content-flex"><div class="content-sxgy-img"><img src="../shixiang/img/h3.png" /></div><div class="content-sxgy-name">报销</div><div class="content-sxgy-text">人生就像是一场修行</div><span class="content-sxgy-span">主要</span><div class="content-sxgy-ts none"><span class="content-sxgy-btn1">未收款并回复</span><span class="content-sxgy-btn2">已收款</span></div></td><td class="txt-center">2016-11-29</td><td><div class="content-fbr-img"><img src="../shixiang/img/h5.png" /></div><div class="content-fbr-name">张三</div></td></tr>
+						<tr><td class="content-flex"><div class="content-sxgy-img"><img src="../shixiang/img/h3.png" /></div><div class="content-sxgy-name">报销</div><div class="content-sxgy-text">人生就像是一场修行</div><span class="content-sxgy-span">主要</span><div class="content-sxgy-ts none"><span class="content-sxgy-btn1">未收款并回复</span><span class="content-sxgy-btn2">已收款</span></div></td><td class="txt-center">2016-11-29</td><td><div class="content-fbr-img"><img src="../shixiang/img/h5.png" /></div><div class="content-fbr-name">张三</div></td></tr>
+						<tr><td class="content-flex"><div class="content-sxgy-img"><img src="../shixiang/img/h3.png" /></div><div class="content-sxgy-name">报销</div><div class="content-sxgy-text">人生就像是一场修行</div><span class="content-sxgy-span">主要</span><div class="content-sxgy-ts none"><span class="content-sxgy-btn1">未收款并回复</span><span class="content-sxgy-btn2">已收款</span></div></td><td class="txt-center">2016-11-29</td><td><div class="content-fbr-img"><img src="../shixiang/img/h5.png" /></div><div class="content-fbr-name">张三</div></td></tr>
+						<tr><td class="content-flex"><div class="content-sxgy-img"><img src="../shixiang/img/h3.png" /></div><div class="content-sxgy-name">报销</div><div class="content-sxgy-text">人生就像是一场修行</div><span class="content-sxgy-span">主要</span><div class="content-sxgy-ts none"><span class="content-sxgy-btn1">未收款并回复</span><span class="content-sxgy-btn2">已收款</span></div></td><td class="txt-center">2016-11-29</td><td><div class="content-fbr-img"><img src="../shixiang/img/h5.png" /></div><div class="content-fbr-name">张三</div></td></tr>
+						<tr><td class="content-flex"><div class="content-sxgy-img"><img src="../shixiang/img/h3.png" /></div><div class="content-sxgy-name">报销</div><div class="content-sxgy-text">人生就像是一场修行</div><span class="content-sxgy-span">主要</span><div class="content-sxgy-ts none"><span class="content-sxgy-btn1">未收款并回复</span><span class="content-sxgy-btn2">已收款</span></div></td><td class="txt-center">2016-11-29</td><td><div class="content-fbr-img"><img src="../shixiang/img/h5.png" /></div><div class="content-fbr-name">张三</div></td></tr>
+						<tr><td class="content-flex"><div class="content-sxgy-img"><img src="../shixiang/img/h3.png" /></div><div class="content-sxgy-name">报销</div><div class="content-sxgy-text">人生就像是一场修行</div><span class="content-sxgy-span">主要</span><div class="content-sxgy-ts none"><span class="content-sxgy-btn1">未收款并回复</span><span class="content-sxgy-btn2">已收款</span></div></td><td class="txt-center">2016-11-29</td><td><div class="content-fbr-img"><img src="../shixiang/img/h5.png" /></div><div class="content-fbr-name">张三</div></td></tr>
+						<tr><td class="content-flex"><div class="content-sxgy-img"><img src="../shixiang/img/h3.png" /></div><div class="content-sxgy-name">报销</div><div class="content-sxgy-text">人生就像是一场修行</div><span class="content-sxgy-span">主要</span><div class="content-sxgy-ts none"><span class="content-sxgy-btn1">未收款并回复</span><span class="content-sxgy-btn2">已收款</span></div></td><td class="txt-center">2016-11-29</td><td><div class="content-fbr-img"><img src="../shixiang/img/h5.png" /></div><div class="content-fbr-name">张三</div></td></tr>
+						<tr><td class="content-flex"><div class="content-sxgy-img"><img src="../shixiang/img/h3.png" /></div><div class="content-sxgy-name">报销</div><div class="content-sxgy-text">人生就像是一场修行</div><span class="content-sxgy-span">主要</span><div class="content-sxgy-ts none"><span class="content-sxgy-btn1">未收款并回复</span><span class="content-sxgy-btn2">已收款</span></div></td><td class="txt-center">2016-11-29</td><td><div class="content-fbr-img"><img src="../shixiang/img/h5.png" /></div><div class="content-fbr-name">张三</div></td></tr>
+						<tr><td class="content-flex"><div class="content-sxgy-img"><img src="../shixiang/img/h3.png" /></div><div class="content-sxgy-name">报销</div><div class="content-sxgy-text">人生就像是一场修行</div><span class="content-sxgy-span">主要</span><div class="content-sxgy-ts none"><span class="content-sxgy-btn1">未收款并回复</span><span class="content-sxgy-btn2">已收款</span></div></td><td class="txt-center">2016-11-29</td><td><div class="content-fbr-img"><img src="../shixiang/img/h5.png" /></div><div class="content-fbr-name">张三</div></td></tr>
+						<tr><td class="content-flex"><div class="content-sxgy-img"><img src="../shixiang/img/h3.png" /></div><div class="content-sxgy-name">报销</div><div class="content-sxgy-text">人生就像是一场修行</div><span class="content-sxgy-span">主要</span><div class="content-sxgy-ts none"><span class="content-sxgy-btn1">未收款并回复</span><span class="content-sxgy-btn2">已收款</span></div></td><td class="txt-center">2016-11-29</td><td><div class="content-fbr-img"><img src="../shixiang/img/h5.png" /></div><div class="content-fbr-name">张三</div></td></tr>
+						<tr><td class="content-flex"><div class="content-sxgy-img"><img src="../shixiang/img/h3.png" /></div><div class="content-sxgy-name">报销</div><div class="content-sxgy-text">人生就像是一场修行</div><span class="content-sxgy-span">主要</span><div class="content-sxgy-ts none"><span class="content-sxgy-btn1">未收款并回复</span><span class="content-sxgy-btn2">已收款</span></div></td><td class="txt-center">2016-11-29</td><td><div class="content-fbr-img"><img src="../shixiang/img/h5.png" /></div><div class="content-fbr-name">张三</div></td></tr>
+						<tr><td class="content-flex"><div class="content-sxgy-img"><img src="../shixiang/img/h3.png" /></div><div class="content-sxgy-name">报销</div><div class="content-sxgy-text">人生就像是一场修行</div><span class="content-sxgy-span">主要</span><div class="content-sxgy-ts none"><span class="content-sxgy-btn1">未收款并回复</span><span class="content-sxgy-btn2">已收款</span></div></td><td class="txt-center">2016-11-29</td><td><div class="content-fbr-img"><img src="../shixiang/img/h5.png" /></div><div class="content-fbr-name">张三</div></td></tr>
+						<tr><td class="content-flex"><div class="content-sxgy-img"><img src="../shixiang/img/h3.png" /></div><div class="content-sxgy-name">报销</div><div class="content-sxgy-text">人生就像是一场修行</div><span class="content-sxgy-span">主要</span><div class="content-sxgy-ts none"><span class="content-sxgy-btn1">未收款并回复</span><span class="content-sxgy-btn2">已收款</span></div></td><td class="txt-center">2016-11-29</td><td><div class="content-fbr-img"><img src="../shixiang/img/h5.png" /></div><div class="content-fbr-name">张三</div></td></tr>
+						<tr><td class="content-flex"><div class="content-sxgy-img"><img src="../shixiang/img/h3.png" /></div><div class="content-sxgy-name">报销</div><div class="content-sxgy-text">人生就像是一场修行</div><span class="content-sxgy-span">主要</span><div class="content-sxgy-ts none"><span class="content-sxgy-btn1">未收款并回复</span><span class="content-sxgy-btn2">已收款</span></div></td><td class="txt-center">2016-11-29</td><td><div class="content-fbr-img"><img src="../shixiang/img/h5.png" /></div><div class="content-fbr-name">张三</div></td></tr>
+						<tr><td class="content-flex"><div class="content-sxgy-img"><img src="../shixiang/img/h3.png" /></div><div class="content-sxgy-name">报销</div><div class="content-sxgy-text">人生就像是一场修行</div><span class="content-sxgy-span">主要</span><div class="content-sxgy-ts none"><span class="content-sxgy-btn1">未收款并回复</span><span class="content-sxgy-btn2">已收款</span></div></td><td class="txt-center">2016-11-29</td><td><div class="content-fbr-img"><img src="../shixiang/img/h5.png" /></div><div class="content-fbr-name">张三</div></td></tr>
+						<tr><td class="content-flex"><div class="content-sxgy-img"><img src="../shixiang/img/h3.png" /></div><div class="content-sxgy-name">报销</div><div class="content-sxgy-text">人生就像是一场修行</div><span class="content-sxgy-span">主要</span><div class="content-sxgy-ts none"><span class="content-sxgy-btn1">未收款并回复</span><span class="content-sxgy-btn2">已收款</span></div></td><td class="txt-center">2016-11-29</td><td><div class="content-fbr-img"><img src="../shixiang/img/h5.png" /></div><div class="content-fbr-name">张三</div></td></tr>
+						<tr><td class="content-flex"><div class="content-sxgy-img"><img src="../shixiang/img/h3.png" /></div><div class="content-sxgy-name">报销</div><div class="content-sxgy-text">人生就像是一场修行</div><span class="content-sxgy-span">主要</span><div class="content-sxgy-ts none"><span class="content-sxgy-btn1">未收款并回复</span><span class="content-sxgy-btn2">已收款</span></div></td><td class="txt-center">2016-11-29</td><td><div class="content-fbr-img"><img src="../shixiang/img/h5.png" /></div><div class="content-fbr-name">张三</div></td></tr>
+						<tr><td class="content-flex"><div class="content-sxgy-img"><img src="../shixiang/img/h3.png" /></div><div class="content-sxgy-name">报销</div><div class="content-sxgy-text">人生就像是一场修行</div><span class="content-sxgy-span">主要</span><div class="content-sxgy-ts none"><span class="content-sxgy-btn1">未收款并回复</span><span class="content-sxgy-btn2">已收款</span></div></td><td class="txt-center">2016-11-29</td><td><div class="content-fbr-img"><img src="../shixiang/img/h5.png" /></div><div class="content-fbr-name">张三</div></td></tr>
+						<tr><td class="content-flex"><div class="content-sxgy-img"><img src="../shixiang/img/h3.png" /></div><div class="content-sxgy-name">报销</div><div class="content-sxgy-text">人生就像是一场修行</div><span class="content-sxgy-span">主要</span><div class="content-sxgy-ts none"><span class="content-sxgy-btn1">未收款并回复</span><span class="content-sxgy-btn2">已收款</span></div></td><td class="txt-center">2016-11-29</td><td><div class="content-fbr-img"><img src="../shixiang/img/h5.png" /></div><div class="content-fbr-name">张三</div></td></tr>
+						<tr><td class="content-flex"><div class="content-sxgy-img"><img src="../shixiang/img/h3.png" /></div><div class="content-sxgy-name">报销</div><div class="content-sxgy-text">人生就像是一场修行</div><span class="content-sxgy-span">主要</span><div class="content-sxgy-ts none"><span class="content-sxgy-btn1">未收款并回复</span><span class="content-sxgy-btn2">已收款</span></div></td><td class="txt-center">2016-11-29</td><td><div class="content-fbr-img"><img src="../shixiang/img/h5.png" /></div><div class="content-fbr-name">张三</div></td></tr>
+						<tr><td class="content-flex"><div class="content-sxgy-img"><img src="../shixiang/img/h3.png" /></div><div class="content-sxgy-name">报销</div><div class="content-sxgy-text">人生就像是一场修行</div><span class="content-sxgy-span">主要</span><div class="content-sxgy-ts none"><span class="content-sxgy-btn1">未收款并回复</span><span class="content-sxgy-btn2">已收款</span></div></td><td class="txt-center">2016-11-29</td><td><div class="content-fbr-img"><img src="../shixiang/img/h5.png" /></div><div class="content-fbr-name">张三</div></td></tr>
+						<tr><td class="content-flex"><div class="content-sxgy-img"><img src="../shixiang/img/h3.png" /></div><div class="content-sxgy-name">报销</div><div class="content-sxgy-text">人生就像是一场修行</div><span class="content-sxgy-span">主要</span><div class="content-sxgy-ts none"><span class="content-sxgy-btn1">未收款并回复</span><span class="content-sxgy-btn2">已收款</span></div></td><td class="txt-center">2016-11-29</td><td><div class="content-fbr-img"><img src="../shixiang/img/h5.png" /></div><div class="content-fbr-name">张三</div></td></tr>
+						<tr><td class="content-flex"><div class="content-sxgy-img"><img src="../shixiang/img/h3.png" /></div><div class="content-sxgy-name">报销</div><div class="content-sxgy-text">人生就像是一场修行</div><span class="content-sxgy-span">主要</span><div class="content-sxgy-ts none"><span class="content-sxgy-btn1">未收款并回复</span><span class="content-sxgy-btn2">已收款</span></div></td><td class="txt-center">2016-11-29</td><td><div class="content-fbr-img"><img src="../shixiang/img/h5.png" /></div><div class="content-fbr-name">张三</div></td></tr>
+					  </tbody>
+					</table>
+				</div>
+			</div>
+			<div class="content-right">
+				<div class="content-right-renshu">
+					<span>企业成员</span>
+					<span>（36）</span>
+				</div>
+				<div class="cwls-cz-div cwls-cz-su">
+					<input type="text" placeholder="输入消息关键词" />
+					<div class="cwls-cz-img">
+						<img src="../../../images/sousuo.png">
+					</div>
+				</div>
+				<div class="layui-carousel man-list" id="test1">
+					<div carousel-item>
+						<div>
+							<ul>
+								<li class="item">
+									<img src="../../../images/headpic.png">
+									<p>王小二</p>
+								</li>
+								<li class="item">
+									<img src="../../../images/headpic.png">
+									<p>王小二</p>
+								</li>
+								<li class="item">
+									<img src="../../../images/headpic.png">
+									<p>王小二</p>
+								</li>
+								<li class="item">
+									<img src="../../../images/headpic.png">
+									<p>王小二</p>
+								</li>
+								<li class="item">
+									<img src="../../../images/headpic.png">
+									<p>王小二</p>
+								</li>
+								<li class="item">
+									<img src="../../../images/headpic.png">
+									<p>王小二</p>
+								</li>
+								<li class="item">
+									<img src="../../../images/headpic.png">
+									<p>王小二</p>
+								</li>
+								<li class="item">
+									<img src="../../../images/headpic.png">
+									<p>王小二</p>
+								</li>
+								<li class="item">
+									<img src="../../../images/headpic.png">
+									<p>王小二</p>
+								</li>
+				
+							</ul>
+						</div>
+						<div>
+							<ul>
+								<li>
+									123
+								</li>
+							</ul>
+						</div>
+						<div>
+							<ul>
+								<li>
+									123
+								</li>
+							</ul>
+						</div>
+						<div>条目4</div>
+						<div>条目5</div>
+					</div>
+				</div>
+			</div>
+			
+		</div>
+		<script src="../../../layui.js"></script>
+		<script src="../../../js/vue.js"></script>
+		<script>
+			layui.use('carousel', function(){
+				var carousel = layui.carousel;
+				//建造实例
+				carousel.render({
+					elem: '#test1'
+					,width: '100%' //设置容器宽度
+					,arrow: 'hover' //始终显示箭头
+					,autoplay:false
+					//,anim: 'updown' //切换动画方式
+				});
+			});
+		</script>
+	</body>
+</html>

@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+		<title>财务数据</title>
+		<link rel="stylesheet" href="../../../css/layui.css" media="all">
+		<script type="text/javascript" src="../../../js/common.js" ></script>
+		<style>
+			body::-webkit-scrollbar {
+				display: none;
+			}
+			html,body{
+				height: 100%;
+			}
+			/************************************/
+			.content{
+				height: 100%;
+				display: flex;
+			}
+			.aioa-right-btn-jt{
+				width: 0px;
+				height: 2px;
+				margin-top: 14px;
+				border-left: 4px solid transparent;
+				border-right: 4px solid transparent;
+				border-top: 6px solid #393d49;
+				display: inline-block;
+				margin-left: 5px;
+			}
+			.cwls-content-left{
+				width: 25%;
+				display: flex;
+				flex-direction: column;
+				border-right: 1px solid #f0f0f0;
+			}
+			.cwls-content-left-tit{
+				overflow: hidden;
+				padding: 0 10px;
+				display: flex;
+			}
+			.cwls-content-left-tit div{
+				flex: 1;
+			}
+			.cwls-content-left-tit-jt{
+				text-align: right;
+				flex: 1;
+				margin-top: -8px;
+			}
+			.cwls-content-srzcbz{
+				flex: 1;
+			}
+			.cwls-content-srzcbz-tu{
+				height: 25%;
+				width: 100%;
+			}
+			.cwls-content-srzcbz-biao{
+				height: 25%;
+				width: 100%;
+				display: flex;
+				flex-direction: column;
+			}
+			.cwls-content-srzcbz-sr{
+				padding-left: 10px;
+				font-size: 18px;
+				padding-bottom: 5px;
+				border-bottom: 1px solid #f0f0f0;
+			}
+			.cwls-content-srzcbz-yl{
+				padding: 5px 10px;
+				flex: 1;
+				display: flex;
+				flex-direction: column;
+			}
+			.cwls-content-srzcbz-yl-tit{
+				line-height: 30px;
+				border: 1px solid #f0f0f0;
+			}
+			.cwls-content-srzcbz-yl-tit span{
+				display: inline-block;
+				width: 33.33333%;
+				float: left;
+				font-weight: bold;
+				text-align: center;
+			}
+			.cwls-content-srzcbz-yl-main{
+				flex: 1;
+				overflow: hidden;
+				position: relative;
+				border: 1px solid #f0f0f0;
+			}
+			.cwls-content-srzcbz-yl-main ul{
+				overflow-x: hidden;
+				overflow-y: scroll;
+				position: absolute;
+				left: 5px;
+				top: 5px;
+				right: 5px;
+				bottom: 5px;
+			}
+			.cwls-content-srzcbz-yl-main ul::-webkit-scrollbar {
+				display: none;
+			}
+			.cwls-content-srzcbz-yl-main ul li{
+				line-height: 25px;
+				width: 100%;
+			}
+			.cwls-content-srzcbz-yl-main ul span{
+				display: inline-block;
+				width: 33.33333%;
+				float: left;
+				text-align: center;
+				color: #919191;
+			}
+			.cwls-content-srzcbz-yl-main-jg{
+				color: #FD2F31 !important;
+				font-weight: bold;
+			}
+			/*************************************************************/
+			.cwls-content-right{
+				flex: 1;
+				display: flex;
+				flex-direction: column;
+			}
+			.content-right-top{
+				height: 50%;
+				/* flex: 1; */
+				display: flex;
+				flex-direction: column;
+			}
+			.content-right-top-btn{
+				display: flex;
+				padding: 0 20px;
+			}
+			.content-right-top-btn span{
+				height: 8px;
+				width: 30px;
+				display: inline-block;
+				border-radius: 5px;
+				margin-bottom: 1px;
+				margin-right: 5px;
+			}
+			.content-right-topbtn1 span{
+				background: #FDB52B;
+			}
+			.content-right-topbtn2{
+				flex: 1;
+				padding-left: 25px;
+			}
+			.content-right-topbtn2 span{
+				background: #8BCAFF;
+			}
+			.content-right-topbtn3{
+				width: 100px;
+				text-align: right;
+				margin-top: -7px;
+			}
+			.content-right-top-biao{
+				flex: 1;
+				padding:10px 20px;
+			}
+			.content-right-top-data{
+				display: flex;
+				border-top: 1px solid #f0f0f0;
+				font-size: 16px;
+				font-weight: bold;
+				box-shadow: 0px 4px 4px #EBEBEB;
+				position: relative;
+				z-index: 1;
+			}
+			.content-right-top-sz{
+				flex: 1;
+				display: flex;
+				justify-content: space-between;
+				padding: 20px;
+			}
+			.content-right-top-sz span{
+				padding-left: 10px;
+				color: #FD0000;
+			}
+			.top-sz-lv span{
+				color: #00C324;
+			}
+			/******************************************/
+			.content-right-bottom{
+				/* flex: 1; */
+				height: 50%;
+			}
+			.content-right-bottom-timeBtn{
+				position: absolute;
+				z-index: 2;
+				top: 10px;
+				right: 10px;
+			}
+			.layui-tab{
+				margin: 0;
+				position: relative;
+				height: 100%;
+				display: flex;
+				flex-direction: column;
+			}
+			.layui-tab-title{
+				background: #F8F8F8;
+				padding: 20px 0 0;
+				height: 30px;
+			}
+			.layui-tab-title li{
+				margin-left: 20px;
+				background: #EDEDED;
+				font-weight: bold;
+				line-height: 30px;
+			}
+			.layui-tab-title .layui-this{
+				background: #fff;
+			}
+			.layui-tab-title .layui-this:after{
+				height: 31px;
+			}
+			.layui-tab-content{
+				flex: 1;
+			}
+			.content-right-bottom-btn{
+				padding: 20px 10px 15px;
+				border-bottom: 1px solid #f0f0f0;
+				width: 100%;
+			}
+			.content-right-bottom-btn span{
+				padding: 4px 15px;
+				background: #FCB529;
+				color: #fff;
+				border-radius: 5px;
+				margin-right: 20px;
+			}
+			.layui-show{
+				height: 100%;
+				display: flex !important;
+				flex-direction: column;
+			}
+			/* .layui-table tr{
+				background-color: #fff;
+			}
+			.layui-table td, .layui-table th{
+				padding: 5px 15px;
+			} */
+			.content-right-bottom-li{
+				flex: 1;
+				overflow: hidden;
+				position: relative;
+			}
+			.content-right-bottom-tit{
+				display: flex;
+				/* padding: 10px; */
+				padding: 10px 30px 10px 10px;
+				border-bottom: 1px solid #f0f0f0;
+			}
+			.content-right-bottom-li ul{
+				overflow-x: hidden;
+				overflow-y: scroll;
+				position: absolute;
+				left: 0;
+				top: 40px;
+				right: 0;
+				bottom: 5px;
+			}
+			.content-right-bottom-li li{
+				display: flex;
+				padding: 10px;
+			}
+			.txt-flex{
+				display: flex;
+			}
+			.txt-center{
+				text-align: center !important;
+			}
+			.th1{
+				width: 35%;
+			}
+			.th2{
+				width: 25%;
+			}
+			.th3{
+				width: 20%;
+			}
+			.content-sxgy-text{
+				padding: 0 10px;
+			}
+			.content-sxgy-name{
+				padding: 0 10px;
+				border: 1px solid #64A2DA;
+				border-radius: 3px;
+				color: #1861A4;
+			}
+			.font-text1{
+				color: #F20D1C;
+				font-weight: bold;
+				font-size: 16px;
+			}
+			.font-text2{
+				color: #F5313E;
+				font-weight: bold;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="content">
+			<div class="cwls-content-left">
+				<!-- <div class="cwls-content-left-tit">
+					<span>收入支出比重</span>
+					<span style="text-align: right;">4月</span>
+				</div> -->
+				<div class="cwls-content-left-tit">
+					<div>收入支出比重</div>
+					<div class="cwls-content-left-tit-jt">4月
+						<div class="aioa-right-btn-jt"></div>
+					</div>
+				</div>
+				<div class="cwls-content-srzcbz">
+					<div class="cwls-content-srzcbz-tu" id="main"></div>
+					<div class="cwls-content-srzcbz-biao">
+						<div class="cwls-content-srzcbz-sr">
+							<span>总收入：</span>
+							<span class="cwls-content-srzcbz-yl-main-jg">85000</span>
+						</div>
+						<div class="cwls-content-srzcbz-yl">
+							<div class="cwls-content-srzcbz-yl-tit">
+								<span>项目</span>
+								<span>万元</span>
+								<span>占比</span>
+							</div>
+							<div class="cwls-content-srzcbz-yl-main">
+								<ul>
+									<li><span>爱的礼物</span><span class="cwls-content-srzcbz-yl-main-jg">20</span><span>80%</span></li>
+									<li><span>爱的礼物</span><span class="cwls-content-srzcbz-yl-main-jg">20</span><span>80%</span></li>
+									<li><span>爱的礼物</span><span class="cwls-content-srzcbz-yl-main-jg">20</span><span>80%</span></li>
+									<li><span>爱的礼物</span><span class="cwls-content-srzcbz-yl-main-jg">20</span><span>80%</span></li>
+									<li><span>爱的礼物</span><span class="cwls-content-srzcbz-yl-main-jg">20</span><span>80%</span></li>
+									<li><span>爱的礼物</span><span class="cwls-content-srzcbz-yl-main-jg">20</span><span>80%</span></li>
+									<li><span>爱的礼物</span><span class="cwls-content-srzcbz-yl-main-jg">20</span><span>80%</span></li>
+									<li><span>爱的礼物</span><span class="cwls-content-srzcbz-yl-main-jg">20</span><span>80%</span></li>
+									<li><span>爱的礼物</span><span class="cwls-content-srzcbz-yl-main-jg">20</span><span>80%</span></li>
+									<li><span>爱的礼物</span><span class="cwls-content-srzcbz-yl-main-jg">20</span><span>80%</span></li>
+									<li><span>爱的礼物</span><span class="cwls-content-srzcbz-yl-main-jg">20</span><span>80%</span></li>
+								</ul>
+							</div>
+						</div>
+					</div>
+					<div class="cwls-content-srzcbz-tu" id="main2"></div>
+					<div class="cwls-content-srzcbz-biao">
+						<div class="cwls-content-srzcbz-sr">
+							<span>总收入：</span>
+							<span class="cwls-content-srzcbz-yl-main-jg">85000</span>
+						</div>
+						<div class="cwls-content-srzcbz-yl">
+							<div class="cwls-content-srzcbz-yl-tit">
+								<span>项目</span>
+								<span>万元</span>
+								<span>占比</span>
+							</div>
+							<div class="cwls-content-srzcbz-yl-main">
+								<ul>
+									<li><span>爱的礼物</span><span class="cwls-content-srzcbz-yl-main-jg">20</span><span>80%</span></li>
+									<li><span>爱的礼物</span><span class="cwls-content-srzcbz-yl-main-jg">20</span><span>80%</span></li>
+									<li><span>爱的礼物</span><span class="cwls-content-srzcbz-yl-main-jg">20</span><span>80%</span></li>
+									<li><span>爱的礼物</span><span class="cwls-content-srzcbz-yl-main-jg">20</span><span>80%</span></li>
+									<li><span>爱的礼物</span><span class="cwls-content-srzcbz-yl-main-jg">20</span><span>80%</span></li>
+									<li><span>爱的礼物</span><span class="cwls-content-srzcbz-yl-main-jg">20</span><span>80%</span></li>
+									<li><span>爱的礼物</span><span class="cwls-content-srzcbz-yl-main-jg">20</span><span>80%</span></li>
+									<li><span>爱的礼物</span><span class="cwls-content-srzcbz-yl-main-jg">20</span><span>80%</span></li>
+									<li><span>爱的礼物</span><span class="cwls-content-srzcbz-yl-main-jg">20</span><span>80%</span></li>
+									<li><span>爱的礼物</span><span class="cwls-content-srzcbz-yl-main-jg">20</span><span>80%</span></li>
+									<li><span>爱的礼物</span><span class="cwls-content-srzcbz-yl-main-jg">20</span><span>80%</span></li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="cwls-content-right">
+				<div class="content-right-top">
+					<div class="content-right-top-btn">
+						<div class="content-right-topbtn1"><span></span>收入</div>
+						<div class="content-right-topbtn2"><span></span>支出</div>
+						<div class="content-right-topbtn3">4月
+							<div class="aioa-right-btn-jt"></div>
+						</div>
+					</div>
+					<div class="content-right-top-biao" id="main3"></div>
+					<div class="content-right-top-data">
+						<div class="content-right-top-sz">
+							<div>本月总收入<span>802563</span></div>
+							<div>同比增长<span>20.5%</span></div>
+						</div>
+						<div class="content-right-top-sz top-sz-lv">
+							<div>本月总收入<span>802563</span></div>
+							<div>同比增长<span>20.5%</span></div>
+						</div>
+					</div>
+				</div>
+				<div class="content-right-bottom">
+					<div class="layui-tab">
+						<div class="content-right-bottom-timeBtn">
+							<span>2019.04</span>
+							<div class="aioa-right-btn-jt"></div>
+						</div>
+					  <ul class="layui-tab-title">
+						<li class="layui-this">全部</li>
+						<li>收入</li>
+						<li>支出</li>
+					  </ul>
+					  <div class="layui-tab-content">
+						<div class="layui-tab-item layui-show">
+							<div class="content-right-bottom-btn">
+								<span>差旅费</span>
+								<span>办公费</span>
+								<span>物料费</span>
+								<span>原材料</span>
+								<span>研发费</span>
+								<span>工资</span>
+							</div>
+							<div class="content-right-bottom-li">
+								<div class="content-right-bottom-tit">
+									<div class="th1 txt-flex">
+									  <div><img src="../../../images/xiaoxigaiyao.png" /></div>
+									  <div>类型</div>
+									</div>
+									<div class="th2 txt-center">费用</div>
+									<div class="th3 txt-center">同比增长</div>
+									<div class="th3 txt-center">环比增长</div>
+								</div>
+								<ul>
+									<li>
+										<div class="th1 txt-flex">
+											<div class="content-sxgy-img"><img src="../../../images/jingshi.png" /></div>
+											<div class="content-sxgy-text">人生就像是一场修行</div>
+											<div class="content-sxgy-name">报销</div>
+										</div>
+										<div class="th2 txt-center font-text1">2130</div>
+										<div class="th3 txt-center font-text2">20%</div>
+										<div class="th3 txt-center font-text2">50%</div>
+									</li>
+									
+									<li><div class="th1 txt-flex"><div class="content-sxgy-img"><img src="../../../images/jingshi.png" /></div><div class="content-sxgy-text">人生就像是一场修行</div><div class="content-sxgy-name">报销</div></div><div class="th2 txt-center">2130</div><div class="th3 txt-center">20%</div><div class="th3 txt-center">50%</div></li>
+									<li><div class="th1 txt-flex"><div class="content-sxgy-img"><img src="../../../images/jingshi.png" /></div><div class="content-sxgy-text">人生就像是一场修行</div><div class="content-sxgy-name">报销</div></div><div class="th2 txt-center">2130</div><div class="th3 txt-center">20%</div><div class="th3 txt-center">50%</div></li>
+									<li><div class="th1 txt-flex"><div class="content-sxgy-img"><img src="../../../images/jingshi.png" /></div><div class="content-sxgy-text">人生就像是一场修行</div><div class="content-sxgy-name">报销</div></div><div class="th2 txt-center">2130</div><div class="th3 txt-center">20%</div><div class="th3 txt-center">50%</div></li>
+									<li><div class="th1 txt-flex"><div class="content-sxgy-img"><img src="../../../images/jingshi.png" /></div><div class="content-sxgy-text">人生就像是一场修行</div><div class="content-sxgy-name">报销</div></div><div class="th2 txt-center">2130</div><div class="th3 txt-center">20%</div><div class="th3 txt-center">50%</div></li>
+									<li><div class="th1 txt-flex"><div class="content-sxgy-img"><img src="../../../images/jingshi.png" /></div><div class="content-sxgy-text">人生就像是一场修行</div><div class="content-sxgy-name">报销</div></div><div class="th2 txt-center">2130</div><div class="th3 txt-center">20%</div><div class="th3 txt-center">50%</div></li>
+									<li><div class="th1 txt-flex"><div class="content-sxgy-img"><img src="../../../images/jingshi.png" /></div><div class="content-sxgy-text">人生就像是一场修行</div><div class="content-sxgy-name">报销</div></div><div class="th2 txt-center">2130</div><div class="th3 txt-center">20%</div><div class="th3 txt-center">50%</div></li>
+									<li><div class="th1 txt-flex"><div class="content-sxgy-img"><img src="../../../images/jingshi.png" /></div><div class="content-sxgy-text">人生就像是一场修行</div><div class="content-sxgy-name">报销</div></div><div class="th2 txt-center">2130</div><div class="th3 txt-center">20%</div><div class="th3 txt-center">50%</div></li>
+									<li><div class="th1 txt-flex"><div class="content-sxgy-img"><img src="../../../images/jingshi.png" /></div><div class="content-sxgy-text">人生就像是一场修行</div><div class="content-sxgy-name">报销</div></div><div class="th2 txt-center">2130</div><div class="th3 txt-center">20%</div><div class="th3 txt-center">50%</div></li>
+									<li><div class="th1 txt-flex"><div class="content-sxgy-img"><img src="../../../images/jingshi.png" /></div><div class="content-sxgy-text">人生就像是一场修行</div><div class="content-sxgy-name">报销</div></div><div class="th2 txt-center">2130</div><div class="th3 txt-center">20%</div><div class="th3 txt-center">50%</div></li>
+									<li><div class="th1 txt-flex"><div class="content-sxgy-img"><img src="../../../images/jingshi.png" /></div><div class="content-sxgy-text">人生就像是一场修行</div><div class="content-sxgy-name">报销</div></div><div class="th2 txt-center">2130</div><div class="th3 txt-center">20%</div><div class="th3 txt-center">50%</div></li>
+									<li><div class="th1 txt-flex"><div class="content-sxgy-img"><img src="../../../images/jingshi.png" /></div><div class="content-sxgy-text">人生就像是一场修行</div><div class="content-sxgy-name">报销</div></div><div class="th2 txt-center">2130</div><div class="th3 txt-center">20%</div><div class="th3 txt-center">50%</div></li>
+									<li><div class="th1 txt-flex"><div class="content-sxgy-img"><img src="../../../images/jingshi.png" /></div><div class="content-sxgy-text">人生就像是一场修行</div><div class="content-sxgy-name">报销</div></div><div class="th2 txt-center">2130</div><div class="th3 txt-center">20%</div><div class="th3 txt-center">50%</div></li>
+								</ul>
+							</div>
+						</div>
+						<div class="layui-tab-item">内容2</div>
+						<div class="layui-tab-item">内容3</div>
+					  </div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script src="../../../layui.js"></script>
+		<script src="../../../js/vue.js"></script>
+		<script src="../../../js/echarts.min.js"></script>
+		<script>
+			//注意：选项卡 依赖 element 模块，否则无法进行功能性操作
+			layui.use('element', function(){
+			  var element = layui.element;
+			  
+			  //…
+			});
+			// 基于准备好的dom，初始化echarts实例
+			var myChart = echarts.init(document.getElementById('main'));
+			var myChart2 = echarts.init(document.getElementById('main2'));
+			var myChart3 = echarts.init(document.getElementById('main3'));
+			// 指定图表的配置项和数据
+			var option = {
+				tooltip: {
+					trigger: 'item',
+					formatter: "{a} <br/>{b}: {c} ({d}%)"
+				},
+				series: [
+					{
+						name:'收入',
+						type:'pie',
+						radius: ['50%', '70%'],
+						avoidLabelOverlap: false,
+						label: {
+							normal: {
+								show: false,
+								position: 'center'
+							},
+							emphasis: {
+								show: true,
+								textStyle: {
+									fontSize: '20',
+									fontWeight: 'bold'
+								}
+							}
+						},
+						labelLine: {
+							normal: {
+								show: false
+							}
+						},
+						data:[
+							{value:335, name:'直接访问'},
+							{value:310, name:'邮件营销'},
+							{value:234, name:'联盟广告'},
+							{value:135, name:'视频广告'},
+							{value:1548, name:'搜索引擎'}
+						]
+					}
+				]
+			};
+			var option2 = {
+				tooltip: {
+					trigger: 'axis'
+				},
+				legend: {
+					data:['邮件营销','联盟广告','视频广告','直接访问','搜索引擎']
+				},
+				grid: {
+					left: '3%',
+					right: '4%',
+					bottom: '3%',
+					containLabel: true
+				},
+				toolbox: {
+					feature: {
+						saveAsImage: {}
+					}
+				},
+				xAxis: {
+					type: 'category',
+					boundaryGap: false,
+					data: ['周一','周二','周三','周四','周五','周六','周日']
+				},
+				yAxis: {
+					type: 'value'
+				},
+				series: [
+					{
+						name:'邮件营销',
+						type:'line',
+						stack: '总量',
+						data:[120, 132, 101, 134, 90, 230, 210]
+					},
+					{
+						name:'联盟广告',
+						type:'line',
+						stack: '总量',
+						data:[220, 182, 191, 234, 290, 330, 310]
+					},
+					{
+						name:'视频广告',
+						type:'line',
+						stack: '总量',
+						data:[150, 232, 201, 154, 190, 330, 410]
+					},
+					{
+						name:'直接访问',
+						type:'line',
+						stack: '总量',
+						data:[320, 332, 301, 334, 390, 330, 320]
+					},
+					{
+						name:'搜索引擎',
+						type:'line',
+						stack: '总量',
+						data:[820, 932, 901, 934, 1290, 1330, 1320]
+					}
+				]
+			};
+			// 使用刚指定的配置项和数据显示图表。
+			myChart.setOption(option);
+			myChart2.setOption(option);
+			myChart3.setOption(option2);
+		</script>
+	</body>
+</html>

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>登录</title>
+		<link rel="stylesheet" href="../../../css/new_style.css" />
+		<link rel="stylesheet" href="../../../css/layui.css" media="all">
+		<script src="https://cdn.jsdelivr.net/npm/vue"></script>
+		<script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+		<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+		<script type="text/javascript" src="../../../js/layer/layer.js" ></script>
+		<!--<script type="text/javascript" src="../../../js/common.js" ></script>-->		
+	</head>
+
+	<body class="login-body">
+		<div class="login-content" id="app">
+			<div>
+				<img src="../../../images/login4.png" class="log-left-img" />
+			</div>
+			<div class="login-in">
+				<div class="login-t">登录</div>
+				<div>
+					<img src="../../../images/login3.png" /> <input type="text" placeholder="输入用户名" v-model="phone" />
+				</div>
+				<div>
+					<img src="../../../images/login2.png" /> <input type="password" placeholder="输入密码" v-model="pwd" />
+				</div>
+				<div class="yz">
+					<img src="../../../images/login1.png" /> <input type="text" placeholder="输入验证码" /><img class="yz-img" src="../../../images/yanzhengma.png" />
+				</div>
+
+				<div class="login-btn" @click="login">登录</div>
+			</div>
+		</div>
+		<!--<script type="text/javascript" src="../../../js/layer/layer.js"></script>-->
+		<script src="../../../layui.js"></script>
+		<script>
+			var vm = new Vue({
+				el: '#app',
+				data: {
+					phone: '',
+					pwd: '',
+				},
+				methods: {
+					login: function() { //http://oa.sdsoon.cn:8099/daily/task
+						if(this.phone == ''){
+							layer.msg('登录账号不能为空');
+							return;
+						}
+						/*const phonereg =/^[1][3,4,5,7,8,9][0-9]{9}$/;
+						if(!phonereg.test(this.phone)){
+							layer.msg('请输入正确的手机号')
+							return;
+						}*/
+						
+						if(this.pwd == ''){
+							layer.msg('密码不能为空')
+							return;
+						}
+						
+						let param = new URLSearchParams()
+						param.append('username', this.phone),
+						param.append('password', this.pwd),
+							axios({
+								method: "post",
+								url: 'http://oa.sdsoon.cn:8099/v1/user/login',
+								data: param
+							})
+							.then(function(res) {
+								//console.log(res);
+								if(res.data.status == 'success'){
+									layer.msg('登录成功');
+								}
+							})
+							.catch(function(err) {
+								console.log(err);
+							});
+					}
+
+				},
+				mounted: function() {
+					//this.getList()
+				}
+			})
+		</script>
+
+	</body>
+
+</html>

@@ -65,9 +65,17 @@ public class ProjectController extends BaseController {
         return ReturnResult.create(projectPoModel);
     }
 
+    //项目管理内容
     @GetMapping("/list")
     public PageResult<SsProjectManageVo> list(@RequestParam("page") Integer page, @RequestParam("limit") Integer limit) throws ResponseException {
         PageResult<SsProjectManageVo> ssProjectManageVoPageResult = projectService.selectAllProjects(page, limit);
+        return ssProjectManageVoPageResult;
+    }
+
+    //项目管理 进行和完成
+    @GetMapping("/list/status")
+    public PageResult<SsProjectManageVo> listByStatus(@RequestParam("status") Integer status, @RequestParam("page") Integer page, @RequestParam("limit") Integer limit) throws ResponseException {
+        PageResult<SsProjectManageVo> ssProjectManageVoPageResult = projectService.selectAllProjectsByStatus(status,page, limit);
         return ssProjectManageVoPageResult;
     }
 
@@ -81,21 +89,40 @@ public class ProjectController extends BaseController {
 
     }
 
+    //修改任务节点信息
+    @PostMapping("/update/mission")
+    public ReturnResult updateMission(@RequestBody AddMissionVo addMissionVo) throws ResponseException {
+        boolean b = projectService.updateMission(addMissionVo);
+        if (b) {
+            return ReturnResult.create(HttpStatus.CREATED);
+        }
+        return ReturnResult.create(null);
+    }
+
+    //删除单个任务节点
+    @PostMapping("/delete/mission")
+    public ReturnResult deleteMission(@RequestParam("projectMissionId") String projectMissionId) throws ResponseException {
+        boolean b = projectService.deleteMission(projectMissionId);
+        if (b) {
+            return ReturnResult.create(HttpStatus.OK);
+        }
+        return ReturnResult.create(null);
+    }
 
     public static void main(String args[]) throws ParseException {
-/*        Date d = new Date();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-//        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        String format = sdf.format(d);
-        Date parse = sdf.parse(format);
-        long time = parse.getTime();
-        System.out.println(format);
-        System.out.println(time);
-        String s = "1566403200000";
-        String a = "1567395537000";
-        Long timeL = Long.valueOf(s);
-        Date date = new Date(timeL);
-        System.out.println(date);*/
+//        Date d = new Date();
+//        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+////        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+//        String format = sdf.format(d);
+//        Date parse = sdf.parse(format);
+//        long time = parse.getTime();
+//        System.out.println(format);
+//        System.out.println(time);
+//        String s = "1566403200000";
+//        String a = "1567395537000";
+//        Long timeL = Long.valueOf(s);
+//        Date date = new Date(timeL);
+//        System.out.println(date);
 
 
 ///////////////////////
@@ -117,6 +144,7 @@ public class ProjectController extends BaseController {
         projectMissionModel1.setProjectMissionCreateTime("1560403200000");
         projectMissionModel1.setProjectMissionEndTime("1516403200000");
         projectMissionModel1.setProjectMissionDescription("model1");
+        projectMissionModel1.setProjectMissionId("1e66454b4f024ac683b1096f0ff3f18d");
         list.add(projectMissionModel1);
         ProjectMissionModel projectMissionMode2 = new ProjectMissionModel();
         projectMissionMode2.setProjectGProjectId(gid);

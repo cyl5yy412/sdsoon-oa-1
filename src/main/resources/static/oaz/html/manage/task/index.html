@@ -1,0 +1,278 @@
+
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+		<title>生产管理</title>
+		<link rel="stylesheet" href="../../../css/layui.css" media="all">
+		<link rel="stylesheet" href="../../../css/new_style.css" media="all">
+		<style>
+			.xmgl-wrap {
+				width: 100%;
+				display: flex;
+			}
+			
+			.xmgl-left {
+				width: 200px;
+				text-align: center;
+			}
+			
+				.xmgl-right {
+				width: 100%;
+				border-left: 1px solid #ededed;
+    			height: -webkit-fill-available;
+			}
+			
+			
+			.xmgl-left .gl img {
+				margin-right: 10px;
+			}
+			
+			.xmgl-left ul li {
+				height: 44px;
+				line-height: 44px;
+				margin-bottom: 15px;
+				position: relative;
+			}
+			
+			.xmgl-left ul li.active {
+				background: #f9f9f9;
+				color: #faaf1d;
+			}
+			
+			.xmgl-left ul li.active .more {
+				display: block;
+			}
+			
+			.gl {
+				height: 50px;
+				line-height: 50px;
+			}
+			
+			.more {
+				position: absolute;
+				right: 10px;
+				top: 0;
+				display: none;
+			}
+			
+			.zj {
+				height: 50px;
+				line-height: 50px;
+				background: #f8f8f8;
+				color: #a1a1a1;
+				padding-left: 16px;
+			}
+			
+			.num {
+				color: #333333;
+			}
+			
+			.time {
+				color: #798fff;
+			}
+			
+			.down span {
+				color: #ff5e5e;
+				border: 1px solid #ff5e5e;
+				display: inline-block;
+				border-radius: 5px;
+				padding: 0 5px;
+			}
+			/* **************************弹出框*************************** */
+			
+			.bumen-mask {
+				position: fixed;
+				left: 0;
+				right: 0;
+				top: 0;
+				bottom: 0;
+				background: rgba(255, 255, 255, 0.8);
+				display: flex;
+				justify-content: center;
+				align-items: center;
+			}
+			
+			.bumen-menu {
+				width: 70%;
+				min-width: 750px;
+				background: #fff;
+				box-shadow: 0px 0px 5px #d2d2d2;
+			}
+			
+			.bumen-tit {
+
+				background-image: url(../../finance/shixiang/img/shang.png);
+				height: 60px;
+				line-height: 60px;
+				text-align: center;
+				position: relative;
+				font-size: 16px;
+				font-weight: bold;
+			}
+			
+			.bumen-tit .layui-icon {
+				position: absolute;
+				right: 20px;
+				top: 0;
+			}
+			/*底部按钮*/
+			
+			.bumen-bom {
+				display: flex;
+				padding: 10px 20px;
+				justify-content: space-between;
+			}
+			
+			.bumen-bom div {
+				width: 25%;
+				text-align: center;
+				color: #fff;
+				padding: 10px 0;
+				border-radius: 5px;
+			}
+			.layui-laypage-em{
+				background: #ffc24b !important;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div class="xmgl-wrap">
+			<div class="xmgl-left">
+				<div class="gl"><img src="../../../images/xiangmu1.png" />项目管理</div>
+				<ul>
+					<li class="active">已投产项目<span class="more">></span></li>
+					<li>待生产订单<span class="more">></span></li>
+					<li>已完成订单<span class="more">></span></li>
+				</ul>
+			</div>
+			<div class="xmgl-right">
+				<div class="gy-content">
+					<div class="zj">生产统计：已投产项目:<span class="num">35</span></div>
+					<table class="layui-table">
+						<colgroup>
+							<col>
+							<col>
+							<col width="200">
+							<col width="160">
+							<col>
+						</colgroup>
+						<thead>
+							<tr>
+								<th><img src="../../../images/xiaoxigaiyao.png" />任务名称</th>
+								<th>产品</th>
+								<th>时间</th>
+								<th>文件</th>
+								<th>生产负责人</th>
+								<th>操作</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td><img src="../../../images/jingshi.png" />测试任务测试任务</td>
+								<td>中教视通盒子</td>
+								<td class="time">2019.01.22</td>
+								<td class="down"><span>下载</span></td>
+								<td>孙会星</td>
+								<td class="caozuo">
+									<img src="../../../images/xiugai.png" />
+									<img src="../../../images/delete.png" />
+									<img src="../../../images/point.png" />
+								</td>
+							</tr>
+							<tr>
+								<td><img src="../../../images/jingshi.png" />测试任务测试任务</td>
+								<td>中教视通盒子</td>
+								<td class="time">2019.01.22</td>
+								<td class="down"><span>下载</span></td>
+								<td>孙会星</td>
+								<td class="caozuo">
+									<img src="../../../images/xiugai.png" />
+									<img src="../../../images/delete.png" />
+									<img src="../../../images/point.png" />
+								</td>
+							</tr>
+							<tr>
+								<td><img src="../../../images/jingshi.png" />测试任务测试任务</td>
+								<td>中教视通盒子</td>
+								<td class="time">2019.01.22</td>
+								<td class="down"><span>下载</span></td>
+								<td>孙会星</td>
+								<td class="caozuo">
+									<img src="../../../images/xiugai.png" />
+									<img src="../../../images/delete.png" />
+									<img src="../../../images/point.png" />
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+			
+			<!-- *********************************报销**************************** -->
+			<!--<div class="bumen-mask" v-if="showMask">
+				<div class="bumen-menu">
+					<div class="bumen-tit">
+						立项
+						<div class="layui-icon layui-icon-close" @click="guanbi()"></div>
+					</div>
+
+					<div class="gl-body">
+						<div class="gl-name">项目名称：中教视通项目</div>
+						<div class="gl-wendang">文档：<span>文档1</span><span>文档2</span></div>
+						<div class="gl-person">负责人：<span>小明</span><span>1506669993333</span></div>
+						<div class="gl-line"></div>
+						<div class="gl-cj">创建时间节点</div>
+						<div class="gl-creat">
+							<div class="gl-c-top">
+								<div></div>
+								<div>2019-8-1</div>
+								<div>2019-8-13</div>
+								<div>完成电源</div>
+							</div>
+							
+							<div class="gl-c-bottom">
+								<div></div>
+								<div>2019-8-1</div>
+								<div>2019-8-13</div>
+								<div>完成电源</div>
+								<div></div>
+							</div>
+						</div>
+						<div class="gl-"></div>
+					</div>
+
+					<div class="bumen-bom">
+						<div class="huang" style="margin: 0 auto;" @click="addLog()">提交</div>
+					</div>
+				</div>
+			</div>-->
+			
+			<div id="test1" class="paging"></div>
+		</div>
+
+		<script type="text/javascript" src="../../../layui.js" ></script>
+		<script src="../js/vue.js"></script>
+		<script type="text/javascript" src="../../../js/common.js" ></script>
+		<script>
+			/*禁止浏览器选中*/
+			document.body.onselectstart = function () { 
+			    return false; 
+			};
+			layui.use('laypage', function() {
+				var laypage = layui.laypage;
+
+				//执行一个laypage实例
+				laypage.render({
+					elem: 'test1' //注意，这里的 test1 是 ID，不用加 # 号
+						,
+					count: 50 //数据总数，从服务端得到
+				});
+			});
+		</script>
+	</body>
+
+</html>

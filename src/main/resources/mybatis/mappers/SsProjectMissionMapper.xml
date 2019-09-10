@@ -235,4 +235,26 @@
     <delete id="deleteByGId" parameterType="string">
         DELETE FROM ss_project_mission m WHERE m.project_g_project_id = #{projectId}
     </delete>
+    <!-- 批量更新 -->
+    <update id="updateMissions" parameterType="list">
+        <foreach collection="params" item="mission" separator=";">
+            UPDATE ss_project_mission m
+            <set>
+                <if test="mission.projectMissionCreateTime != null">
+                    m.project_mission_create_time = #{mission.projectMissionCreateTime,jdbcType=DATE},
+                </if>
+                <if test="mission.projectMissionEndTime != null">
+                    m.project_mission_end_time = #{mission.projectMissionEndTime,jdbcType=DATE},
+                </if>
+                <if test="mission.projectMissionDescription != null">
+                    m.project_mission_description = #{mission.projectMissionDescription,jdbcType=VARCHAR},
+                </if>
+            </set>
+            <where>
+                <if test="mission.projectMissionId != null">
+                    m.project_mission_id = #{mission.projectMissionId,jdbcType=VARCHAR}
+                </if>
+            </where>
+        </foreach>
+    </update>
 </mapper>

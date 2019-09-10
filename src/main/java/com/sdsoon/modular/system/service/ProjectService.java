@@ -21,8 +21,6 @@ public interface ProjectService {
     //后台
     String setupProject(ProjectModel projectModel) throws ResponseException, ParseException;
 
-//    boolean setupProjectDemo(ProjectModel projectModel) throws ResponseException;
-
     //中台
     ProjectPoModel selectProjectById(String projectId) throws ResponseException;
 
@@ -55,4 +53,10 @@ public interface ProjectService {
 
     //后台
     boolean deleteMission(String projectMissionId);
+
+    //中台
+    boolean updateMission(AddMissionVo addMissionVo) throws ResponseException;
+
+    //中台
+    PageResult<SsProjectManageVo> selectAllProjectsByStatus(Integer status, Integer page, Integer limit);
 }

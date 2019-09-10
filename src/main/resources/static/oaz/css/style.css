@@ -1,0 +1,191 @@
+@charset "UTF-8";
+/*
+ * 学院
+ */
+.btn-top {
+  padding: 15px 10px;
+  border-bottom: 1px solid #f7f7f7; }
+  .btn-top image {
+    vertical-align: middle; }
+  .btn-top .left {
+    float: left;
+    display: inline-flex; }
+    .btn-top .left div {
+      color: #fff;
+      padding: 0px 7px;
+      line-height: 34px; }
+    .btn-top .left .xz {
+      background: #ffb800; }
+    .btn-top .left .fb {
+      background: #fd7c35;
+      margin-left: 20px; }
+  .btn-top .right {
+    float: right; }
+    .btn-top .right div {
+      border: 1px solid #f7f7f7;
+      padding: 10px; }
+      .btn-top .right div input {
+        border: 0; }
+
+.pro-content .xy-list {
+  width: 100%;
+  height: auto;
+  overflow: hidden;
+  padding: 5px;
+  box-sizing: border-box; }
+  .pro-content .xy-list li {
+    width: 33.3333%;
+    float: left;
+    padding: 10px;
+    box-sizing: border-box; }
+    .pro-content .xy-list li img {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      vertical-align: middle;
+      margin-right: 15px; }
+    .pro-content .xy-list li .s-list-wrap {
+      width: 94%;
+      margin: 0 auto;
+      border-top: 3px solid #f7f7f7;
+      border-right: 3px solid #f7f7f7;
+      border-bottom: 3px solid #f7f7f7;
+      border-left: 3px solid #fd7100;
+      padding: 15px; }
+    .pro-content .xy-list li .detail {
+      float: right;
+      cursor: pointer; }
+    .pro-content .xy-list li .post {
+      padding: 6px 20px;
+      background: #f4f6f5;
+      display: inline-block;
+      margin: 10px 0; }
+    .pro-content .xy-list li .adr {
+      color: #999999; }
+    .pro-content .xy-list li .copy {
+      float: right;
+      padding: 5px 10px;
+      background: #fdb62d;
+      color: #FFFFFF;
+      cursor: pointer;
+      margin-top: -10px; }
+
+.o-wrap .log-list {
+  padding: 20px 10px; }
+  .o-wrap .log-list .item {
+    margin-bottom: 15px; }
+    .o-wrap .log-list .item .log-status {
+      display: inline-block; }
+      .o-wrap .log-list .item .log-status div {
+        display: inline-block; }
+      .o-wrap .log-list .item .log-status .time {
+        background: #f07a18;
+        color: #FFFFFF;
+        font-size: 12px;
+        border-radius: 50%;
+        width: 30px;
+        height: 30px;
+        text-align: center;
+        line-height: 30px;
+        margin-right: 15px; }
+      .o-wrap .log-list .item .log-status .day {
+        font-size: 14px;
+        font-weight: 500;
+        margin-right: 15px; }
+      .o-wrap .log-list .item .log-status .post {
+        border: 1px solid #f9ac17;
+        color: #f9ac17;
+        font-size: 14px;
+        padding: 2px 15px;
+        cursor: pointer; }
+    .o-wrap .log-list .item .log-ls li {
+      height: 50px;
+      padding: 5px; }
+      .o-wrap .log-list .item .log-ls li:before {
+        content: " ";
+        font-size: 24pt;
+        text-align: center;
+        line-height: 42px;
+        color: #fff;
+        border-radius: 25px;
+        background: #e6e6e6;
+        display: block;
+        height: 25px;
+        width: 1px;
+        margin-left: 6px; }
+      .o-wrap .log-list .item .log-ls li .jingshi {
+        margin-right: 10px; }
+      .o-wrap .log-list .item .log-ls li .t {
+        background: #f7f7f7;
+        color: #666666;
+        padding: 2px 10px;
+        margin-right: 10px; }
+      .o-wrap .log-list .item .log-ls li .la {
+        color: #0e5aa1;
+        border: 1px solid #0e5aa1;
+        padding: 2px 10px;
+        margin-left: 10px; }
+      .o-wrap .log-list .item .log-ls li .n {
+        color: #626f7c; }
+.o-wrap .log-right-wrap {
+  border-right: 1px solid red;
+  height: 100%;
+  padding: 20px; }
+  .o-wrap .log-right-wrap .member {
+    font-weight: bold; }
+  .o-wrap .log-right-wrap .search {
+    border: 0;
+    padding-left: 0; }
+    .o-wrap .log-right-wrap .search .right {
+      float: left; }
+  .o-wrap .log-right-wrap .man-list ul .item {
+    width: 33.333%;
+    text-align: center;
+    float: left;
+    margin: 10px 0; }
+    .o-wrap .log-right-wrap .man-list ul .item img {
+      width: 35px;
+      height: 35px;
+      border-radius: 50%; }
+
+.news-list img {
+  vertical-align: text-bottom; }
+.news-list .t-head {
+  padding: 20px; }
+  .news-list .t-head img {
+    margin-right: 10px; }
+.news-list .t-body {
+  padding: 0 20px; }
+  .news-list .t-body img {
+    margin-right: 10px; }
+  .news-list .t-body .item {
+    margin-bottom: 12px;
+    overflow: hidden; }
+    .news-list .t-body .item .status-yq {
+      background: #67c4ff; }
+    .news-list .t-body .item .status-ss {
+      background: #ff6767; }
+    .news-list .t-body .item .status-ys {
+      background: #f7f7f7;
+      color: #666666 !important; }
+    .news-list .t-body .item .zt {
+      padding: 1px 10px;
+      color: white; }
+    .news-list .t-body .item .import {
+      padding: 1px 10px; }
+    .news-list .t-body .item .status-zy {
+      color: #0e5aa1;
+      border: 1px solid #0E5AA1; }
+    .news-list .t-body .item .status-cy {
+      color: #68bbd0;
+      border: 1px solid #68bbd0; }
+    .news-list .t-body .item .time {
+      color: #999999; }
+    .news-list .t-body .item .man {
+      color: #808080; }
+      .news-list .t-body .item .man img {
+        width: 26px;
+        height: 26px;
+        border-radius: 50%;
+        vertical-align: middle;
+        margin-left: 12px; }

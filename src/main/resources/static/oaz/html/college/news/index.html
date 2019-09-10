@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+		<title>我的消息</title>
+		<link rel="stylesheet" href="../../../css/layui.css" media="all">
+		<link rel="stylesheet" href="../../../css/style.css" media="all">
+		<script type="text/javascript" src="../../../js/common.js" ></script>
+		<style>
+			.layui-carousel>[carousel-item]>*{
+				background: #FFFFFF;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="o-wrap">
+			<div class="layui-row">
+				<div class="layui-col-md9" style="border-right: 1px solid #dddddd;height: -webkit-fill-available;">
+					<div class="btn-top layui-row">
+						<div class="left">
+							<div class="xz s-bor"><img src="../../../images/tianjia.png" /> 新增消息</div>
+							<div class="fb s-bor"><img src="../../../images/xiaoxi.png" /> 我发布的</div>
+						</div>
+						<div class="right">
+							<div>
+								<span>消息搜索</span>
+								<input type="text" placeholder="输入消息关键词">
+								<img src="../../../images/sousuo.png" />
+							</div>
+						</div>
+					</div>
+					<div class="news-list">
+						<div class="t-head layui-row">
+							<div class="layui-col-md9">
+								<img src="../../../images/xiaoxigaiyao.png" />消息概要
+							</div>
+							<div class="layui-col-md2">发布时间</div>
+							<div class="layui-col-md1">发布人</div>
+						</div>
+						<div class="t-body">
+							<div class="item">
+								<div class="layui-col-md9">
+									<img src="../../../images/jingshi.png" class="jingshi" /><span class="zt status-yq">延期</span>
+									<span class="n">王小修改微信支付后台内容</span>
+									<span class="import status-zy">主要</span>
+								</div>
+								<div class="layui-col-md2 time">01.22 10:20</div>
+								<div class="layui-col-md1 man">
+									<span>小二<img src="../../../images/headpic.png" /></span>
+								</div>
+							</div>
+							<div class="item">
+								<div class="layui-col-md9">
+									<img src="../../../images/jingshi.png" class="jingshi" /><span class="zt status-ss">申诉</span>
+									<span class="n">王小修改微信支付后台内容</span>
+									<span class="import status-cy">次要</span>
+								</div>
+								<div class="layui-col-md2 time">01.22 10:20</div>
+								<div class="layui-col-md1 man">
+									<span>小二<img src="../../../images/headpic.png" /></span>
+								</div>
+							</div>
+							<div class="item">
+								<div class="layui-col-md9">
+									<img src="../../../images/jingshi.png" class="jingshi" /><span class="zt status-ys">原始</span>
+									<span class="n">王小修改微信支付后台内容</span>
+									<span class="import status-cy">次要</span>
+								</div>
+								<div class="layui-col-md2 time">01.22 10:20</div>
+								<div class="layui-col-md1 man">
+									<span>小二<img src="../../../images/headpic.png" /></span>
+								</div>
+							</div>
+						</div>
+						<!--<div class="item">
+							<div class="log-status">
+								<div class="time">今日</div><div class="day">2019-08-09</div><div class="post">提交</div>
+							</div>
+							<ul class="log-ls">
+								<li>
+									<img src="../../../images/jingshi.png" class="jingshi" />
+									<span class="t">10:20</span>
+									<span class="n">更改了 爱的礼物 微信支付后台内容</span>
+									<span class="la">爱的礼物</span>
+								</li>
+								<li>
+									<img src="../../../images/jingshi.png" class="jingshi" />
+									<span class="t">10:20</span>
+									<span class="n">更改了 爱的礼物 微信支付后台内容</span>
+									<span class="la">爱的礼物</span>
+								</li>
+							</ul>
+						</div>-->
+						<!--<div class="item">
+							<div class="log-status">
+								<div class="time">昨日</div><div class="day">2019-08-09</div><div class="post">提交</div>
+							</div>
+							<ul class="log-ls">
+								<li>
+									<img src="../../../images/jingshi.png" class="jingshi" />
+									<span class="t">10:20</span>
+									<span class="n">更改了 爱的礼物 微信支付后台内容</span>
+									<span class="la">爱的礼物</span>
+								</li>
+								<li>
+									<img src="../../../images/jingshi.png" class="jingshi" />
+									<span class="t">10:20</span>
+									<span class="n">更改了 爱的礼物 微信支付后台内容</span>
+									<span class="la">爱的礼物</span>
+								</li>
+							</ul>
+						</div>-->
+					</div>
+				</div>
+				<div class="layui-col-md3 log-right-wrap">
+					<div class="member">企业成员（36）</div>
+					<div class="btn-top layui-row search">
+						<div class="right">
+							<div>
+								<input type="text" placeholder="搜索">
+								<img src="../../../images/sousuo.png" />
+							</div>
+						</div>
+					</div>
+					<div class="layui-carousel man-list" id="test1">
+						<div carousel-item>
+							<div>
+								<ul>
+									<li class="item">
+										<img src="../../../images/headpic.png">
+										<p>王小二</p>
+									</li>
+									<li class="item">
+										<img src="../../../images/headpic.png">
+										<p>王小二</p>
+									</li>
+									<li class="item">
+										<img src="../../../images/headpic.png">
+										<p>王小二</p>
+									</li>
+									<li class="item">
+										<img src="../../../images/headpic.png">
+										<p>王小二</p>
+									</li>
+									<li class="item">
+										<img src="../../../images/headpic.png">
+										<p>王小二</p>
+									</li>
+									<li class="item">
+										<img src="../../../images/headpic.png">
+										<p>王小二</p>
+									</li>
+									<li class="item">
+										<img src="../../../images/headpic.png">
+										<p>王小二</p>
+									</li>
+									<li class="item">
+										<img src="../../../images/headpic.png">
+										<p>王小二</p>
+									</li>
+									<li class="item">
+										<img src="../../../images/headpic.png">
+										<p>王小二</p>
+									</li>
+
+								</ul>
+							</div>
+							<div>
+								<ul>
+									<li>
+										123
+									</li>
+								</ul>
+							</div>
+							<div>
+								<ul>
+									<li>
+										123
+									</li>
+								</ul>
+							</div>
+							<div>条目4</div>
+							<div>条目5</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+		</div>
+
+
+		<script src="../../../layui.js"></script>
+		<script src="../js/vue.js"></script>
+		<script>
+			layui.use('carousel', function(){
+				var carousel = layui.carousel;
+				//建造实例
+				carousel.render({
+					elem: '#test1'
+					,width: '100%' //设置容器宽度
+					,arrow: 'hover' //始终显示箭头
+					,autoplay:false
+					//,anim: 'updown' //切换动画方式
+				});
+			});
+		</script>
+	</body>
+</html>

@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+		<title></title>
+		<link rel="stylesheet" href="../../css/layui.css" media="all">
+		<link rel="stylesheet" href="../../css/common.css" media="all">
+		<style>
+			iframe{
+				height: 100%;
+			}
+			.r-headPic img{
+				width: 40px;
+				height: 40px;
+				border-radius: 50%;
+				margin: 0 15px;
+			}
+			.name{
+				font-weight: bold;
+				color: #000000;
+			}
+			.quit{
+				background: #FF2F2F;
+				color: white;
+				height: 25px;
+				line-height: 25px;
+				margin: 7px 20px 0 20px;
+				padding: 0 10px;
+				border-radius: 5px;
+				cursor: pointer;
+			}
+			.aioa-right-input{
+				width: 60%;
+			}
+			.aioa-right-input input{
+				width: 100%
+			}
+		</style>
+	</head>
+
+	<body>
+		<div class="content">
+			<div class="aioa-left">
+				<p class="aioa-left-title">ZHJST.中教视通</p>
+				<div class="aioa-left-img">
+					<img src="../../images/h1.jpg" />
+				</div>
+				<p class="aioa-left-name"></p>
+				<p class="aioa-left-zhic">
+					<span>研发组研发组</span>
+				</p>
+				<ul class="aioa-left-ul">
+					<li v-for="tab,index in tabs" :class="{action:index==ins}"  @click="tabChoose(index)"><a :href="tab.url" target="ifra" v-text="tab.name"></a></li>
+				</ul>
+			</div>
+			<div class="aioa-right">
+				<div class="aioa-right-nav">
+					<div class="aioa-right-neirong">
+						<div class="r-headPic">
+							<img src="../../images/headpic.png" /><span class="name">杨钰莹</span>
+						</div>
+						<div class="quit">
+							退出
+						</div>
+						<div id="" style="width: 100px;"></div>
+						<div class="aioa-right-btn2">
+							<div class="aioa-right-btn-img">
+								<img src="../../images/shijian.png" />
+							</div>
+							<div class="aioa-right-btn-jt"></div>
+						</div>
+						<div class="aioa-right-input">
+							<input type="text" placeholder="搜索你想要知道的事件" />
+							<div class="aioa-right-btn-img">
+								<img src="../../images/sousuo.png" />
+							</div>
+						</div>
+					</div>
+					<div class="aioa-right-caozuo">
+						<div class="layui-icon">
+							<img src="../../images/zuixiao.png" />
+						</div>
+						<div class="layui-icon">
+							<img src="../../images/zuida.png" />
+						</div>
+						<div class="layui-icon">
+							<img src="../../images/close.png" />
+						</div>
+					</div>
+				</div>
+				<div class="aioa-right-content">
+					<iframe id="ifra" name="ifra" width="100%" height="100%" src="xmgl/index.html"></iframe>
+				</div>
+			</div>
+		</div>
+		
+		<!--<script src="../layui.js"></script>-->
+		<script src="../../js/jquery.min.js"></script>
+		<script src="../../js/common.js"></script>
+		<script src="../../js/vue.js"></script>
+		<script>
+			/*禁止浏览器选中*/
+			document.body.onselectstart = function () { 
+			    return false; 
+			};
+			var vm = new Vue({
+				el:'.content',
+				data:{
+					tabs:[{name:"项目管理",url:"xmgl/index.html"},{name:"生产管理",url:"task/index.html"},{name:"供应商管理",url:"gysgl/index.html"},{name:"财务审批",url:"cwsp/index.html"},{name:"我的消息",url:"news/index.html"},{name:"工作看板",url:"gzkb/index.html"},{name:"知识库",url:"college/index.html"},{name:"总公司报备",url:"template/index.html"}],
+					xzClass:0,
+					kzClass:0,
+					ins:0
+				},
+				methods:{
+					tabChoose:function(){
+						this.ins = num;
+						// vm.xzClass = index;
+					}
+				}
+			})
+		</script>
+	</body>
+
+</html>

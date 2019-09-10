@@ -35,4 +35,6 @@ public interface SsProjectManageMapper {
 
 
     List<SsProjectManage> selectAllProjects(@Param("page") Integer page, @Param("limit") Integer limit);
+
+    List<SsProjectManage> selectAllProjectsByStatus(@Param("status") Integer status, @Param("page") Integer page, @Param("limit") Integer limit);
 }

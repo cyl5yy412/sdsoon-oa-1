@@ -28,6 +28,8 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.net.CacheRequest;
+import java.net.ServerSocket;
 import java.text.ParseException;
 import java.util.Date;
 import java.util.List;
@@ -40,22 +42,6 @@ import java.util.stream.Collectors;
 @Slf4j
 @Service
 public class ProjectServiceImpl implements ProjectService {
-    /*@Override
-    public boolean setupProjectDemo(ProjectModel projectModel) throws ResponseException {
-        //添加project-manage
-        if (StringUtils.isAnyBlank(
-                projectModel.getProjectName(),
-                projectModel.getProjectTechnology(),
-                projectModel.getProjectStandard(),
-                projectModel.getProjectDescription(),
-                projectModel.getProjectLeaderName(),
-                projectModel.getProjectLeaderPhone())) {
-            throw new ResponseException(EnumError.PARAMETER_VALIDATION_ERROR);
-        }
-        SsProjectManage ssProjectManage = convertProjectModelFromSsProjectManage(projectModel);
-        int i = ssProjectManageMapper.insertSelective(ssProjectManage);
-        if (i == 1) {
-            */
 
     /**
      * doc,pic,mission
@@ -448,6 +434,40 @@ public class ProjectServiceImpl implements ProjectService {
         return false;
     }
 
+    @Transactional
+    @Override
+    public boolean updateMission(AddMissionVo addMissionVo) throws ResponseException {
+        if (addMissionVo == null || addMissionVo.getMissions() == null || addMissionVo.getMissions().size() != 1) {
+            throw new ResponseException(EnumError.PARAMETER_VALIDATION_ERROR);
+        }
+        ProjectMissionModel projectMissionModel = addMissionVo.getMissions().get(0);
+        if (projectMissionModel == null || StringUtils.isAnyBlank(
+                projectMissionModel.getProjectMissionId(), projectMissionModel.getProjectMissionCreateTime(),
+                projectMissionModel.getProjectMissionEndTime(), projectMissionModel.getProjectMissionDescription())) {
+            return false;
+        }
+        SsProjectMission ssProjectMission = convertMissionFromBean(projectMissionModel);
+        int i = ssProjectMissionMapper.updateByPrimaryKeySelective(ssProjectMission);
+        if (i == 1) {
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public PageResult<SsProjectManageVo> selectAllProjectsByStatus(Integer status, Integer page, Integer limit) {
+        SsProjectManageExample example = new SsProjectManageExample();
+        SsProjectManageExample.Criteria criteria = example.createCriteria();
+        criteria.andProjectStatusEqualTo(status);
+        long total = ssProjectManageMapper.countByExample(example);
+        List<SsProjectManage> ssProjectManages = ssProjectManageMapper.selectAllProjectsByStatus(status, page - 1, limit);
+        List<SsProjectManageVo> ssProjectManageVos = ssProjectManages.stream().map(ssProjectManage -> {
+            SsProjectManageVo ssProjectManageVo = convertSsProjectManageVoFromDto(ssProjectManage);
+            return ssProjectManageVo;
+        }).collect(Collectors.toList());
+        return new PageResult<>(ssProjectManageVos, total);
+    }
+
     private ProjectMissionModel convertMissionBeanFromModel(SsProjectMission ssProjectMission) {
         if (ssProjectMission == null) {
             return null;
@@ -471,6 +491,20 @@ public class ProjectServiceImpl implements ProjectService {
         ssProjectManageVo.setProjectCreateTime(create);
         ssProjectManageVo.setProjectEndTime(end);
         return ssProjectManageVo;
+    }
+
+    //
+    private SsProjectMission convertMissionFromBean(ProjectMissionModel projectModel) {
+        if (projectModel == null) {
+            return null;
+        }
+        SsProjectMission ssProjectMission = new SsProjectMission();
+        BeanUtils.copyProperties(projectModel, ssProjectMission);
+        Long createTime = Long.valueOf(projectModel.getProjectMissionCreateTime());
+        Long endTime = Long.valueOf(projectModel.getProjectMissionEndTime());
+        ssProjectMission.setProjectMissionCreateTime(new Date(createTime));
+        ssProjectMission.setProjectMissionEndTime(new Date(endTime));
+        return ssProjectMission;
     }
 
     //

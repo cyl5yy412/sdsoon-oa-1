@@ -383,4 +383,8 @@
     <select id="selectAllProjects" parameterType="int" resultMap="BaseResultMap">
         SELECT * FROM ss_project_manage s ORDER BY s.project_end_time DESC
     </select>
+    <!--  -->
+    <select id="selectAllProjectsByStatus" parameterType="int" resultMap="BaseResultMap">
+        SELECT * FROM ss_project_manage s WHERE s.project_status = #{status} ORDER BY s.project_end_time DESC
+    </select>
 </mapper>

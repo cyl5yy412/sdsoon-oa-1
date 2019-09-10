@@ -1,0 +1,264 @@
+@charset "utf-8";
+
+/*
+ * 学院
+ */
+
+.btn-top{
+    padding: 15px 10px;
+    border-bottom: 1px solid #f7f7f7;
+    //margin-top: 20px;
+    image{
+        vertical-align: middle;
+    }
+    .left{
+        float: left;
+        display: inline-flex;
+        div{
+
+            color: #fff;
+            padding: 0px 7px;
+            line-height: 34px;
+        }
+        .xz{
+            background: #ffb800;
+        }
+        .fb{
+            background: #fd7c35;
+            margin-left: 20px;
+        }
+    }
+    .right{
+        float: right;
+        div{
+            border: 1px solid #f7f7f7;
+            padding: 10px;
+            input{
+                border: 0;
+            }
+        }
+    }
+}
+.pro-content{
+    .xy-list{
+        width: 100%;
+        height: auto;
+        overflow: hidden;
+        padding: 5px;
+        box-sizing: border-box;
+        li{
+            width: 33.3333%;
+            float: left;
+            //text-align: center;
+            padding: 10px;
+            box-sizing: border-box;
+            img{
+                width: 30px;
+                height: 30px;
+                border-radius: 50%;
+                vertical-align: middle;
+                margin-right: 15px;
+            }
+            .s-list-wrap{
+                width: 94%;
+                margin: 0 auto;
+                border-top: 3px solid #f7f7f7;
+                border-right: 3px solid #f7f7f7;
+                border-bottom: 3px solid #f7f7f7;
+                border-left: 3px solid #fd7100;
+                padding: 15px;
+            }
+            .name{
+
+            }
+            .detail{
+                float: right;
+                cursor:pointer;
+            }
+            .post{
+                padding: 6px 20px;
+                background: #f4f6f5;
+                display: inline-block;
+                margin: 10px 0;
+            }
+            .adr{
+                color: #999999;
+            }
+            .copy{
+                float: right;
+                padding: 5px 10px;
+                background: #fdb62d;
+                color: #FFFFFF;
+                cursor:pointer;
+                margin-top: -10px;
+            }
+        }
+    }
+}
+.o-wrap{
+    .log-list{
+        padding:20px 10px;
+        .item{
+            margin-bottom: 15px;
+            .log-status{
+                display: inline-block;
+                div{
+                    display: inline-block;
+                }
+                .time{
+                    background: #f07a18;
+                    color: #FFFFFF;
+                    font-size: 12px;
+                    //padding: 10px;
+                    border-radius: 50%;
+                    width: 30px;
+                    height: 30px;
+                    text-align: center;
+                    line-height: 30px;
+                    margin-right: 15px;
+                }
+                .day{
+                    font-size: 14px;
+                    font-weight: 500;
+                    margin-right: 15px;
+                }
+                .post{
+                    border: 1px solid #f9ac17;
+                    color: #f9ac17;
+                    font-size: 14px;
+                    padding: 2px 15px;
+                    cursor: pointer;
+                }
+            }
+            .log-ls{
+                li{
+                    height: 50px;
+                    //line-height: 50px;
+                    padding: 5px;
+                    &:before{
+                        content: " ";
+                        font-size: 24pt;
+                        text-align: center;
+                        line-height: 42px;
+                        color: #fff;
+                        border-radius: 25px;
+                        background: #e6e6e6;
+                        display: block;
+                        height: 25px;
+                        width: 1px;
+                        margin-left: 6px;
+                    }
+                    .jingshi{
+                        margin-right: 10px;
+                    }
+                    .t{
+                        background: #f7f7f7;
+                        color: #666666;
+                        padding: 2px 10px;
+                        margin-right: 10px;
+                    }
+                    .la{
+                        color: #0e5aa1;
+                        border: 1px solid #0e5aa1;
+                        padding: 2px 10px;
+                        margin-left: 10px;
+                    }
+                    .n{
+                        color: #626f7c;
+                    }
+                }
+            }
+        }
+    }
+    .log-right-wrap{
+        border-right: 1px solid red;
+        height: 100%;
+        padding: 20px;
+        .member{
+            font-weight: bold;
+        }
+        .search{
+            border: 0;
+            padding-left: 0;
+            .right{
+                float: left;
+            }
+        }
+        .man-list{
+            ul{
+                .item{
+                    width: 33.333%;
+                    text-align: center;
+                    float: left;
+                    margin: 10px 0;
+                    img{
+                        width: 35px;
+                        height: 35px;
+                        border-radius: 50%;
+                    }
+                }
+            }
+        }
+    }
+}
+
+.news-list{
+    img{
+        vertical-align: text-bottom;
+    }
+    .t-head{
+        padding: 20px;
+        img{
+            margin-right: 10px;
+        }
+    }
+    .t-body{
+        padding:0 20px;
+        img{
+            margin-right: 10px;
+        }
+        .item{
+            margin-bottom: 12px;
+            overflow: hidden;
+            .status-yq{
+                background: #67c4ff;
+            }
+            .status-ss{
+                background: #ff6767;
+            }
+            .status-ys{
+                background: #f7f7f7;
+                color: #666666 !important;
+            }
+            .zt{
+                padding: 1px 10px;
+                color: white;
+            }
+            .import{
+                padding: 1px 10px;
+            }
+            .status-zy{
+                color: #0e5aa1;
+                border: 1px solid #0E5AA1;
+            }
+            
+            .status-cy{
+                color: #68bbd0;
+                border: 1px solid #68bbd0;
+            }
+            .time{
+                color: #999999;
+            }
+            .man{
+                color: #808080;
+                img{
+                    width: 26px;
+                    height: 26px;
+                    border-radius: 50%;
+                    vertical-align: middle;
+                    margin-left: 12px;
+                }
+            }
+        }
+    }
+}
