@@ -2,10 +2,7 @@ package com.sdsoon.modular.system.service.impl;
 
 import com.sdsoon.core.response.ex.EnumError;
 import com.sdsoon.core.response.ex.ResponseException;
-import com.sdsoon.core.util.DateUtil;
-import com.sdsoon.core.util.FileUtil;
-import com.sdsoon.core.util.IDUtil;
-import com.sdsoon.core.util.PageResult;
+import com.sdsoon.core.util.*;
 import com.sdsoon.modular.system.mapper.SsProjectDocMapper;
 import com.sdsoon.modular.system.mapper.SsProjectManageMapper;
 import com.sdsoon.modular.system.mapper.SsProjectMissionMapper;
@@ -16,8 +13,11 @@ import com.sdsoon.modular.system.model.ProjectPoModel;
 import com.sdsoon.modular.system.po.*;
 import com.sdsoon.modular.system.service.ProjectService;
 import com.sdsoon.modular.system.vo.AddMissionVo;
+import com.sdsoon.modular.system.vo.ProjectPoModelVo;
+import com.sdsoon.modular.system.vo.h.PicVo;
 import com.sdsoon.modular.system.vo.h.SsProjectManageVo;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections.map.HashedMap;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Value;
@@ -27,13 +27,10 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
+import java.io.File;
 import java.io.IOException;
-import java.net.CacheRequest;
-import java.net.ServerSocket;
 import java.text.ParseException;
-import java.util.Date;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -104,10 +101,36 @@ public class ProjectServiceImpl implements ProjectService {
             throw new ResponseException(EnumError.PARAMETER_VALIDATION_ERROR);
         }
         ProjectPoModel projectPoModel = ssProjectManageMapper.selectProjectById(projectId);
+//        ProjectPoModelVo projectPoModelVo = convertModelFromVo(projectPoModel);
         if (projectPoModel == null) {
             return null;
         }
         return projectPoModel;
+    }
+
+    private ProjectPoModelVo convertModelFromVo(ProjectPoModel projectPoModel) {
+        if (projectPoModel == null) {
+            return null;
+        }
+        ProjectPoModelVo projectPoModelVo = new ProjectPoModelVo();
+        BeanUtils.copyProperties(projectPoModel, projectPoModelVo);
+        Date projectCreateTime = projectPoModel.getProjectCreateTime();
+        Date projectEndTime = projectPoModel.getProjectEndTime();
+        projectPoModelVo.setProjectCreateTime(DateUtil.dateFromat(projectCreateTime));
+        projectPoModelVo.setProjectEndTime(DateUtil.dateFromat(projectEndTime));
+        //mission
+//        List<SsProjectMission> projectMissions1 = projectPoModel.getProjectMissions();
+//        List<ProjectMissionModel> list = new ArrayList<>();
+//        for (SsProjectMission bean : projectMissions1) {
+//            Date projectMissionCreateTime = bean.getProjectMissionCreateTime();
+//            Date projectMissionEndTime = bean.getProjectMissionEndTime();
+//            ProjectMissionModel projectMissionModel = new ProjectMissionModel();
+//            BeanUtils.copyProperties(bean, projectMissionModel);
+//            projectMissionModel.setProjectMissionCreateTime(DateUtil.dateFromat(projectMissionCreateTime));
+//            projectMissionModel.setProjectMissionEndTime(DateUtil.dateFromat(projectMissionEndTime));
+//            list.add(projectMissionModel);
+//        }
+        return projectPoModelVo;
     }
 
 
@@ -334,6 +357,7 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public PageResult<SsProjectManageVo> selectAllProjects(Integer page, Integer limit) {
+        //总数量
         long total = ssProjectManageMapper.countByExample(null);
         List<SsProjectManage> ssProjectManages = ssProjectManageMapper.selectAllProjects(page - 1, limit);
 
@@ -341,7 +365,9 @@ public class ProjectServiceImpl implements ProjectService {
             SsProjectManageVo ssProjectManageVo = convertSsProjectManageVoFromDto(ssProjectManage);
             return ssProjectManageVo;
         }).collect(Collectors.toList());
-        return new PageResult<>(ssProjectManageVos, total);
+        PageResult<SsProjectManageVo> ssProjectManageVoPageResult = new PageResult<>(ssProjectManageVos, total);
+
+        return ssProjectManageVoPageResult;
     }
 
     @Override
@@ -468,6 +494,258 @@ public class ProjectServiceImpl implements ProjectService {
         return new PageResult<>(ssProjectManageVos, total);
     }
 
+    @Override
+    public SsProjectMission getMissionById(String projectMissionId) {
+        if (StringUtils.isBlank(projectMissionId)) {
+            return null;
+        }
+        SsProjectMission ssProjectMission = ssProjectMissionMapper.selectByPrimaryKey(projectMissionId);
+        if (ssProjectMission != null) {
+            return ssProjectMission;
+        }
+        return null;
+    }
+
+    /////////////////////////////////////////////////////////
+
+    @Transactional
+    @Override
+    public String uploadAll2pic(List<MultipartFile> file) {
+        String picStr = "";
+        for (MultipartFile multipartFile : file) {
+            String originalFilename = multipartFile.getOriginalFilename();
+            String suffix = StringUtils.substringAfterLast(originalFilename, ".");
+            if (StringUtils.equalsAnyIgnoreCase(suffix, "bmp", "jpg", "jpeg", "gif", "png")) {
+                //添加pic:db
+                SsProjectPic ssProjectPic = addPic2(multipartFile);
+                if (ssProjectPic == null) {
+                    return null;
+                }
+                picStr += ssProjectPic.getProjectPicId() + ".";
+//                picStr += "." + ssProjectPic.getProjectPicId();
+                //上传pic
+                boolean b = upLoadPic(multipartFile, ssProjectPic.getProjectPicNewName());
+                if (!b) {
+                    return null;
+                }
+            } else {
+                return null;
+            }
+        }
+        return picStr;
+    }
+
+    @Transactional
+    @Override
+    public String uploadAll2doc(List<MultipartFile> file) {
+        String docStr = "";
+        for (MultipartFile multipartFile : file) {
+            //添加doc->db
+            SsProjectDoc ssProjectDoc = addDoc2(multipartFile);
+            if (ssProjectDoc == null) {
+                return null;
+            }
+            docStr = ssProjectDoc.getProjectDocId() + "." + docStr;
+//            docStr = docStr + "." + ssProjectDoc.getProjectDocId();
+            //上传doc
+            boolean b = upLoadDoc(multipartFile, ssProjectDoc.getProjectDocNewName());
+            if (!b) {
+                return null;
+            }
+        }
+        return docStr;
+    }
+
+    @Override
+    public Map<String, Object> selectAllProject(Integer page, Integer limit) {
+        Map<String, Object> map = new HashedMap();
+        //总数量
+        long total = ssProjectManageMapper.countByExample(null);
+        List<SsProjectManage> ssProjectManages = ssProjectManageMapper.selectAllProjects(page - 1, limit);
+        List<SsProjectManageVo> ssProjectManageVos = ssProjectManages.stream().map(ssProjectManage -> {
+            SsProjectManageVo ssProjectManageVo = convertSsProjectManageVoFromDto(ssProjectManage);
+            return ssProjectManageVo;
+        }).collect(Collectors.toList());
+        //进行中
+        SsProjectManageExample example = new SsProjectManageExample();
+        SsProjectManageExample.Criteria criteria = example.createCriteria();
+        criteria.andProjectStatusEqualTo(1);
+        long l1 = ssProjectManageMapper.countByExample(example);
+        //已完成
+        long l2 = total - l1;
+        map.put("total", total);
+        map.put("data", ssProjectManageVos);
+        map.put("ing", l1);
+        map.put("done", l2);
+        return map;
+    }
+
+    @Transactional
+    @Override
+    public boolean setupProject2(ProjectModel projectModel, List<String> picIdList, List<String> docIdList) throws ParseException {
+        //添加project-manage
+        if (StringUtils.isAnyBlank(projectModel.getProjectName(),
+                projectModel.getDate(),
+                projectModel.getProjectTechnology(),
+                projectModel.getProjectStandard(),
+                projectModel.getProjectDescription(),
+                projectModel.getProjectLeaderName(),
+                projectModel.getProjectLeaderPhone(),
+                projectModel.getProjectDocInfo(),
+                String.valueOf(projectModel.getProjectLevel()).trim(),
+                String.valueOf(projectModel.getProjectStatus()).trim())
+                || (picIdList.size() == 0 || picIdList == null)
+                || (docIdList.size() == 0 || docIdList == null)
+                ) {
+            return false;
+        }
+        SsProjectManage ssProjectManage = convertProjectModelFromSsProjectManage(projectModel);
+        int i = ssProjectManageMapper.insertSelective(ssProjectManage);
+        if (i == 1) {
+            String fileGId = ssProjectManage.getProjectId();
+            log.debug("立项名字:{}", projectModel.getProjectName());
+            int ipic = ssProjectPicMapper.updatesGIdById(fileGId, picIdList);
+            int idoc = ssProjectDocMapper.updatesGIdById(fileGId, docIdList);
+            if (ipic < 0 && idoc < 0) {
+                return false;
+            }
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public PageResult<PicVo> selectPicByProjectId(String projectId) {
+        SsProjectPicExample example = new SsProjectPicExample();
+        SsProjectPicExample.Criteria criteria = example.createCriteria();
+        criteria.andProjectGProjectIdEqualTo(projectId);
+        List<SsProjectPic> ssProjectPics = ssProjectPicMapper.selectByExample(example);
+        if (ssProjectPics.size() == 0 || ssProjectPics == null) {
+            return null;
+        }
+        List<PicVo> collect = ssProjectPics.stream().map(ssProjectPic -> {
+            PicVo picVo = convertPicBeanFromPicVo(ssProjectPic);
+            return picVo;
+        }).collect(Collectors.toList());
+        long l = ssProjectPicMapper.countByExample(example);
+
+        return new PageResult<>(collect, l);
+    }
+
+    @Transactional
+    @Override
+    public boolean deletePic(String projectPicId, String projectPicNewName) {
+        int i = ssProjectPicMapper.deleteByPrimaryKey(projectPicId);
+        if (i == 1) {
+            File file = new File("D:/upload");
+            FileUtil.delete(file, projectPicNewName);
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public PageResult<SsProjectDoc> selectDocByProjectId(String projectId) {
+        SsProjectDocExample example = new SsProjectDocExample();
+        SsProjectDocExample.Criteria criteria = example.createCriteria();
+        criteria.andProjectGProjectIdEqualTo(projectId);
+        List<SsProjectDoc> ssProjectDocs = ssProjectDocMapper.selectByExample(example);
+        if (ssProjectDocs.size() == 0 || ssProjectDocs == null) {
+            return null;
+        }
+        long l = ssProjectDocMapper.countByExample(example);
+        return new PageResult<>(ssProjectDocs, l);
+    }
+
+    @Override
+    public boolean deleteDoc(String projectDocId, String projectDocNewName) {
+        int i = ssProjectDocMapper.deleteByPrimaryKey(projectDocId);
+        if (i == 1) {
+            File file = new File("D:/upload");
+            FileUtil.delete(file, projectDocNewName);
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public PageResult<SsProjectManageVo> selectAllProjects2(PageParam pageParam) {
+        List<SsProjectManage> ssProjectManageList = ssProjectManageMapper.selectAllProjects2(pageParam);
+        List<SsProjectManageVo> ssProjectManageVos = ssProjectManageList.stream().map(ssProjectManage -> {
+            SsProjectManageVo ssProjectManageVo = convertSsProjectManageVoFromDto(ssProjectManage);
+            return ssProjectManageVo;
+        }).collect(Collectors.toList());
+        long total1 = pageParam.getTotal();
+        return new PageResult<>(ssProjectManageVos, total1);
+    }
+
+    public static final String baseUrl = "http://oa.sdsoon.cn:8099/images/";
+
+    private PicVo convertPicBeanFromPicVo(SsProjectPic ssProjectPic) {
+        if (ssProjectPic == null) {
+            return null;
+        }
+        PicVo picVo = new PicVo();
+        BeanUtils.copyProperties(ssProjectPic, picVo);
+        picVo.setImgUrl(baseUrl + ssProjectPic.getProjectPicNewName());
+        return picVo;
+    }
+
+    //doc上传:添加db
+    @Transactional
+    private SsProjectDoc addDoc2(MultipartFile docFile) {
+        // 文件原始名称
+        String originalFileName = docFile.getOriginalFilename();
+        SsProjectDoc ssProjectDoc = new SsProjectDoc();
+        String docIdSuffix = UUID.randomUUID().toString().replaceAll("-", "");
+        String docId = DOC_ID_PREFIX + docIdSuffix;
+//        String docId = UUID.randomUUID().toString().replaceAll("-", "");
+
+        ssProjectDoc.setProjectDocId(docId);
+        ssProjectDoc.setProjectDocOldName(originalFileName);
+        ssProjectDoc.setProjectDocNewName(newFileName(originalFileName));
+//        ssProjectDoc.setProjectGProjectId(projectId);
+        ssProjectDoc.setProjectDocPath(DOC_REAL_SAVE_PATH);
+        int i = ssProjectDocMapper.insertSelective(ssProjectDoc);
+        if (i == 1) {
+            return ssProjectDoc;
+        }
+        return null;
+    }
+
+    //pic添加db
+    @Transactional
+    private SsProjectPic addPic2(MultipartFile picFile) {
+        // 校验图片格式
+        boolean isLegal = false;
+        String originalFilename = picFile.getOriginalFilename();
+        for (String type : IMAGE_TYPE) {
+            if (StringUtils.endsWithIgnoreCase(originalFilename, type)) {
+                isLegal = true;
+                break;
+            }
+        }
+        //格式正确 存db
+        if (isLegal) {
+            SsProjectPic ssProjectPic = new SsProjectPic();
+//            ssProjectPic.setProjectGProjectId(projectId);
+            String picIdSuffix = UUID.randomUUID().toString().replaceAll("-", "");
+            String picId = PIC_ID_PREFIX.concat(picIdSuffix);
+//            String picId = UUID.randomUUID().toString().replaceAll("-", "");
+
+            ssProjectPic.setProjectPicId(picId);
+            ssProjectPic.setProjectPicOldName(originalFilename);
+            ssProjectPic.setProjectPicNewName(newFileName(originalFilename));
+            ssProjectPic.setProjectPicPath(IMG_REAL_SAVE_PATH);
+            int i = ssProjectPicMapper.insertSelective(ssProjectPic);
+            if (i == 1) {
+                return ssProjectPic;
+            }
+        }
+        return null;
+    }
+
+    /////////////////////////////////////////////////////////
     private ProjectMissionModel convertMissionBeanFromModel(SsProjectMission ssProjectMission) {
         if (ssProjectMission == null) {
             return null;

@@ -225,4 +225,30 @@
     <delete id="deleteByGId" parameterType="string">
         DELETE FROM ss_project_pic p WHERE p.project_g_project_id =#{projectId}
     </delete>
+    <!--  -->
+    <!--<update id="updatesGIdById" parameterType="string">-->
+    <!--<foreach collection="params" index="index" item="param" separator=";">-->
+    <!--UPDATE ss_project_pic p-->
+    <!--<set>-->
+    <!--<if test="param!=null and param!=''">-->
+    <!--p.project_g_project_id = #{param}-->
+    <!--</if>-->
+    <!--</set>-->
+    <!--<where>-->
+    <!--<if test="projectId!=null and projectId!=''">-->
+    <!--p.project_pic_id = #{projectId}-->
+    <!--</if>-->
+    <!--</where>-->
+    <!--</foreach>-->
+    <!--</update>-->
+
+    <update id="updatesGIdById" parameterType="string">
+        UPDATE ss_project_pic p SET p.project_g_project_id = #{projectId}
+        WHERE p.project_pic_id IN
+        <foreach collection="params" item="param" open="(" separator="," close=")">
+            <if test="param!=null and param!=''">
+                #{param}
+            </if>
+        </foreach>
+    </update>
 </mapper>

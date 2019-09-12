@@ -1,5 +1,10 @@
 package com.sdsoon.core.util;
 
+import org.apache.commons.lang3.StringUtils;
+
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * 字符串工具类
  * Created by wangfan on 2017-6-10 上午10:10
@@ -71,6 +76,35 @@ public class StringUtil {
         String head = in.substring(0, 1);
         String out = head.toUpperCase() + in.substring(1, in.length());
         return out;
+    }
+
+    //
+    public static void main(String args[]) {
+        String docids = "doc_687b7a331dea480289065d33a16d1d7d.doc_38c40f6e46d7434f9e349ebaed926509.";
+        String picids = "pic_7d97d97544884e188bd8829bde73c913.pic_3c13a8621a2d40b7951193958df85bfd.";
+
+        List<String> strings = splitFileId(docids);
+        List<String> strings2 = splitFileId(picids);
+        for(String s:strings){
+            System.out.println(s);
+        }
+        for(String s:strings2){
+            System.out.println(s);
+        }
+    }
+
+    //截取 fileIds
+    public static List<String> splitFileId(String strIds) {
+        String trim = strIds.trim();
+        if (StringUtils.isBlank(trim)) {
+            return null;
+        }
+        String[] split = trim.split("\\.");
+        List<String> reList = new ArrayList<>();
+        for (String s : split) {
+            reList.add(s);
+        }
+        return reList;
     }
 
 }

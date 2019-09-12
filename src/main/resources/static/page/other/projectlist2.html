@@ -24,26 +24,50 @@
 <!-- 正文开始 -->
 <div class="layui-fluid">
     <div class="layui-card">
-        <div class="layui-card-body table-tool-mini">
+
+      <!--  <div class="layui-card-body table-tool-mini">
             <div class="layui-form toolbar">
                 <div class="layui-form-item">
-                    <!--<div class="layui-inline">-->
-                    <!--<label class="layui-form-label w-auto">账&emsp;号：</label>-->
-                    <!--<div class="layui-input-inline mr0">-->
-                    <!--<input name="username" class="layui-input" type="text" placeholder="输入账号"/>-->
-                    <!--</div>-->
-                    <!--</div>-->
-                    <!--<div class="layui-inline">-->
-                    <!--<label class="layui-form-label w-auto">用户名：</label>-->
-                    <!--<div class="layui-input-inline mr0">-->
-                    <!--<input name="nickName" class="layui-input" type="text" placeholder="输入用户名"/>-->
-                    <!--</div>-->
-                    <!--</div>-->
+                    <div class="layui-inline">
+                        <label class="layui-form-label w-auto">项目名称：</label>
+                        <div class="layui-input-inline mr0">
+                            <input name="projectName" class="layui-input" type="text" placeholder="输入项目名称"/>
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label w-auto">负责人：</label>
+                        <div class="layui-input-inline mr0">
+                            <input name="projectLeaderName" class="layui-input" type="text" placeholder="输入负责人"/>
+                        </div>
+                    </div>
                     <div class="layui-inline" style="padding-right: 110px;">
-                        <!--<button class="layui-btn icon-btn" lay-filter="formSubSearchUser" lay-submit>-->
-                        <!--<i class="layui-icon">&#xe615;</i>搜索-->
-                        <!--</button>-->
-                        <!--<button id="btnAddUser" class="layui-btn icon-btn"><i class="layui-icon">&#xe654;</i>添加</button>-->
+                        <button class="layui-btn icon-btn" lay-filter="formSubSearchUser" lay-submit>
+                            <i class="layui-icon">&#xe615;</i>搜索
+                        </button>
+                    </div>
+                </div>
+            </div>-->
+            <!-- ================================================== -->
+            <!-- 表格顶部工具栏 -->
+            <div class="layui-form toolbar">
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label w-auto">项目名称：</label>
+                        <div class="layui-input-inline mr0">
+                            <input name="projectName" class="layui-input" type="text" placeholder="输入项目名称"/>
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label w-auto">负责人：</label>
+                        <div class="layui-input-inline mr0">
+                            <input name="projectLeaderName" class="layui-input" type="text" placeholder="输入负责人"/>
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <button class="layui-btn icon-btn" lay-filter="searchSubmit" lay-submit>
+                            <i class="layui-icon">&#xe615;</i>搜索
+                        </button>
+                        <button id="btnAdd" class="layui-btn icon-btn"><i class="layui-icon">&#xe654;</i>添加</button>
                     </div>
                 </div>
             </div>
@@ -58,14 +82,21 @@
     <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="missions">查看任务</a>
     <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="edit">修改</a>
     <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+    <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="showPic">查看板标</a>
+    <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="showDoc">查看文档</a>
 </script>
 <!-- 板标 -->
 <script type="text/html" id="tableBarPic">
-    <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="showPic">查看板标</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="delPic">删除</a>
 </script>
+<!-- 文档 -->
+<script type="text/html" id="tableBarDoc">
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="delDoc">删除</a>
+</script>
+<!-- 任务 -->
+<!--<a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="editMission">修改</a>-->
 <script type="text/html" id="tableBarMission">
-    <!--<a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="editMission">修改</a>-->
-    <!--<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="delMission">删除</a>-->
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="delMission">删除</a>
 </script>
 <!-- 表格状态列 -->
 <script type="text/html" id="tableStateUser">
@@ -82,6 +113,39 @@
 
         </table>
     </form>
+</script>
+<script type="text/html" id="modelPic">
+    <form id="modelPicForm" lay-filter="modelMissionForm" class="layui-form model-form">
+        <input name="projectId" type="hidden"/>
+        <input name="projectPicId" type="hidden"/>
+        <input name="projectPicOldName" type="hidden"/>
+        <input name="projectPicNewName" type="hidden"/>
+        <table class="layui-table" id="tablePic" lay-filter="tablePic">
+            <!-- =============================================== -->
+
+        </table>
+    </form>
+</script>
+<script type="text/html" id="modelDoc">
+    <form id="modelDocForm" lay-filter="modelMissionForm" class="layui-form model-form">
+        <input name="projectId" type="hidden"/>
+        <input name="projectDocId" type="hidden"/>
+        <input name="projectDocOldName" type="hidden"/>
+        <input name="projectDocNewName" type="hidden"/>
+        <table class="layui-table" id="tableDoc" lay-filter="tableDoc">
+            <!-- =============================================== -->
+
+        </table>
+    </form>
+</script>
+<!-- 展示图片 -->
+<!--{{# for(var i=0; i<d.data.length ; i++){  }}-->
+<!--<img src="{{d.data[i].imgUrl}}" >-->
+<!--{{# } }}-->
+<script id="showScreenhost" type="text/html">
+    <div style="display:inline-block !important; display:inline;  max-width:70px; max-height:50px;">
+        <img style=" max-width:70px; max-height:50px;" src="{{d.imgUrl}}"/>
+    </div>
 </script>
 <script type="text/html" id="modelUser">
     <form id="modelUserForm" lay-filter="modelUserForm" class="layui-form model-form">
@@ -200,6 +264,9 @@
         var util = layui.util;
         var admin = layui.admin;
         var laydate = layui.laydate;
+        var insTMission;
+        var insTPic;
+        var insTDoc;
 
         // 渲染表格
         var insTb = table.render({
@@ -220,8 +287,8 @@
                 {field: 'projectDescription', sort: true, title: '项目备注'},
                 {field: 'projectStatus', sort: true, templet: '#tableStateUser', title: '状态'},
 //                {align: 'center', toolbar: '#demoTableED1Bar', title: '操作', minWidth: 250}
-                {align: 'center', toolbar: '#tableBarUser', title: '操作', minWidth: 200},
-                {align: 'center', toolbar: '#tableBarUser', title: '板标操作', minWidth: 200},
+                {align: 'center', toolbar: '#tableBarUser', title: '操作', minWidth: 400},
+
             ]],
             size: 'lg'
         });
@@ -230,11 +297,14 @@
         $('#btnAddUser').click(function () {
             showEditModel();
         });
-
         // 搜索
-        form.on('submit(formSubSearchUser)', function (data) {
-            insTb.reload({where: data.field}, 'data');
+        form.on('submit(searchSubmit)', function (data) {
+            insTb.reload({where: data.field, page: {curr: 1}});
         });
+        // 搜索
+//        form.on('submit(formSubSearchUser)', function (data) {
+//            insTb.reload({where: data.field}, 'data');
+//        });
 
         // 工具条点击事件
         table.on('tool(tableUser)', function (obj) {
@@ -246,19 +316,40 @@
                 doDel(data.projectId, data.projectName);
             } else if (layEvent === 'missions') {//查看任务
                 showMissions(data.projectId);
-            } else if (layEvent === 'delMission') {//删除任务
-                delMission(data.projectMissionId);
+            } else if (layEvent === 'showPic') {//查看板标
+                showPic(data.projectId);
+            } else if (layEvent === 'showDoc') {
+                showDoc(data.projectId);
             }
 
         });
-        //任务
-    /*    table.on('tool(tableMission)', function (obj) {
+        //文档
+        table.on('tool(tableDoc)', function (obj) {
             var data = obj.data;
             var layEvent = obj.event;
-            if (layEvent === 'editMission') {
-                editMission(data);
+            if (layEvent === 'delDoc') { // 删除
+                delDoc(data.projectDocId, data.projectDocOldName, data.projectDocNewName);
             }
-        });*/
+        });
+        //板标
+        table.on('tool(tablePic)', function (obj) {
+            var data = obj.data;
+            var layEvent = obj.event;
+            if (layEvent === 'delPic') { // 删除
+                delPic(data.projectPicId, data.projectPicOldName, data.projectPicNewName);
+            }
+        });
+        //任务
+        table.on('tool(tableMission)', function (obj) {
+            var data = obj.data;
+            var layEvent = obj.event;
+            if (layEvent === 'delMission') {//删除任务
+                delMission(data.projectMissionId);
+            }
+//            else if (layEvent === 'editMission') {
+//                editMission(data);
+//            }
+        });
 
         // 显示表单弹窗
         function showEditModel(mUser) {
@@ -365,8 +456,6 @@
             }, 'json');
         });
         //查看任务节点
-        var insTMission;
-
         function showMissions(projectId) {
             var id = projectId;
             admin.open({
@@ -383,7 +472,7 @@
                             {field: 'projectMissionCreateTime', sort: true, title: '开始时间'},
                             {field: 'projectMissionEndTime', sort: true, title: '结束时间'},
                             {field: 'projectMissionDescription', sort: true, title: '任务备注'},
-//                            {align: 'center', toolbar: '#tableBarMission', title: '操作', minWidth: 200}
+                            {align: 'center', toolbar: '#tableBarMission', title: '操作', minWidth: 200}
                         ]],
                     });
 
@@ -425,6 +514,97 @@
 //            })
 //        }
 
+        //板标
+        function showPic(projectId) {
+            var id = projectId;
+            admin.open({
+                type: 1,
+                content: $('#modelPic').html(),
+                success: function (projectId) {
+                    insTPic = table.render({
+                        elem: '#tablePic',
+                        url: '/pro/pic/show?projectId=' + id,
+                        page: true,
+                        cellMinWidth: 100,
+                        cols: [[
+                            {type: 'numbers', title: '#'},
+                            {field: 'imgUrl', templet: '#showScreenhost', sort: true, title: '板标'},
+                            {field: 'projectPicOldName', sort: true, title: '名字', minWidth: 150},
+                            {align: 'center', toolbar: '#tableBarPic', title: '操作', minWidth: 100}
+                        ]],
+                    });
+                    return false;
+                }
+            })
+        }
+
+        function delPic(projectPicId, projectPicOldName, projectPicNewName) {
+            layer.confirm('确定要删除“' + projectPicOldName + '”吗？', {
+                skin: 'layui-layer-admin',
+                shade: .1
+            }, function (i) {
+                layer.close(i);
+                layer.load(2);
+                $.post('/pro/pic/delete', {
+                    projectPicId: projectPicId,
+                    projectPicNewName: projectPicNewName
+                }, function (res) {
+                    layer.closeAll('loading');
+                    if (res.code == 200) {
+                        layer.msg(res.msg, {icon: 1});
+                        insTPic.reload({}, 'data');
+                    } else {
+                        layer.msg(res.msg, {icon: 2});
+                    }
+                }, 'json');
+            });
+        }
+
+        //文档
+        function showDoc(projectId) {
+            var id = projectId;
+            admin.open({
+                type: 1,
+                content: $('#modelDoc').html(),
+                success: function (projectId) {
+                    insTDoc = table.render({
+                        elem: '#tableDoc',
+                        url: '/pro/doc/show?projectId=' + id,
+                        page: true,
+                        cellMinWidth: 100,
+                        cols: [[
+                            {type: 'numbers', title: '#'},
+//                            {field: 'imgUrl', templet: '#showScreenhost', sort: true, title: '文档'},
+                            {field: 'projectDocOldName', sort: true, title: '文档', minWidth: 150},
+                            {align: 'center', toolbar: '#tableBarDoc', title: '操作', minWidth: 100}
+                        ]],
+                    });
+                    return false;
+                }
+            })
+        }
+
+        function delDoc(projectDocId, projectDocOldName, projectDocNewName) {
+            layer.confirm('确定要删除“' + projectDocOldName + '”吗？', {
+                skin: 'layui-layer-admin',
+                shade: .1
+            }, function (i) {
+                layer.close(i);
+                layer.load(2);
+                $.post('/pro/doc/delete', {
+                    projectDocId: projectDocId,
+                    projectDocNewName: projectDocNewName
+                }, function (res) {
+                    layer.closeAll('loading');
+                    if (res.code == 200) {
+                        layer.msg(res.msg, {icon: 1});
+                        insTDoc.reload({}, 'data');
+                    } else {
+                        layer.msg(res.msg, {icon: 2});
+                    }
+                }, 'json');
+            });
+        }
     });
 </script>
 

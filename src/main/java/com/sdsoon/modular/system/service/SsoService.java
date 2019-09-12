@@ -36,5 +36,15 @@ public interface SsoService {
      */
     boolean authLoginCheck(HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException;
 
+    /**
+     * 校验拦截器
+     * @param request
+     * @param response
+     * @param token  userId
+     * @return
+     * @throws UnsupportedEncodingException
+     */
+    boolean authLoginCheck(HttpServletRequest request, HttpServletResponse response,String token) throws UnsupportedEncodingException;
+
     boolean logout(HttpServletRequest request, HttpServletResponse response) throws ResponseException;
 }

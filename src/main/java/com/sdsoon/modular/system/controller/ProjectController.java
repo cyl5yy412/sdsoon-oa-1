@@ -7,6 +7,7 @@ import com.sdsoon.core.response.ex.ResponseException;
 import com.sdsoon.core.util.PageResult;
 import com.sdsoon.modular.system.model.ProjectMissionModel;
 import com.sdsoon.modular.system.model.ProjectPoModel;
+import com.sdsoon.modular.system.po.SsProjectMission;
 import com.sdsoon.modular.system.service.ProjectService;
 import com.sdsoon.modular.system.vo.AddMissionVo;
 import com.sdsoon.modular.system.vo.h.SsProjectManageVo;
@@ -19,6 +20,7 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 /**
@@ -28,6 +30,7 @@ import java.util.UUID;
  */
 @RestController
 @RequestMapping("/project")
+@CrossOrigin(origins = "*", allowCredentials = "true", allowedHeaders = "*")
 public class ProjectController extends BaseController {
     @Autowired
     private ProjectService projectService;
@@ -58,24 +61,24 @@ public class ProjectController extends BaseController {
     //查询立项所有内容
     @PostMapping("/get")
     public ReturnResult select(String projectId) throws ResponseException {
-        ProjectPoModel projectPoModel = projectService.selectProjectById(projectId);
-        if (projectPoModel == null) {
+        ProjectPoModel projectPoModelVo = projectService.selectProjectById(projectId);
+        if (projectPoModelVo == null) {
             return ReturnResult.create(null);
         }
-        return ReturnResult.create(projectPoModel);
+        return ReturnResult.create(projectPoModelVo);
     }
 
     //项目管理内容
     @GetMapping("/list")
-    public PageResult<SsProjectManageVo> list(@RequestParam("page") Integer page, @RequestParam("limit") Integer limit) throws ResponseException {
-        PageResult<SsProjectManageVo> ssProjectManageVoPageResult = projectService.selectAllProjects(page, limit);
-        return ssProjectManageVoPageResult;
+    public ReturnResult list(@RequestParam("page") Integer page, @RequestParam("limit") Integer limit) throws ResponseException {
+        Map<String, Object> objectMap = projectService.selectAllProject(page, limit);
+        return ReturnResult.create(objectMap);
     }
 
     //项目管理 进行和完成
     @GetMapping("/list/status")
     public PageResult<SsProjectManageVo> listByStatus(@RequestParam("status") Integer status, @RequestParam("page") Integer page, @RequestParam("limit") Integer limit) throws ResponseException {
-        PageResult<SsProjectManageVo> ssProjectManageVoPageResult = projectService.selectAllProjectsByStatus(status,page, limit);
+        PageResult<SsProjectManageVo> ssProjectManageVoPageResult = projectService.selectAllProjectsByStatus(status, page, limit);
         return ssProjectManageVoPageResult;
     }
 
@@ -94,7 +97,17 @@ public class ProjectController extends BaseController {
     public ReturnResult updateMission(@RequestBody AddMissionVo addMissionVo) throws ResponseException {
         boolean b = projectService.updateMission(addMissionVo);
         if (b) {
-            return ReturnResult.create(HttpStatus.CREATED);
+            return ReturnResult.create(HttpStatus.OK);
+        }
+        return ReturnResult.create(null);
+    }
+
+    //根据missionid查询
+    @PostMapping("/get/mission")
+    public ReturnResult getMission(String projectMissionId) throws ResponseException {
+        SsProjectMission ssProjectMission = projectService.getMissionById(projectMissionId);
+        if (ssProjectMission != null) {
+            return ReturnResult.create(ssProjectMission);
         }
         return ReturnResult.create(null);
     }

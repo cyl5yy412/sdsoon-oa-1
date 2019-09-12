@@ -57,14 +57,15 @@ public class SsoServiceImpl implements SsoService {
          * value:前缀#userId-base64编码:sso_cookie#b92c07d222824fe48d9a8d8434e372f0
          * 过期时间:5 day
          */
-        String encodeCookieSuffix = cookieValueSuffix(ssoUserModel.getUserId());
-        String cookieValue = cookieValue(encodeCookieSuffix);
-        CookieUtil.setCookie(request, response,
-                SSO_COOKIE_NAME,//cookieName:sso_cookie
-                cookieValue,//cookieValue,userId编码
-                SsoConf.COOKIE_EXPIRE_SECOND);
+//        String encodeCookieSuffix = cookieValueSuffix(ssoUserModel.getUserId());
+//        String cookieValue = cookieValue(encodeCookieSuffix);
+//        CookieUtil.setCookie(request, response,
+//                SSO_COOKIE_NAME,//cookieName:sso_cookie
+//                cookieValue,//cookieValue,userId编码
+//                SsoConf.COOKIE_EXPIRE_SECOND);
+//        log.info(cookieValue);
+
         log.info(SSO_COOKIE_NAME);
-        log.info(cookieValue);
     }
 
     @Override
@@ -98,6 +99,7 @@ public class SsoServiceImpl implements SsoService {
             }
             return ssoUserModel;
         }
+
     }
 
     @Override
@@ -122,6 +124,19 @@ public class SsoServiceImpl implements SsoService {
             }
             return false;
         }
+    }
+
+    @Override
+    public boolean authLoginCheck(HttpServletRequest request, HttpServletResponse response, String token) throws UnsupportedEncodingException {
+        String redisKey = redisKey(token);
+        SsoUserModel ssoUserModel = (SsoUserModel) redisTemplate.opsForValue().get(redisKey);
+        if (ssoUserModel == null) {
+            return false;
+        }
+        if (StringUtils.equals(token, ssoUserModel.getUserId())) {
+            return true;
+        }
+        return false;
     }
 
 

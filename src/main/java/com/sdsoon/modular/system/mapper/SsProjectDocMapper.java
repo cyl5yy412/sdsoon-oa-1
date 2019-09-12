@@ -33,4 +33,7 @@ public interface SsProjectDocMapper {
     int deletes(@Param("params") List<SsProjectDoc> projectDocs);
 
     int deleteByGId(String projectId);
+
+    //批量修改
+    int updatesGIdById(@Param("projectId") String fileGId,@Param("params") List<String> docIdList);
 }

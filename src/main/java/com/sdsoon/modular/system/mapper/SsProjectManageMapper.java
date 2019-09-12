@@ -1,5 +1,6 @@
 package com.sdsoon.modular.system.mapper;
 
+import com.sdsoon.core.util.PageParam;
 import com.sdsoon.modular.system.model.ProjectPoModel;
 import com.sdsoon.modular.system.po.SsProjectManage;
 import com.sdsoon.modular.system.po.SsProjectManageExample;
@@ -33,8 +34,10 @@ public interface SsProjectManageMapper {
     //
     ProjectPoModel selectProjectById(@Param("projectId") String projectId);
 
-
     List<SsProjectManage> selectAllProjects(@Param("page") Integer page, @Param("limit") Integer limit);
 
     List<SsProjectManage> selectAllProjectsByStatus(@Param("status") Integer status, @Param("page") Integer page, @Param("limit") Integer limit);
+
+    //shiro-xxx request方法
+    List<SsProjectManage> selectAllProjects2(@Param("page") PageParam pageParam);
 }

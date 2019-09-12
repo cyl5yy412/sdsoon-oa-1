@@ -15,6 +15,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.text.ParseException;
@@ -34,21 +35,21 @@ public class SdsoonOaApplicationTests {
     @Resource
     private SsRoleMapper ssRoleMapper;
 
-    @Test
+  /*  @Test
     public void contextLoads() {
         SsUserInfoExample example = new SsUserInfoExample();
 //		SsUserInfoExample.Criteria criteria = example.createCriteria();
         long l = ssUserInfoMapper.countByExample(null);
         System.out.println(l);
-    }
+    }*/
 
-    @Test
+   /* @Test
     public void contextLoads2() {
         List<SsPermission> ssPermissions = ssPermissionMapper.selectByExample(null);
         System.out.println(ssPermissions);
         long l = ssRoleMapper.countByExample(null);
         System.out.println(l);
-    }
+    }*/
 
     @Autowired
     private ProjectService projectService;
@@ -62,7 +63,7 @@ public class SdsoonOaApplicationTests {
     @Resource
     private SsProjectMissionMapper ssProjectMissionMapper;
 
-    @Test
+   /* @Test
     public void show2() {
         String id = "695b1acedf034b09be4246fba42c56ce";
         SsProjectMissionExample example = new SsProjectMissionExample();
@@ -72,40 +73,61 @@ public class SdsoonOaApplicationTests {
         long total = ssProjectMissionMapper.countByExample(example);
         System.out.println(total);
         System.out.println(ssProjectMissions);
+    }*/
+
+    /*  @Test
+      public void show3() {
+  //        List<SsProjectPic> projectPics = new ArrayList<>();
+  //        SsProjectPic ssProjectPic1 = new SsProjectPic();
+  //        ssProjectPic1.setProjectPicId("123");
+  //        SsProjectPic ssProjectPic2 = new SsProjectPic();
+  //        ssProjectPic2.setProjectPicId("456");
+  //        projectPics.add(ssProjectPic1);
+  //        projectPics.add(ssProjectPic2);
+  //        int picNum = ssProjectPicMapper.deletes(projectPics);
+  //        System.out.println(picNum);
+          //
+  //        List<SsProjectDoc> projectDocs = new ArrayList<>();
+  //        SsProjectDoc ssProjectDoc1=new SsProjectDoc();
+  //        ssProjectDoc1.setProjectDocId("123");
+  //        ssProjectDoc1.setProjectGProjectId("sada");
+  //        SsProjectDoc ssProjectDoc2=new SsProjectDoc();
+  //        ssProjectDoc2.setProjectDocId("456");
+  //        ssProjectDoc2.setProjectDocNewName("fs");
+  //        projectDocs.add(ssProjectDoc1);
+  //        projectDocs.add(ssProjectDoc2);
+  //        int docNum = ssProjectDocMapper.deletes(projectDocs);
+  //        System.out.println(docNum);
+          //
+          //根据gid删除
+          String projectId = "55";
+          int picNum = ssProjectPicMapper.deleteByGId(projectId);
+          System.out.println(picNum);
+          int docNum = ssProjectDocMapper.deleteByGId(projectId);
+          System.out.println(docNum);
+          int missionNum = ssProjectMissionMapper.deleteByGId(projectId);
+          System.out.println(missionNum);
+      }*/
+
+    @Test
+    public void show4() {
+        String fileGId = "fa5feb93216146f78ecc78f01a12257d";
+        List<String> picIdList = new ArrayList<>();
+        picIdList.add("pic_031aa7dfc11640968773ef8fcb833e43");
+        picIdList.add("pic_0f43ae1772fd4dbc828a3f6500bf80e5");
+        picIdList.add("pic_1157299214d749f4a050a2e8637d8d34");
+        int ipic = ssProjectPicMapper.updatesGIdById(fileGId, picIdList);
+        System.out.println(ipic);
     }
 
     @Test
-    public void show3() {
-//        List<SsProjectPic> projectPics = new ArrayList<>();
-//        SsProjectPic ssProjectPic1 = new SsProjectPic();
-//        ssProjectPic1.setProjectPicId("123");
-//        SsProjectPic ssProjectPic2 = new SsProjectPic();
-//        ssProjectPic2.setProjectPicId("456");
-//        projectPics.add(ssProjectPic1);
-//        projectPics.add(ssProjectPic2);
-//        int picNum = ssProjectPicMapper.deletes(projectPics);
-//        System.out.println(picNum);
-        //
-//        List<SsProjectDoc> projectDocs = new ArrayList<>();
-//        SsProjectDoc ssProjectDoc1=new SsProjectDoc();
-//        ssProjectDoc1.setProjectDocId("123");
-//        ssProjectDoc1.setProjectGProjectId("sada");
-//        SsProjectDoc ssProjectDoc2=new SsProjectDoc();
-//        ssProjectDoc2.setProjectDocId("456");
-//        ssProjectDoc2.setProjectDocNewName("fs");
-//        projectDocs.add(ssProjectDoc1);
-//        projectDocs.add(ssProjectDoc2);
-//        int docNum = ssProjectDocMapper.deletes(projectDocs);
-//        System.out.println(docNum);
-        //
-        //根据gid删除
-        String projectId = "55";
-        int picNum = ssProjectPicMapper.deleteByGId(projectId);
-        System.out.println(picNum);
-        int docNum = ssProjectDocMapper.deleteByGId(projectId);
-        System.out.println(docNum);
-        int missionNum = ssProjectMissionMapper.deleteByGId(projectId);
-        System.out.println(missionNum);
+    public void show5() {
+        String fileGId = "fa5feb93216146f78ecc78f01a12257d";
+        List<String> docIdList = new ArrayList<>();
+        docIdList.add("doc_27206e5bb69646fdbd634fe0afa9b891");
+        docIdList.add("doc_38c40f6e46d7434f9e349ebaed926509");
+        docIdList.add("doc_7273c762daa5476ea557d68d9bfa4630");
+        int idoc = ssProjectDocMapper.updatesGIdById(fileGId, docIdList);
+        System.out.println(idoc);
     }
-
 }

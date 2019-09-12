@@ -44,7 +44,7 @@ public class AdminController extends BaseController {
         if (getLoginUser() != null) {
             return "redirect:index.html";
         }
-        return "login.html";
+        return "/page/other/login.html";
     }
 
     /**

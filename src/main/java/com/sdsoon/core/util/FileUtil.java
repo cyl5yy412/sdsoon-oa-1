@@ -88,7 +88,7 @@ public class FileUtil {
                     os.write(buffer, 0, i);
                     i = bis.read(buffer);
                 }
-                log.debug("下载成功:{}",fileOldName);
+                log.debug("下载成功:{}", fileOldName);
             } catch (Exception e) {
                 e.printStackTrace();
             } finally {
@@ -214,4 +214,41 @@ public class FileUtil {
 
      */
 
+    /**
+     * 删除文件
+     *
+     * @param f
+     * @param fileName
+     * @return
+     */
+    public static void delete(File f, String fileName) {
+        //数组指向文件夹中的文件和文件夹
+        File[] fi = f.listFiles();
+        //遍历文件和文件夹
+        for (File file : fi) {
+            //如果是文件夹，递归查找
+            if (file.isDirectory())
+                delete(file, fileName);
+            else if (file.isFile()) {
+                //是文件的话，把文件名放到一个字符串中
+                String filename = file.getName();
+                //如果是“class”后缀文件，返回一个boolean型的值
+                /*if (filename.endsWith("class")) {
+                    System.out.println("成功删除：：" + file.getName());
+                    //file.delete();
+                }*/
+                if (fileName.equals(filename)) {
+                    System.out.println("成功删除：：" + file.getName());
+                    file.delete();
+                }
+            }
+        }
+
+    }
+    public static void main(String args[]) {
+//        File file = new File("/Users");  //  /Users是路径名
+        File file = new File("D:/upload");  //  "D:/upload"  Users是路径名
+        delete(file,"java.txt");
+
+    }
 }

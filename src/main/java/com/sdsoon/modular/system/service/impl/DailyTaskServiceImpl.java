@@ -107,7 +107,7 @@ public class DailyTaskServiceImpl implements DailyTaskService {
         Date date = DateUtil.convertStrDate2Date(dailyTaskVo.getDailyCreateTime());
         ssDailyTask.setDailyCreateTime(date);
         ssDailyTaskMapper.updateByPrimaryKeySelective(ssDailyTask);
-        return false;
+        return true;
     }
 
 

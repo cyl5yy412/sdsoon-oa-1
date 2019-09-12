@@ -46,3 +46,14 @@
 		}
 	]
 }
+
+
+
+
+//
+可以修改
+        "roleName": "超级管理员",
+        "roleCode": "admin",
+只能查看
+        "roleName": "普通用户",
+        "roleCode": "user",

@@ -3,7 +3,6 @@ package com.sdsoon.modular.system.controller;
 import com.sdsoon.core.response.ReturnResult;
 import com.sdsoon.core.response.ex.BaseController;
 import com.sdsoon.core.response.ex.ResponseException;
-import com.sdsoon.modular.system.model.SsoUserModel;
 import com.sdsoon.modular.system.po.SsUserInfo;
 import com.sdsoon.modular.system.service.AdminService;
 import com.sdsoon.modular.system.service.SsoService;
@@ -58,8 +57,8 @@ public class UserController extends BaseController {
         };
     }
 
-    //老用户登陆
-    @PostMapping("/check")
+    //老用户登陆--暂时未用
+   /* @PostMapping("/check")
     public Callable<ReturnResult> checkLogin(HttpServletRequest request,//
                                              HttpServletResponse response) throws UnsupportedEncodingException, ResponseException {
         SsoUserModel ssoUserModel = ssoService.loginCheck(request, response);
@@ -68,7 +67,7 @@ public class UserController extends BaseController {
         }
         //登陆页登陆
         return () -> ReturnResult.create(null);
-    }
+    }*/
 
     //退出
   /*  @PostMapping("/logout")
