@@ -2,7 +2,6 @@ package com.sdsoon.modular.system.controller.admin;
 
 import com.sdsoon.core.response.ex.ResponseException;
 import com.sdsoon.core.util.JsonResult;
-import com.sdsoon.core.util.PageParam;
 import com.sdsoon.core.util.PageResult;
 import com.sdsoon.core.util.StringUtil;
 import com.sdsoon.modular.system.model.ProjectMissionModel;
@@ -15,7 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.http.HttpServletRequest;
 import java.text.ParseException;
 import java.util.List;
 
@@ -85,16 +83,16 @@ public class HProjectController {
     }
 
     //展示所有project
-//    @GetMapping("/list")
-//    public PageResult<SsProjectManageVo> list(@RequestParam("page") Integer page, @RequestParam("limit") Integer limit) throws ResponseException {
-//        PageResult<SsProjectManageVo> ssProjectManageVoPageResult = projectService.selectAllProjects(page, limit);
-//        return ssProjectManageVoPageResult;
-//    }
     @GetMapping("/list")
-    public PageResult<SsProjectManageVo> list2(HttpServletRequest request) throws ResponseException {
-        return projectService.selectAllProjects2(new PageParam(request));
-
+    public PageResult<SsProjectManageVo> list(@RequestParam("page") Integer page, @RequestParam("limit") Integer limit) throws ResponseException {
+        PageResult<SsProjectManageVo> ssProjectManageVoPageResult = projectService.selectAllProjects(page, limit);
+        return ssProjectManageVoPageResult;
     }
+//    @GetMapping("/list")
+//    public PageResult<SsProjectManageVo> list2(HttpServletRequest request) throws ResponseException {
+//        return projectService.selectAllProjects2(new PageParam(request));
+//
+//    }
 
     //查看任务节点
     @GetMapping("/list/mission")

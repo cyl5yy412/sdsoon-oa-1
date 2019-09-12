@@ -2,7 +2,10 @@ package com.sdsoon.modular.system.service.impl;
 
 import com.sdsoon.core.response.ex.EnumError;
 import com.sdsoon.core.response.ex.ResponseException;
-import com.sdsoon.core.util.*;
+import com.sdsoon.core.util.DateUtil;
+import com.sdsoon.core.util.FileUtil;
+import com.sdsoon.core.util.IDUtil;
+import com.sdsoon.core.util.PageResult;
 import com.sdsoon.modular.system.mapper.SsProjectDocMapper;
 import com.sdsoon.modular.system.mapper.SsProjectManageMapper;
 import com.sdsoon.modular.system.mapper.SsProjectMissionMapper;
@@ -30,7 +33,10 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
 import java.text.ParseException;
-import java.util.*;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 /**
@@ -668,6 +674,7 @@ public class ProjectServiceImpl implements ProjectService {
         return false;
     }
 
+/*
     @Override
     public PageResult<SsProjectManageVo> selectAllProjects2(PageParam pageParam) {
         List<SsProjectManage> ssProjectManageList = ssProjectManageMapper.selectAllProjects2(pageParam);
@@ -678,6 +685,7 @@ public class ProjectServiceImpl implements ProjectService {
         long total1 = pageParam.getTotal();
         return new PageResult<>(ssProjectManageVos, total1);
     }
+*/
 
     public static final String baseUrl = "http://oa.sdsoon.cn:8099/images/";
 

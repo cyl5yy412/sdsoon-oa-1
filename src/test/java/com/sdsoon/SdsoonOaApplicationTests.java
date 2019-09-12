@@ -4,10 +4,7 @@ import com.sdsoon.core.response.ex.ResponseException;
 import com.sdsoon.core.util.DateUtil;
 import com.sdsoon.modular.system.mapper.*;
 import com.sdsoon.modular.system.model.ProjectMissionModel;
-import com.sdsoon.modular.system.po.SsPermission;
-import com.sdsoon.modular.system.po.SsProjectMission;
-import com.sdsoon.modular.system.po.SsProjectMissionExample;
-import com.sdsoon.modular.system.po.SsUserInfoExample;
+import com.sdsoon.modular.system.po.*;
 import com.sdsoon.modular.system.service.ProjectService;
 import com.sdsoon.modular.system.vo.AddMissionVo;
 import org.junit.Test;
@@ -109,7 +106,7 @@ public class SdsoonOaApplicationTests {
           System.out.println(missionNum);
       }*/
 
-    @Test
+  /*  @Test
     public void show4() {
         String fileGId = "fa5feb93216146f78ecc78f01a12257d";
         List<String> picIdList = new ArrayList<>();
@@ -118,9 +115,9 @@ public class SdsoonOaApplicationTests {
         picIdList.add("pic_1157299214d749f4a050a2e8637d8d34");
         int ipic = ssProjectPicMapper.updatesGIdById(fileGId, picIdList);
         System.out.println(ipic);
-    }
+    }*/
 
-    @Test
+/*    @Test
     public void show5() {
         String fileGId = "fa5feb93216146f78ecc78f01a12257d";
         List<String> docIdList = new ArrayList<>();
@@ -129,5 +126,11 @@ public class SdsoonOaApplicationTests {
         docIdList.add("doc_7273c762daa5476ea557d68d9bfa4630");
         int idoc = ssProjectDocMapper.updatesGIdById(fileGId, docIdList);
         System.out.println(idoc);
+    }*/
+
+    @Test
+    public void show6() {
+        List<SsProjectManage> ssProjectManages = ssProjectManageMapper.selectAllProjects(2,10);
+        System.out.println(ssProjectManages);
     }
 }
