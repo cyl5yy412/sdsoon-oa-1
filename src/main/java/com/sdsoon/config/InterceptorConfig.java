@@ -30,7 +30,7 @@ public class InterceptorConfig implements WebMvcConfigurer {
 //                        "/swagger-ui.html/**",
 //                        //登陆注册页
 //                        "/login",
-//                        "/**/index.html/**",
+//                        "/**/loginz.html/**",
 //                        "/**/login.html/**",
 //                        "/**/register.html/**",
 //                        //user

@@ -931,6 +931,76 @@ public class SsProjectManageExample {
             addCriterion("project_doc_info not between", value1, value2, "projectDocInfo");
             return (Criteria) this;
         }
+
+        public Criteria andProjectPeopleNameIsNull() {
+            addCriterion("project_people_name is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectPeopleNameIsNotNull() {
+            addCriterion("project_people_name is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectPeopleNameEqualTo(String value) {
+            addCriterion("project_people_name =", value, "projectPeopleName");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectPeopleNameNotEqualTo(String value) {
+            addCriterion("project_people_name <>", value, "projectPeopleName");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectPeopleNameGreaterThan(String value) {
+            addCriterion("project_people_name >", value, "projectPeopleName");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectPeopleNameGreaterThanOrEqualTo(String value) {
+            addCriterion("project_people_name >=", value, "projectPeopleName");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectPeopleNameLessThan(String value) {
+            addCriterion("project_people_name <", value, "projectPeopleName");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectPeopleNameLessThanOrEqualTo(String value) {
+            addCriterion("project_people_name <=", value, "projectPeopleName");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectPeopleNameLike(String value) {
+            addCriterion("project_people_name like", value, "projectPeopleName");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectPeopleNameNotLike(String value) {
+            addCriterion("project_people_name not like", value, "projectPeopleName");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectPeopleNameIn(List<String> values) {
+            addCriterion("project_people_name in", values, "projectPeopleName");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectPeopleNameNotIn(List<String> values) {
+            addCriterion("project_people_name not in", values, "projectPeopleName");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectPeopleNameBetween(String value1, String value2) {
+            addCriterion("project_people_name between", value1, value2, "projectPeopleName");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectPeopleNameNotBetween(String value1, String value2) {
+            addCriterion("project_people_name not between", value1, value2, "projectPeopleName");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

@@ -32,10 +32,12 @@ public class SsProjectManageVo implements Serializable {
 
     private String projectDocInfo;
 
+    private String projectPeopleName;
+
     public SsProjectManageVo() {
     }
 
-    public SsProjectManageVo(String projectId, String projectName, String projectDescription, String projectTechnology, String projectStandard, String projectLeaderName, String projectLeaderPhone, String projectCreateTime, String projectEndTime, Integer projectStatus, Integer projectLevel, String projectDocInfo) {
+    public SsProjectManageVo(String projectId, String projectName, String projectDescription, String projectTechnology, String projectStandard, String projectLeaderName, String projectLeaderPhone, String projectCreateTime, String projectEndTime, Integer projectStatus, Integer projectLevel, String projectDocInfo, String projectPeopleName) {
         this.projectId = projectId;
         this.projectName = projectName;
         this.projectDescription = projectDescription;
@@ -48,6 +50,15 @@ public class SsProjectManageVo implements Serializable {
         this.projectStatus = projectStatus;
         this.projectLevel = projectLevel;
         this.projectDocInfo = projectDocInfo;
+        this.projectPeopleName = projectPeopleName;
+    }
+
+    public String getProjectPeopleName() {
+        return projectPeopleName;
+    }
+
+    public void setProjectPeopleName(String projectPeopleName) {
+        this.projectPeopleName = projectPeopleName;
     }
 
     public static long getSerialVersionUID() {

@@ -11,6 +11,7 @@ import com.sdsoon.modular.system.po.SsProjectMission;
 import com.sdsoon.modular.system.service.ProjectService;
 import com.sdsoon.modular.system.vo.AddMissionVo;
 import com.sdsoon.modular.system.vo.h.SsProjectManageVo;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -70,15 +71,15 @@ public class ProjectController extends BaseController {
 
     //项目管理内容
     @GetMapping("/list")
-    public ReturnResult list(@RequestParam("page") Integer page, @RequestParam("limit") Integer limit) throws ResponseException {
-        Map<String, Object> objectMap = projectService.selectAllProject(page, limit);
+    public ReturnResult list(@RequestParam("page") Integer page, @RequestParam("limit") Integer limit, @RequestParam(value = "projectName", required = false) String projectName) throws ResponseException {
+        Map<String, Object> objectMap = projectService.selectAllProject(page, limit, projectName);
         return ReturnResult.create(objectMap);
     }
 
     //项目管理 进行和完成
     @GetMapping("/list/status")
-    public PageResult<SsProjectManageVo> listByStatus(@RequestParam("status") Integer status, @RequestParam("page") Integer page, @RequestParam("limit") Integer limit) throws ResponseException {
-        PageResult<SsProjectManageVo> ssProjectManageVoPageResult = projectService.selectAllProjectsByStatus(status, page, limit);
+    public Map<String, Object> listByStatus(@RequestParam("status") Integer status, @RequestParam("page") Integer page, @RequestParam("limit") Integer limit) throws ResponseException {
+        Map<String, Object> ssProjectManageVoPageResult = projectService.selectAllProjectsByStatus(status, page, limit);
         return ssProjectManageVoPageResult;
     }
 

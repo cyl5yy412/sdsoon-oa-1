@@ -1,8 +1,12 @@
 package com.sdsoon.modular.system.service.impl;
 
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.sdsoon.core.response.ex.EnumError;
 import com.sdsoon.core.response.ex.ResponseException;
 import com.sdsoon.core.util.DateUtil;
+import com.sdsoon.core.util.StringUtil;
 import com.sdsoon.modular.system.mapper.SsDailyTaskMapper;
 import com.sdsoon.modular.system.po.SsDailyTask;
 import com.sdsoon.modular.system.service.DailyTaskService;
@@ -14,9 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.text.ParseException;
-import java.util.Date;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -65,7 +67,8 @@ public class DailyTaskServiceImpl implements DailyTaskService {
     }
 
     @Override
-    public List<DailyTaskVo> getDailyTask() {
+    public Map<String, Object> getDailyTask(Integer page, Integer limit) {
+        PageHelper.startPage(page, limit);
         List<SsDailyTask> ssDailyTasks = ssDailyTaskMapper.selectAllDailyTask();
         if (ssDailyTasks == null) {
             return null;
@@ -74,7 +77,13 @@ public class DailyTaskServiceImpl implements DailyTaskService {
             DailyTaskVo dailyTaskVo = convertDailyVoFromDto(dailyTask);
             return dailyTaskVo;
         }).collect(Collectors.toList());
-        return dailyTaskVos;
+        PageInfo<SsDailyTask> pageInfo = new PageInfo<>(ssDailyTasks);
+        Map<String, Object> map = new HashMap<>();
+        map.put("count", pageInfo.getTotal());
+        map.put("data", dailyTaskVos);
+        map.put("code", 0);
+        map.put("msg", "");
+        return map;
     }
 
     @Override
@@ -103,7 +112,9 @@ public class DailyTaskServiceImpl implements DailyTaskService {
         }
         SsDailyTask ssDailyTask = new SsDailyTask();
         BeanUtils.copyProperties(dailyTaskVo, ssDailyTask);
-        ssDailyTask.setDailyCategory(Integer.valueOf(dailyTaskVo.getDailyCategory()));
+        if (!StringUtils.isBlank(dailyTaskVo.getDailyCategory())) {
+            ssDailyTask.setDailyCategory(Integer.valueOf(dailyTaskVo.getDailyCategory()));
+        }
         Date date = DateUtil.convertStrDate2Date(dailyTaskVo.getDailyCreateTime());
         ssDailyTask.setDailyCreateTime(date);
         ssDailyTaskMapper.updateByPrimaryKeySelective(ssDailyTask);

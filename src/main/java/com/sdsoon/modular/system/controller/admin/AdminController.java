@@ -42,17 +42,24 @@ public class AdminController extends BaseController {
     @GetMapping("/login")
     public String login() {
         if (getLoginUser() != null) {
-            return "redirect:index.html";
+            return "/index.html";
+        }
+        return "/login.html";
+    }
+
+    @GetMapping("/page/index")
+    public String pageIndex() {
+        if (getLoginUser() != null) {
+            return "redirect:page/other/loginz.html";
         }
         return "/page/other/login.html";
     }
-
     /**
      * 403
      */
     @GetMapping("/error/403")
     public String err403() {
-        return "redirect:/page/error/error-403.html";
+        return "/page/error/error-403.html";
     }
 
     /**

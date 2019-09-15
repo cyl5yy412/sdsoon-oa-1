@@ -257,4 +257,9 @@
             </where>
         </foreach>
     </update>
+    <!--  -->
+    <select id="selectByProjectId" resultMap="BaseResultMap">
+        SELECT * FROM ss_project_mission m WHERE m.project_g_project_id= #{projectId}
+        ORDER BY m.project_mission_create_time DESC
+    </select>
 </mapper>

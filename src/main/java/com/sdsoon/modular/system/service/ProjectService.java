@@ -42,10 +42,10 @@ public interface ProjectService {
     boolean uploadAll(List<MultipartFile> file, String projectId);
 
     //后台
-    PageResult<SsProjectManageVo> selectAllProjects(Integer page, Integer limit);
+    Map<String, Object> selectAllProjects(Integer page, Integer limit, String projectName, String projectLeaderName);
 
     //后台
-    PageResult<ProjectMissionModel> selectMissionByProjectId(String projectId);
+    Map<String, Object> selectMissionByProjectId(String projectId, Integer page, Integer limit);
 
     //后台
     boolean updateProject(SsProjectManageVo ssProjectManageVo) throws ParseException;
@@ -63,7 +63,7 @@ public interface ProjectService {
     boolean updateMission(AddMissionVo addMissionVo) throws ResponseException;
 
     //中台
-    PageResult<SsProjectManageVo> selectAllProjectsByStatus(Integer status, Integer page, Integer limit);
+    Map<String, Object> selectAllProjectsByStatus(Integer status, Integer page, Integer limit);
 
     //中台
     SsProjectMission getMissionById(String projectMissionId);
@@ -74,17 +74,17 @@ public interface ProjectService {
 
     String uploadAll2doc(List<MultipartFile> file);
 
-    Map<String, Object> selectAllProject(Integer page, Integer limit);
+    Map<String, Object> selectAllProject(Integer page, Integer limit, String projectName);
 
     boolean setupProject2(ProjectModel projectModel, List<String> picIdList, List<String> docIdList) throws ParseException;
 
     PageResult<PicVo> selectPicByProjectId(String projectId);
 
-    boolean deletePic(String projectPicId,String projectPicNewName);
+    boolean deletePic(String projectPicId, String projectPicNewName);
 
     PageResult<SsProjectDoc> selectDocByProjectId(String projectId);
 
-    boolean deleteDoc(String projectDocId,String projectDocNewName);
+    boolean deleteDoc(String projectDocId, String projectDocNewName);
 
     //后端分页
 //    PageResult<SsProjectManageVo> selectAllProjects2(PageParam pageParam);

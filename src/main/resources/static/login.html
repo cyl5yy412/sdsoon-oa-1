@@ -98,7 +98,7 @@
         // 表单提交
         form.on('submit(loginSubmit)', function (obj) {
             layer.load(2);
-            $.post('login', obj.field, function (res) {
+            $.post('/login', obj.field, function (res) {
                 if (200 == res.code) {
                     layer.msg('登录成功', {icon: 1, time: 1500}, function () {
                         index.clearTabCache();

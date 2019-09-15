@@ -47,4 +47,7 @@ public interface SsoService {
     boolean authLoginCheck(HttpServletRequest request, HttpServletResponse response,String token) throws UnsupportedEncodingException;
 
     boolean logout(HttpServletRequest request, HttpServletResponse response) throws ResponseException;
+
+    //根据id删除 redis的信息
+    boolean idlogout(String userId);
 }

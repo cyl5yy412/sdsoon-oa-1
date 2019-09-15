@@ -28,6 +28,8 @@ public class SsProjectManage implements Serializable {
 
     private String projectDocInfo;
 
+    private String projectPeopleName;
+
     private static final long serialVersionUID = 1L;
 
     public String getProjectId() {
@@ -126,6 +128,14 @@ public class SsProjectManage implements Serializable {
         this.projectDocInfo = projectDocInfo == null ? null : projectDocInfo.trim();
     }
 
+    public String getProjectPeopleName() {
+        return projectPeopleName;
+    }
+
+    public void setProjectPeopleName(String projectPeopleName) {
+        this.projectPeopleName = projectPeopleName == null ? null : projectPeopleName.trim();
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -144,6 +154,7 @@ public class SsProjectManage implements Serializable {
         sb.append(", projectStatus=").append(projectStatus);
         sb.append(", projectLevel=").append(projectLevel);
         sb.append(", projectDocInfo=").append(projectDocInfo);
+        sb.append(", projectPeopleName=").append(projectPeopleName);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

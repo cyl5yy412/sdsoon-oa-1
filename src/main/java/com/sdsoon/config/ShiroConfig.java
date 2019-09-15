@@ -10,6 +10,7 @@ import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.DependsOn;
 
 import javax.servlet.Filter;
@@ -28,7 +29,6 @@ public class ShiroConfig {
         // 登录配置
         shiroFilter.setLoginUrl("/login");
         shiroFilter.setSuccessUrl("/");
-//        shiroFilter.setUnauthorizedUrl("/error/403");
         shiroFilter.setUnauthorizedUrl("/error/403");
         // 自定义过滤器
         Map<String, Filter> filtersMap = new LinkedHashMap<>();
@@ -39,16 +39,9 @@ public class ShiroConfig {
         filterChainDefinitions.put("/assets/**", "anon");
 //        filterChainDefinitions.put("/page/template/error/**", "anon");
         filterChainDefinitions.put("/page/error/**", "anon");
-        filterChainDefinitions.put("/druid/**", "anon");
         filterChainDefinitions.put("/login", "anon");
         filterChainDefinitions.put("/logout", "logout");
-        //后台的接口
-//        filterChainDefinitions.put("/users", "authc");
-//        filterChainDefinitions.put( "/user/**", "authc");
-//        filterChainDefinitions.put("/role", "authc");
-//        filterChainDefinitions.put( "/role/**", "authc");
-//        filterChainDefinitions.put("/perms", "authc");
-//        filterChainDefinitions.put("/perm/**", "authc");
+        //后台的接口//  拦截/**即可
         //中台接口,接口排除拦截
         filterChainDefinitions.put("/daily/**", "anon");
         filterChainDefinitions.put("/project/**", "anon");

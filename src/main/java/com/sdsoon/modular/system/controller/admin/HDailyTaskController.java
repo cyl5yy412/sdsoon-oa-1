@@ -10,10 +10,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.text.ParseException;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 后台日清
@@ -27,10 +29,9 @@ public class HDailyTaskController {
 
     @ResponseBody
     @GetMapping(value = "/get/task")
-    public PageResult<DailyTaskVo> getDailyTask() {
-        List<DailyTaskVo> dailyTaskVos = dailyTaskService.getDailyTask();
-        long dailyCount = dailyTaskService.getDailyCount();
-        return new PageResult<>(dailyTaskVos, dailyCount);
+    public Map<String, Object> getDailyTask(@RequestParam("page") Integer page, @RequestParam("limit") Integer limit) {
+        Map<String, Object> map = dailyTaskService.getDailyTask(page, limit);
+        return map;
     }
 
     //添加

@@ -39,6 +39,7 @@ public class ProjectPoModel implements Serializable {
     private Integer projectLevel;
 
     private String projectDocInfo;
+    private String projectPeopleName;
     //mission
     List<SsProjectMission> projectMissions;
     //pic
@@ -49,7 +50,7 @@ public class ProjectPoModel implements Serializable {
     public ProjectPoModel() {
     }
 
-    public ProjectPoModel(String projectId, String projectName, String projectDescription, String projectTechnology, String projectStandard, String projectLeaderName, String projectLeaderPhone, Date projectCreateTime, Date projectEndTime, Integer projectStatus, Integer projectLevel, String projectDocInfo, List<SsProjectMission> projectMissions, List<SsProjectPic> projectPics, List<SsProjectDoc> projectDocs) {
+    public ProjectPoModel(String projectId, String projectName, String projectDescription, String projectTechnology, String projectStandard, String projectLeaderName, String projectLeaderPhone, Date projectCreateTime, Date projectEndTime, Integer projectStatus, Integer projectLevel, String projectDocInfo, String projectPeopleName, List<SsProjectMission> projectMissions, List<SsProjectPic> projectPics, List<SsProjectDoc> projectDocs) {
         this.projectId = projectId;
         this.projectName = projectName;
         this.projectDescription = projectDescription;
@@ -62,9 +63,18 @@ public class ProjectPoModel implements Serializable {
         this.projectStatus = projectStatus;
         this.projectLevel = projectLevel;
         this.projectDocInfo = projectDocInfo;
+        this.projectPeopleName = projectPeopleName;
         this.projectMissions = projectMissions;
         this.projectPics = projectPics;
         this.projectDocs = projectDocs;
+    }
+
+    public String getProjectPeopleName() {
+        return projectPeopleName;
+    }
+
+    public void setProjectPeopleName(String projectPeopleName) {
+        this.projectPeopleName = projectPeopleName;
     }
 
     public String getProjectId() {

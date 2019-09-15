@@ -35,4 +35,6 @@ public interface SsProjectMissionMapper {
     int deleteByGId(String projectId);
 
     int updateMissions(@Param("params") List<SsProjectMission> projectMissions);
+
+    List<SsProjectMission> selectByProjectId(@Param("projectId") String projectId);
 }

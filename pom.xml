@@ -118,30 +118,31 @@
             <artifactId>shiro-ehcache</artifactId>
             <version>1.4.0</version>
         </dependency>
-        <!-- 图形验证码 -->
-        <!--<dependency>-->
-        <!--<groupId>com.github.whvcse</groupId>-->
-        <!--<artifactId>EasyCaptcha</artifactId>-->
-        <!--<version>1.5.0</version>-->
-        <!--</dependency>-->
+        <!-- pagehelper -->
+        <dependency>
+            <groupId>com.github.pagehelper</groupId>
+            <artifactId>pagehelper</artifactId>
+            <version>5.1.2</version>
+        </dependency>
+        <dependency>
+            <groupId>com.github.pagehelper</groupId>
+            <artifactId>pagehelper-spring-boot-autoconfigure</artifactId>
+            <version>1.2.3</version>
+        </dependency>
+        <dependency>
+            <groupId>com.github.pagehelper</groupId>
+            <artifactId>pagehelper-spring-boot-starter</artifactId>
+            <version>1.2.3</version>
+        </dependency>
 
-        <!-- https://mvnrepository.com/artifact/commons-net/commons-net -->
+        <!-- 上传 -->
         <dependency>
             <groupId>commons-net</groupId>
             <artifactId>commons-net</artifactId>
             <version>3.3</version>
         </dependency>
-        <!-- mybatis-plus -->
-        <!--<dependency>
-            <groupId>com.baomidou</groupId>
-            <artifactId>mybatis-plus-boot-starter</artifactId>
-            <version>3.0.7.1</version>
-        </dependency>
-        <dependency>
-            <groupId>com.baomidou</groupId>
-            <artifactId>mybatis-plus-generator</artifactId>
-            <version>3.0.7.1</version>
-        </dependency>-->
+
+
     </dependencies>
 
     <build>

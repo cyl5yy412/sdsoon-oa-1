@@ -151,6 +151,17 @@ public class SsoServiceImpl implements SsoService {
 
     }
 
+    @Override
+    public boolean idlogout(String userId) {
+        String redisKey = redisKey(userId);
+        Boolean delete = redisTemplate.delete(redisKey);
+        if (delete) {
+            return true;
+        }
+        return false;
+
+    }
+
 
     private SsoUserModel convertUserInfoFromSsoUserModel(SsUserInfo ssUserInfo) {
 

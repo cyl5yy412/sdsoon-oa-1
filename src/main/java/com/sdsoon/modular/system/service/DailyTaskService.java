@@ -5,6 +5,7 @@ import com.sdsoon.modular.system.vo.DailyTaskVo;
 
 import java.text.ParseException;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created By Chr on 2019/8/10.
@@ -15,7 +16,7 @@ public interface DailyTaskService {
 
     List<DailyTaskVo> getDailyTask(Integer category);
 
-    List<DailyTaskVo> getDailyTask();
+    Map<String,Object> getDailyTask(Integer page, Integer limit);
 
     long getDailyCount();
 

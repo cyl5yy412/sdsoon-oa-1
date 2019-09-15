@@ -14,6 +14,7 @@
         <result column="project_status" jdbcType="INTEGER" property="projectStatus"/>
         <result column="project_level" jdbcType="INTEGER" property="projectLevel"/>
         <result column="project_doc_info" jdbcType="VARCHAR" property="projectDocInfo"/>
+        <result column="project_people_name" jdbcType="VARCHAR" property="projectPeopleName"/>
     </resultMap>
     <sql id="Example_Where_Clause">
         <where>
@@ -78,7 +79,7 @@
     <sql id="Base_Column_List">
     project_id, project_name, project_description, project_technology, project_standard, 
     project_leader_name, project_leader_phone, project_create_time, project_end_time, 
-    project_status, project_level, project_doc_info
+    project_status, project_level, project_doc_info, project_people_name
   </sql>
     <select id="selectByExample" parameterType="com.sdsoon.modular.system.po.SsProjectManageExample"
             resultMap="BaseResultMap">
@@ -115,13 +116,13 @@
     insert into ss_project_manage (project_id, project_name, project_description, 
       project_technology, project_standard, project_leader_name, 
       project_leader_phone, project_create_time, project_end_time, 
-      project_status, project_level, project_doc_info
-      )
+      project_status, project_level, project_doc_info, 
+      project_people_name)
     values (#{projectId,jdbcType=VARCHAR}, #{projectName,jdbcType=VARCHAR}, #{projectDescription,jdbcType=VARCHAR}, 
       #{projectTechnology,jdbcType=VARCHAR}, #{projectStandard,jdbcType=VARCHAR}, #{projectLeaderName,jdbcType=VARCHAR}, 
       #{projectLeaderPhone,jdbcType=VARCHAR}, #{projectCreateTime,jdbcType=DATE}, #{projectEndTime,jdbcType=DATE}, 
-      #{projectStatus,jdbcType=INTEGER}, #{projectLevel,jdbcType=INTEGER}, #{projectDocInfo,jdbcType=VARCHAR}
-      )
+      #{projectStatus,jdbcType=INTEGER}, #{projectLevel,jdbcType=INTEGER}, #{projectDocInfo,jdbcType=VARCHAR}, 
+      #{projectPeopleName,jdbcType=VARCHAR})
   </insert>
     <insert id="insertSelective" parameterType="com.sdsoon.modular.system.po.SsProjectManage">
         insert into ss_project_manage
@@ -162,6 +163,9 @@
             <if test="projectDocInfo != null">
                 project_doc_info,
             </if>
+            <if test="projectPeopleName != null">
+                project_people_name,
+            </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="projectId != null">
@@ -199,6 +203,9 @@
             </if>
             <if test="projectDocInfo != null">
                 #{projectDocInfo,jdbcType=VARCHAR},
+            </if>
+            <if test="projectPeopleName != null">
+                #{projectPeopleName,jdbcType=VARCHAR},
             </if>
         </trim>
     </insert>
@@ -248,6 +255,9 @@
             <if test="record.projectDocInfo != null">
                 project_doc_info = #{record.projectDocInfo,jdbcType=VARCHAR},
             </if>
+            <if test="record.projectPeopleName != null">
+                project_people_name = #{record.projectPeopleName,jdbcType=VARCHAR},
+            </if>
         </set>
         <if test="_parameter != null">
             <include refid="Update_By_Example_Where_Clause"/>
@@ -266,7 +276,8 @@
         project_end_time = #{record.projectEndTime,jdbcType=DATE},
         project_status = #{record.projectStatus,jdbcType=INTEGER},
         project_level = #{record.projectLevel,jdbcType=INTEGER},
-        project_doc_info = #{record.projectDocInfo,jdbcType=VARCHAR}
+        project_doc_info = #{record.projectDocInfo,jdbcType=VARCHAR},
+        project_people_name = #{record.projectPeopleName,jdbcType=VARCHAR}
         <if test="_parameter != null">
             <include refid="Update_By_Example_Where_Clause"/>
         </if>
@@ -307,6 +318,9 @@
             <if test="projectDocInfo != null">
                 project_doc_info = #{projectDocInfo,jdbcType=VARCHAR},
             </if>
+            <if test="projectPeopleName != null">
+                project_people_name = #{projectPeopleName,jdbcType=VARCHAR},
+            </if>
         </set>
         where project_id = #{projectId,jdbcType=VARCHAR}
     </update>
@@ -322,10 +336,10 @@
       project_end_time = #{projectEndTime,jdbcType=DATE},
       project_status = #{projectStatus,jdbcType=INTEGER},
       project_level = #{projectLevel,jdbcType=INTEGER},
-      project_doc_info = #{projectDocInfo,jdbcType=VARCHAR}
+      project_doc_info = #{projectDocInfo,jdbcType=VARCHAR},
+      project_people_name = #{projectPeopleName,jdbcType=VARCHAR}
     where project_id = #{projectId,jdbcType=VARCHAR}
   </update>
-
     <!--  -->
     <resultMap id="BaseResultMap_project" type="com.sdsoon.modular.system.model.ProjectPoModel">
         <id column="project_id" jdbcType="VARCHAR" property="projectId"/>
@@ -340,6 +354,7 @@
         <result column="project_status" jdbcType="INTEGER" property="projectStatus"/>
         <result column="project_level" jdbcType="INTEGER" property="projectLevel"/>
         <result column="project_doc_info" jdbcType="VARCHAR" property="projectDocInfo"/>
+        <result column="project_people_name" jdbcType="VARCHAR" property="projectPeopleName"/>
         <!-- mission -->
         <collection property="projectMissions" ofType="com.sdsoon.modular.system.po.SsProjectMission">
             <id column="project_mission_id" jdbcType="VARCHAR" property="projectMissionId"/>
@@ -380,12 +395,29 @@
     ORDER BY m.project_mission_create_time ASC
   </select>
     <!--  -->
-    <select id="selectAllProjects" parameterType="int" resultMap="BaseResultMap">
-        SELECT * FROM ss_project_manage s ORDER BY s.project_end_time DESC
+    <select id="selectAllProjects2" resultMap="BaseResultMap">
+        SELECT * FROM ss_project_manage s
+        <where>
+            <if test="projectName!=null and projectName!=''">
+                and s.project_name like '%${projectName}%'
+            </if>
+            <if test="projectLeaderName!=null and projectLeaderName!=''">
+                and s.project_leader_name like '%${projectLeaderName}%'
+            </if>
+        </where>
+        ORDER BY s.project_end_time DESC
+    </select>
+    <select id="selectAllProjects" resultMap="BaseResultMap">
+        SELECT * FROM ss_project_manage s
+        <where>
+            <if test="projectName!=null and projectName!=''">
+                and s.project_name like '%${projectName}%'
+            </if>
+        </where>
+        ORDER BY s.project_end_time DESC
     </select>
     <!--  -->
     <select id="selectAllProjectsByStatus" parameterType="int" resultMap="BaseResultMap">
-        SELECT * FROM ss_project_manage s WHERE s.project_status = #{status} ORDER BY s.project_end_time DESC
-    </select>
-
+    SELECT * FROM ss_project_manage s WHERE s.project_status = #{status} ORDER BY s.project_end_time DESC
+  </select>
 </mapper>

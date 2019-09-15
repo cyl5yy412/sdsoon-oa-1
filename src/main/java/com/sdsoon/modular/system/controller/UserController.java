@@ -11,6 +11,7 @@ import com.sdsoon.modular.system.vo.LoginSucUserVo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -55,6 +56,16 @@ public class UserController extends BaseController {
             LoginSucUserVo loginSucUserVo = adminService.selectUserRolePermByUserId(ssUserInfo.getUserId());
             return ReturnResult.create(loginSucUserVo);
         };
+    }
+
+    //根据id删除,没有cookie
+    @PostMapping("/idlogout")
+    public ReturnResult logoutid(@RequestParam("userId") String userId) {
+        boolean b = ssoService.idlogout(userId);
+        if (b) {
+            return ReturnResult.create(HttpStatus.OK);
+        }
+        return ReturnResult.create(null);
     }
 
     //老用户登陆--暂时未用

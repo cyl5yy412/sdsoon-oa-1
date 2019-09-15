@@ -7,6 +7,7 @@ import com.sdsoon.modular.system.model.ProjectMissionModel;
 import com.sdsoon.modular.system.po.*;
 import com.sdsoon.modular.system.service.ProjectService;
 import com.sdsoon.modular.system.vo.AddMissionVo;
+import com.sun.org.apache.xerces.internal.impl.PropertyManager;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -130,7 +132,11 @@ public class SdsoonOaApplicationTests {
 
     @Test
     public void show6() {
-        List<SsProjectManage> ssProjectManages = ssProjectManageMapper.selectAllProjects(2,10);
-        System.out.println(ssProjectManages);
+//        List<SsProjectManage> ssProjectManages = ssProjectManageMapper.selectAllProjects(2,10);
+//        System.out.println(ssProjectManages);
+//        List<SsProjectManage> ssProjectManages = ssProjectManageMapper.selectAllProjectsByStatus(1);
+//        System.out.println(ssProjectManages);
+        Map<String, Object> map = projectService.selectAllProject(1, 10,null);
+        System.out.println(map);
     }
 }

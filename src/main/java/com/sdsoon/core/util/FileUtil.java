@@ -4,10 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
-import javax.swing.filechooser.FileSystemView;
 import java.io.*;
-import java.net.URL;
-import java.net.URLConnection;
 import java.nio.file.Paths;
 
 /**
@@ -111,108 +108,6 @@ public class FileUtil {
         return true;
     }
 
-    public static final String baseUrl = "http://oa.sdsoon.cn:8099/images/";
-
-    public static boolean downloadNet(HttpServletResponse response, String newFileName, String oldFileName) throws IOException {
-        // 下载网络文件
-        int bytesum = 0;
-        int byteread = 0;
-
-//        URL url = new URL("windine.blogdriver.com/logo.gif");
-//        URL url = new URL("http://oa.sdsoon.cn:8099/images/1567392147878268.java");
-        URL url = new URL(baseUrl + newFileName);
-        FileSystemView fsv = FileSystemView.getFileSystemView();
-        File com = fsv.getHomeDirectory();
-        URLConnection conn = url.openConnection();
-        System.out.println(com.getPath());
-        //重命名下载的filename
-        String[] split = oldFileName.split("\\.");
-        File file = null;
-        int i = 1;
-        file = new File(com.getPath() + "/" + oldFileName);
-        while (file.exists()) {
-            String rename = "(" + i + ").";
-            oldFileName = split[0] + rename + split[1];
-//            System.out.println(oldFileName);
-            file = new File(com.getPath() + "/" + oldFileName);
-            i++;
-        }
-//        System.out.println(oldFileName);
-
-        //
-        try (
-                InputStream inStream = conn.getInputStream();
-                FileOutputStream fs = new FileOutputStream(com.getPath() + "/" + oldFileName)
-        ) {
-            byte[] buffer = new byte[1204];
-            int length;
-            while ((byteread = inStream.read(buffer)) != -1) {
-                bytesum += byteread;
-//                System.out.println(bytesum);
-                fs.write(buffer, 0, byteread);
-            }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-            return false;
-        } catch (IOException e) {
-            e.printStackTrace();
-            return false;
-        }
-        return true;
-    }
-
-
-
-
-
-    /*
-
-    String fileName = "FileUploadTests.java";
-        if (fileName != null) {
-            //当前是从该工程的WEB-INF//File//下获取文件(该目录可以在下面一行代码配置)然后下载到C:\\users\\downloads即本机的默认下载的目录
-            String realPath = request.getServletContext().getRealPath(
-                    "//WEB-INF//");
-            File file = new File(realPath, fileName);
-            if (file.exists()) {
-                response.setContentType("application/force-download");// 设置强制下载不打开
-                response.addHeader("Content-Disposition",
-                        "attachment;fileName=" +  fileName);// 设置文件名
-                byte[] buffer = new byte[1024];
-                FileInputStream fis = null;
-                BufferedInputStream bis = null;
-                try {
-                    fis = new FileInputStream(file);
-                    bis = new BufferedInputStream(fis);
-                    OutputStream os = response.getOutputStream();
-                    int i = bis.read(buffer);
-                    while (i != -1) {
-                        os.write(buffer, 0, i);
-                        i = bis.read(buffer);
-                    }
-                    System.out.println("success");
-                } catch (Exception e) {
-                    e.printStackTrace();
-                } finally {
-                    if (bis != null) {
-                        try {
-                            bis.close();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                    if (fis != null) {
-                        try {
-                            fis.close();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }
-            }
-        }
-        return null;
-
-     */
 
     /**
      * 删除文件
@@ -245,10 +140,11 @@ public class FileUtil {
         }
 
     }
+
     public static void main(String args[]) {
 //        File file = new File("/Users");  //  /Users是路径名
         File file = new File("D:/upload");  //  "D:/upload"  Users是路径名
-        delete(file,"java.txt");
+        delete(file, "java.txt");
 
     }
 }

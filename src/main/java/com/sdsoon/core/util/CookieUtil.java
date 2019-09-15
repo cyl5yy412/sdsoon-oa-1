@@ -156,8 +156,9 @@ public final class CookieUtil {
              * 一级域名:前面加.:sdsoon.cn  ,未成功
              *
              */
-                cookie.setDomain("sdsoon.cn");
-//            cookie.setDomain(getDomainName(request));
+//                cookie.setDomain("sdsoon.cn");
+            cookie.setDomain(getDomainName(request));
+
             cookie.setPath("/");
             response.addCookie(cookie);
         } catch (Exception e) {
@@ -187,8 +188,8 @@ public final class CookieUtil {
              * 一级域名:前面加.:sdsoon.cn  ,未成功
              *
              */
-                cookie.setDomain("sdsoon.cn");
-//            cookie.setDomain(getDomainName(request));
+//                cookie.setDomain("sdsoon.cn");
+            cookie.setDomain(getDomainName(request));
 
             cookie.setPath("/");
             response.addCookie(cookie);

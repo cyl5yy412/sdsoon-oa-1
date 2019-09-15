@@ -36,6 +36,8 @@ public class ProjectPoModelVo implements Serializable {
     private Integer projectLevel;
 
     private String projectDocInfo;
+
+    private String projectPeopleName;
     //mission
     List<ProjectMissionModel> projectMissions;
     //pic
@@ -47,7 +49,7 @@ public class ProjectPoModelVo implements Serializable {
     }
 
 
-    public ProjectPoModelVo(String projectId, String projectName, String projectDescription, String projectTechnology, String projectStandard, String projectLeaderName, String projectLeaderPhone, String projectCreateTime, String projectEndTime, Integer projectStatus, Integer projectLevel, String projectDocInfo, List<ProjectMissionModel> projectMissions, List<SsProjectPic> projectPics, List<SsProjectDoc> projectDocs) {
+    public ProjectPoModelVo(String projectId, String projectName, String projectDescription, String projectTechnology, String projectStandard, String projectLeaderName, String projectLeaderPhone, String projectCreateTime, String projectEndTime, Integer projectStatus, Integer projectLevel, String projectDocInfo, String projectPeopleName, List<ProjectMissionModel> projectMissions, List<SsProjectPic> projectPics, List<SsProjectDoc> projectDocs) {
         this.projectId = projectId;
         this.projectName = projectName;
         this.projectDescription = projectDescription;
@@ -60,9 +62,18 @@ public class ProjectPoModelVo implements Serializable {
         this.projectStatus = projectStatus;
         this.projectLevel = projectLevel;
         this.projectDocInfo = projectDocInfo;
+        this.projectPeopleName = projectPeopleName;
         this.projectMissions = projectMissions;
         this.projectPics = projectPics;
         this.projectDocs = projectDocs;
+    }
+
+    public String getProjectPeopleName() {
+        return projectPeopleName;
+    }
+
+    public void setProjectPeopleName(String projectPeopleName) {
+        this.projectPeopleName = projectPeopleName;
     }
 
     public static long getSerialVersionUID() {

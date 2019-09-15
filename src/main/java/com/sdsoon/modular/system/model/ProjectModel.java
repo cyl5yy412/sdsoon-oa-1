@@ -34,6 +34,7 @@ public class ProjectModel implements Serializable {
     private Integer projectLevel;
 
     private String projectDocInfo;
+    private String projectPeopleName;
 
     //doc
     List<MultipartFile> docFiles;
@@ -44,7 +45,7 @@ public class ProjectModel implements Serializable {
     public ProjectModel() {
     }
 
-    public ProjectModel(String projectId, String projectName, String projectDescription, String projectTechnology, String projectStandard, String projectLeaderName, String projectLeaderPhone, String date, Integer projectStatus, Integer projectLevel, String projectDocInfo, List<MultipartFile> docFiles, List<MultipartFile> picFiles) {
+    public ProjectModel(String projectId, String projectName, String projectDescription, String projectTechnology, String projectStandard, String projectLeaderName, String projectLeaderPhone, String date, Integer projectStatus, Integer projectLevel, String projectDocInfo, String projectPeopleName, List<MultipartFile> docFiles, List<MultipartFile> picFiles) {
         this.projectId = projectId;
         this.projectName = projectName;
         this.projectDescription = projectDescription;
@@ -56,8 +57,17 @@ public class ProjectModel implements Serializable {
         this.projectStatus = projectStatus;
         this.projectLevel = projectLevel;
         this.projectDocInfo = projectDocInfo;
+        this.projectPeopleName = projectPeopleName;
         this.docFiles = docFiles;
         this.picFiles = picFiles;
+    }
+
+    public String getProjectPeopleName() {
+        return projectPeopleName;
+    }
+
+    public void setProjectPeopleName(String projectPeopleName) {
+        this.projectPeopleName = projectPeopleName;
     }
 
     public static long getSerialVersionUID() {

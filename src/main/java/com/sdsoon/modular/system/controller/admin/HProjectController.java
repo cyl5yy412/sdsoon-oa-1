@@ -16,6 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.text.ParseException;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 后台项目管理
@@ -84,9 +85,9 @@ public class HProjectController {
 
     //展示所有project
     @GetMapping("/list")
-    public PageResult<SsProjectManageVo> list(@RequestParam("page") Integer page, @RequestParam("limit") Integer limit) throws ResponseException {
-        PageResult<SsProjectManageVo> ssProjectManageVoPageResult = projectService.selectAllProjects(page, limit);
-        return ssProjectManageVoPageResult;
+    public Map<String, Object> list(@RequestParam("page") Integer page, @RequestParam("limit") Integer limit, String projectName, String projectLeaderName) throws ResponseException {
+        Map<String, Object> map = projectService.selectAllProjects(page, limit, projectName, projectLeaderName);
+        return map;
     }
 //    @GetMapping("/list")
 //    public PageResult<SsProjectManageVo> list2(HttpServletRequest request) throws ResponseException {
@@ -96,9 +97,9 @@ public class HProjectController {
 
     //查看任务节点
     @GetMapping("/list/mission")
-    public PageResult<ProjectMissionModel> missionList(@RequestParam String projectId, @RequestParam("page") Integer page, @RequestParam("limit") Integer limit) {
-        PageResult<ProjectMissionModel> projectMissionModelPageResult = projectService.selectMissionByProjectId(projectId);
-        return projectMissionModelPageResult;
+    public Map<String, Object> missionList(@RequestParam("page") Integer page, @RequestParam("limit") Integer limit, String projectId) {
+        Map<String, Object> map = projectService.selectMissionByProjectId(projectId, page, limit);
+        return map;
     }
 
     //删除任务
@@ -148,8 +149,8 @@ public class HProjectController {
 
     //删除板标
     @PostMapping("/pic/delete")
-    public JsonResult picDelete(String projectPicId,String projectPicNewName) {
-        boolean b = projectService.deletePic(projectPicId,projectPicNewName);
+    public JsonResult picDelete(String projectPicId, String projectPicNewName) {
+        boolean b = projectService.deletePic(projectPicId, projectPicNewName);
         if (b) {
             return JsonResult.ok();
         }
@@ -165,17 +166,14 @@ public class HProjectController {
 
     //删除文档
     @PostMapping("/doc/delete")
-    public JsonResult docDelete(String projectDocId,String projectDocNewName) {
-        boolean b = projectService.deleteDoc(projectDocId,projectDocNewName);
+    public JsonResult docDelete(String projectDocId, String projectDocNewName) {
+        boolean b = projectService.deleteDoc(projectDocId, projectDocNewName);
 
         if (b) {
             return JsonResult.ok();
         }
         return JsonResult.error();
     }
-
-
-
 
 
 }
