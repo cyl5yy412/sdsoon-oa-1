@@ -4,13 +4,13 @@ import com.sdsoon.core.response.ReturnResult;
 import com.sdsoon.core.response.ex.BaseController;
 import com.sdsoon.core.response.ex.ResponseException;
 import com.sdsoon.modular.system.service.DailyTaskService;
-import com.sdsoon.modular.system.vo.DailyTaskVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.ParseException;
 import java.util.Date;
-import java.util.List;
+import java.util.Map;
 import java.util.concurrent.Callable;
 
 /**
@@ -35,14 +35,16 @@ public class DailyTaskController extends BaseController {
     }
 
     @PostMapping(value = "/get/task")
-    public Callable<ReturnResult> getDailyTask(@RequestParam("category") Integer category) {
-        List<DailyTaskVo> dailyTaskVos = dailyTaskService.getDailyTask(category);
-        if (dailyTaskVos == null) {
+    public Callable<ReturnResult> getDailyTask(@RequestParam("category") Integer category,
+                                               @RequestParam(value = "taskDate", required = false) String taskDate,
+                                               Integer page,
+                                               Integer limit) throws ParseException {
+        Map<String, Object> map = dailyTaskService.getDailyTask(category, taskDate, page, limit);//日期格式:"2019-09-10"
+        if (map == null) {
             return () -> ReturnResult.create(null);
         }
-        return () -> ReturnResult.create(dailyTaskVos);
+        return () -> ReturnResult.create(map);
     }
-
 
 
     //#####测试 eolinker-rest#########################

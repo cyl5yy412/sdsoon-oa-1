@@ -18,7 +18,7 @@ public interface AdminMapper {
 
     List<SsUserInfo> selectAllUsers();
 
-    List<UserVo> selectAllUsersAndRoles(@Param("page") Integer page, @Param("limit") Integer limit);
+    List<UserVo> selectAllUsersAndRoles(@Param("userName") String userName, @Param("userRealName") String userRealName);
 
     List<SsRole> selectAllRoles(@Param("page") Integer page, @Param("limit") Integer limit);
 

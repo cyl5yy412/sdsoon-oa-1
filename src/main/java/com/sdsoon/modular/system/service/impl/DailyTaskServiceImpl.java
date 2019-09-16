@@ -53,17 +53,30 @@ public class DailyTaskServiceImpl implements DailyTaskService {
     }
 
     @Override
-    public List<DailyTaskVo> getDailyTask(Integer category) {
+    public Map<String, Object> getDailyTask(Integer category, String taskDate, Integer page, Integer limit) throws ParseException {
 //        List<SsDailyTask> ssDailyTasks = ssDailyTaskMapper.selectAllDailyTask();
-        List<SsDailyTask> ssDailyTasks = ssDailyTaskMapper.selectDailyTaskByCategory(category);
+        if (StringUtils.isAnyBlank(String.valueOf(category), String.valueOf(page), String.valueOf(limit))) {
+            return null;
+        }
+        String trimTaskDate = taskDate.trim();
+        PageHelper.startPage(page, limit);
+        List<SsDailyTask> ssDailyTasks = ssDailyTaskMapper.selectDailyTaskByCategory(category,trimTaskDate);
         if (ssDailyTasks == null) {
             return null;
         }
+
         List<DailyTaskVo> dailyTaskVos = ssDailyTasks.stream().map(dailyTask -> {
             DailyTaskVo dailyTaskVo = convertDailyVoFromDto(dailyTask);
             return dailyTaskVo;
         }).collect(Collectors.toList());
-        return dailyTaskVos;
+
+        PageInfo<SsDailyTask> pageInfo = new PageInfo<>(ssDailyTasks);
+        Map<String, Object> map = new HashMap<>();
+        map.put("count", pageInfo.getTotal());
+        map.put("data", dailyTaskVos);
+        map.put("code", 0);
+        map.put("msg", "");
+        return map;
     }
 
     @Override

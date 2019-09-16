@@ -58,12 +58,19 @@
         </collection>
     </resultMap>
 
-    <select id="selectAllUsersAndRoles" resultMap="BaseResultMap_userInfosANDroles" parameterType="int">
+    <select id="selectAllUsersAndRoles" resultMap="BaseResultMap_userInfosANDroles" parameterType="string">
         SELECT * FROM
         ss_user_info i LEFT JOIN ss_role r
         on
         i.user_g_role_id=r.role_id
-        limit #{page},#{limit}
+        <where>
+            <if test="userName!=null and userName!=''">
+                and i.user_name like '%${userName}%'
+            </if>
+            <if test="userRealName!=null and userRealName!=''">
+                and i.user_real_name like '%${userRealName}%'
+            </if>
+        </where>
     </select>
 
     <!-- -->

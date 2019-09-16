@@ -20,7 +20,7 @@ import java.util.Map;
 /**
  * Created By Chr on 2019/8/16.
  */
-//@Configuration
+@Configuration
 public class ShiroConfig {
     @Bean(name = "shiroFilter")
     public ShiroFilterFactoryBean shiroFilter(DefaultWebSecurityManager securityManager) {

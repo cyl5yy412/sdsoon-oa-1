@@ -8,11 +8,11 @@ import com.sdsoon.modular.system.po.SsUserInfo;
 import com.sdsoon.modular.system.po.SsUserPassword;
 import com.sdsoon.modular.system.vo.AddUserVo;
 import com.sdsoon.modular.system.vo.LoginSucUserVo;
-import com.sdsoon.modular.system.vo.UserVo;
 
 import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created By Chr on 2019/8/14.
@@ -29,7 +29,7 @@ public interface AdminService {
 
     SsUserPassword selectPasswordByUserId(String userId);
 
-    PageResult<UserVo> selectAllUsers(Integer page, Integer limit) throws ResponseException;
+    Map<String,Object> selectAllUsers(Integer page, Integer limit,String userName,String userRealName) throws ResponseException;
 
     boolean register(AddUserVo addUserVo, String roleId) throws ResponseException, UnsupportedEncodingException, NoSuchAlgorithmException;
 

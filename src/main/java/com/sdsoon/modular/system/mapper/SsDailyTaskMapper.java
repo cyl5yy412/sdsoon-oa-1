@@ -32,5 +32,5 @@ public interface SsDailyTaskMapper {
     //
     List<SsDailyTask> selectAllDailyTask();
 
-    List<SsDailyTask> selectDailyTaskByCategory(@Param("category") Integer category);
+    List<SsDailyTask> selectDailyTaskByCategory(@Param("category") Integer category,@Param("taskDate") String taskDate);
 }

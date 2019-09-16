@@ -1,5 +1,7 @@
 package com.sdsoon.modular.system.service.impl;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.sdsoon.core.response.ex.EnumError;
 import com.sdsoon.core.response.ex.ResponseException;
 import com.sdsoon.core.util.PageResult;
@@ -19,9 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.annotation.Resource;
 import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * Created By Chr on 2019/8/14.
@@ -45,7 +45,7 @@ public class AdminServiceImpl implements AdminService {
     public LoginSucUserVo selectUserRolePermByUserId(String userId) {
         LoginSucUserVo loginSucUserVo = adminMapper.selectUserRolePermByUserId(userId);
 //        LoginSucUserVo loginSucUserVo = convertAdminFromSucVo(ssAdmin);
-        if (loginSucUserVo==null) {
+        if (loginSucUserVo == null) {
             return null;
         }
         return loginSucUserVo;
@@ -92,12 +92,12 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public PageResult<UserVo> selectAllUsers(Integer page, Integer limit) throws ResponseException {
+    public Map<String, Object> selectAllUsers(Integer page, Integer limit, String userName, String userRealName) throws ResponseException {
         if (page == null || limit == null) {
             throw new ResponseException(EnumError.PARAMETER_VALIDATION_ERROR);
         }
-        long total = ssUserInfoMapper.countByExample(null);
-        List<UserVo> userVos = adminMapper.selectAllUsersAndRoles(page - 1, limit);
+        PageHelper.startPage(page, limit);
+        List<UserVo> userVos = adminMapper.selectAllUsersAndRoles(userName, userRealName);
         for (UserVo userVo : userVos) {
             switch (userVo.getUserDept()) {
                 case "研发部":
@@ -111,7 +111,13 @@ public class AdminServiceImpl implements AdminService {
         if (userVos == null || userVos.size() == 0) {
             return null;
         }
-        return new PageResult<>(userVos, total);
+        PageInfo<UserVo> pageInfo = new PageInfo<>(userVos);
+        Map<String, Object> map = new HashMap<>();
+        map.put("count", pageInfo.getTotal());
+        map.put("data", userVos);
+        map.put("code", 0);
+        map.put("msg", "");
+        return map;
     }
 
     @Transactional

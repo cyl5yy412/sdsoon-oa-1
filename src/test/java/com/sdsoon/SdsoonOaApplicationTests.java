@@ -5,8 +5,10 @@ import com.sdsoon.core.util.DateUtil;
 import com.sdsoon.modular.system.mapper.*;
 import com.sdsoon.modular.system.model.ProjectMissionModel;
 import com.sdsoon.modular.system.po.*;
+import com.sdsoon.modular.system.service.DailyTaskService;
 import com.sdsoon.modular.system.service.ProjectService;
 import com.sdsoon.modular.system.vo.AddMissionVo;
+import com.sdsoon.modular.system.vo.UserVo;
 import com.sun.org.apache.xerces.internal.impl.PropertyManager;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -130,13 +132,30 @@ public class SdsoonOaApplicationTests {
         System.out.println(idoc);
     }*/
 
+    @Resource
+    private AdminMapper adminMapper;
+    @Resource
+    private SsDailyTaskMapper ssDailyTaskMapper;
+    @Autowired
+    private DailyTaskService dailyTaskService;
+
     @Test
-    public void show6() {
+    public void show6() throws ParseException {
 //        List<SsProjectManage> ssProjectManages = ssProjectManageMapper.selectAllProjects(2,10);
 //        System.out.println(ssProjectManages);
+        //
 //        List<SsProjectManage> ssProjectManages = ssProjectManageMapper.selectAllProjectsByStatus(1);
 //        System.out.println(ssProjectManages);
-        Map<String, Object> map = projectService.selectAllProject(1, 10,null);
-        System.out.println(map);
+        //
+//        Map<String, Object> map = projectService.selectAllProject(1, 10,null);
+//        System.out.println(map);
+        //
+//        List<UserVo> userVos = adminMapper.selectAllUsersAndRoles("c", "c");
+//        System.out.println(userVos.size());
+        //
+//        List<SsDailyTask> ssDailyTasks = ssDailyTaskMapper.selectDailyTaskByCategory(2, "");
+//        System.out.println(ssDailyTasks.size());
+        Map<String, Object> dailyTask = dailyTaskService.getDailyTask(2, "", 1, 10);
+        System.out.println(dailyTask.size());
     }
 }

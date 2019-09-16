@@ -8,7 +8,6 @@ import com.sdsoon.modular.system.po.SsRole;
 import com.sdsoon.modular.system.po.SsUserInfo;
 import com.sdsoon.modular.system.service.AdminService;
 import com.sdsoon.modular.system.vo.AddUserVo;
-import com.sdsoon.modular.system.vo.UserVo;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -106,9 +105,9 @@ public class AdminController extends BaseController {
     @RequiresPermissions({"system:admin", "user:manager"})
     @ResponseBody
     @GetMapping("/users")
-    public PageResult<UserVo> users(@RequestParam("page") Integer page, @RequestParam("limit") Integer limit) throws ResponseException {
-        PageResult<UserVo> userVoPageResult = adminService.selectAllUsers(page, limit);
-        return userVoPageResult;
+    public Map<String,Object> users(@RequestParam("page") Integer page, @RequestParam("limit") Integer limit,String userName,String userRealName) throws ResponseException {
+        Map<String,Object> map = adminService.selectAllUsers(page, limit,userName, userRealName);
+        return map;
     }
 
     /**

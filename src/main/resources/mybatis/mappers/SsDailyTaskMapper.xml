@@ -217,9 +217,16 @@
       SELECT * FROM ss_daily_task s ORDER BY s.daily_create_time DESC
     </select>
     <!--  -->
-    <select id="selectDailyTaskByCategory" resultMap="BaseResultMap" parameterType="int">
+    <select id="selectDailyTaskByCategory" resultMap="BaseResultMap">
       SELECT * FROM ss_daily_task s
-        WHERE s.daily_category = #{category,jdbcType=INTEGER}
+        <where>
+            <if test="category!=null and category!=''">
+                and s.daily_category = #{category,jdbcType=INTEGER}
+            </if>
+            <if test="taskDate!=null and taskDate!=''">
+                and date_format(s.daily_create_time ,'%Y-%m-%d') = #{taskDate,jdbcType=VARCHAR}
+            </if>
+        </where>
        ORDER BY s.daily_create_time DESC
     </select>
 </mapper>
