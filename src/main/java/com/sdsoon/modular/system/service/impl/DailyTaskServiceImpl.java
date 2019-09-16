@@ -58,9 +58,12 @@ public class DailyTaskServiceImpl implements DailyTaskService {
         if (StringUtils.isAnyBlank(String.valueOf(category), String.valueOf(page), String.valueOf(limit))) {
             return null;
         }
-        String trimTaskDate = taskDate.trim();
+        String trimTaskDate = null;
+        if (!StringUtils.isBlank(taskDate)) {
+            trimTaskDate = taskDate.trim();
+        }
         PageHelper.startPage(page, limit);
-        List<SsDailyTask> ssDailyTasks = ssDailyTaskMapper.selectDailyTaskByCategory(category,trimTaskDate);
+        List<SsDailyTask> ssDailyTasks = ssDailyTaskMapper.selectDailyTaskByCategory(category, trimTaskDate);
         if (ssDailyTasks == null) {
             return null;
         }
@@ -125,7 +128,7 @@ public class DailyTaskServiceImpl implements DailyTaskService {
         }
         SsDailyTask ssDailyTask = new SsDailyTask();
         BeanUtils.copyProperties(dailyTaskVo, ssDailyTask);
-        if (!StringUtils.isBlank(dailyTaskVo.getDailyCategory())) {
+        if (!StringUtils.isBlank(String.valueOf(dailyTaskVo.getDailyCategory()))) {
             ssDailyTask.setDailyCategory(Integer.valueOf(dailyTaskVo.getDailyCategory()));
         }
         Date date = DateUtil.convertStrDate2Date(dailyTaskVo.getDailyCreateTime());
@@ -146,10 +149,10 @@ public class DailyTaskServiceImpl implements DailyTaskService {
         dailyTaskVo.setDailyCreateTime(dateFormat);
         switch (ssDailyTask.getDailyCategory()) {
             case 1:
-                dailyTaskVo.setDailyCategory("总结");
+                dailyTaskVo.setDailyCategoryV("总结");
                 break;
             case 2:
-                dailyTaskVo.setDailyCategory("计划");
+                dailyTaskVo.setDailyCategoryV("计划");
                 break;
         }
         return dailyTaskVo;

@@ -4,14 +4,11 @@ import com.alibaba.fastjson.JSON;
 import com.sdsoon.core.response.ReturnResult;
 import com.sdsoon.core.response.ex.BaseController;
 import com.sdsoon.core.response.ex.ResponseException;
-import com.sdsoon.core.util.PageResult;
 import com.sdsoon.modular.system.model.ProjectMissionModel;
 import com.sdsoon.modular.system.model.ProjectPoModel;
 import com.sdsoon.modular.system.po.SsProjectMission;
 import com.sdsoon.modular.system.service.ProjectService;
 import com.sdsoon.modular.system.vo.AddMissionVo;
-import com.sdsoon.modular.system.vo.h.SsProjectManageVo;
-import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -88,9 +85,6 @@ public class ProjectController extends BaseController {
     public void downLoad(@RequestParam("downloadId") String downloadId, HttpServletResponse response
     ) throws ResponseException, IOException {
         boolean b = projectService.download(downloadId, response);
-
-//        downloadNet(response);
-
     }
 
     //修改任务节点信息

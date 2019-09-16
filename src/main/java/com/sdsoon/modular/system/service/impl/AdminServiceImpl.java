@@ -4,6 +4,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.sdsoon.core.response.ex.EnumError;
 import com.sdsoon.core.response.ex.ResponseException;
+import com.sdsoon.core.util.JsonResult;
 import com.sdsoon.core.util.PageResult;
 import com.sdsoon.core.util.PasswordUtil;
 import com.sdsoon.modular.system.mapper.*;
@@ -129,7 +130,8 @@ public class AdminServiceImpl implements AdminService {
                 addUserVo.getUserDept()
                 , addUserVo.getEncryptPassword()
         ) || roleId == null) {
-            throw new ResponseException(EnumError.PARAMETER_VALIDATION_ERROR);
+            JsonResult.error("信息不完整");
+            return false;
         }
         SsUserInfoExample example = new SsUserInfoExample();
         SsUserInfoExample.Criteria criteria = example.createCriteria();
@@ -137,7 +139,7 @@ public class AdminServiceImpl implements AdminService {
         List<SsUserInfo> ssUserInfos = ssUserInfoMapper.selectByExample(example);
         if (ssUserInfos.size() != 0) {
             log.info("phone:{} 已存在", addUserVo.getUserPhone());
-//            throw new ResponseException(EnumError.PHONE__EXISTS);
+            JsonResult.error("手机号码已存在");
             return false;
         } else {//注册
             //用户

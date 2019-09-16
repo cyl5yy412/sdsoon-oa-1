@@ -37,8 +37,8 @@ public class DailyTaskController extends BaseController {
     @PostMapping(value = "/get/task")
     public Callable<ReturnResult> getDailyTask(@RequestParam("category") Integer category,
                                                @RequestParam(value = "taskDate", required = false) String taskDate,
-                                               Integer page,
-                                               Integer limit) throws ParseException {
+                                               @RequestParam("page") Integer page,
+                                               @RequestParam("limit") Integer limit) throws ParseException {
         Map<String, Object> map = dailyTaskService.getDailyTask(category, taskDate, page, limit);//日期格式:"2019-09-10"
         if (map == null) {
             return () -> ReturnResult.create(null);

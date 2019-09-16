@@ -56,7 +56,7 @@
                     <!--</dd>-->
                     <hr>
                     <dd lay-unselect>
-                        <!--<a ew-event="logout" data-url="/page/other/login.html">退出</a>-->
+                        <a ew-event="logout" id="logoutId">退出</a>
                     </dd>
                 </dl>
             </li>
@@ -104,7 +104,7 @@
                     <a><i class="layui-icon layui-icon-template"></i>&emsp;<cite>项目管理</cite></a>
                     <dl class="layui-nav-child">
                         <dd>
-                        <!--<dd><a lay-href="page/other/project.html">添加项目</a></dd>-->
+                            <!--<dd><a lay-href="page/other/project.html">添加项目</a></dd>-->
                         <dd><a lay-href="page/other/project2.html">添加项目</a></dd>
                         <!--<dd><a lay-href="page/other/projectlist.html">项目列表</a></dd>-->
                         <dd><a lay-href="page/other/projectlist2.html">项目列表</a></dd>
@@ -254,6 +254,7 @@
 <!-- js部分 -->
 <script type="text/javascript" src="./assets/libs/layui/layui.js"></script>
 <script type="text/javascript" src="./assets/js/common.js?v=314"></script>
+<script type="text/javascript" src="./assets/js/jquery-1.11.1.min.js"></script>
 <script>
     layui.use(['index'], function () {
         var $ = layui.jquery;
@@ -262,6 +263,11 @@
         index.loadHome({
             menuPath: 'page/console/console.html',
             menuName: '<i class="layui-icon layui-icon-home"></i>'
+        });
+
+        //退出
+        $("#logoutId").on('click', function () {
+            $.get('/s/logout', {})
         });
     });
 </script>

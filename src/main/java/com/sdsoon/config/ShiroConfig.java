@@ -40,7 +40,7 @@ public class ShiroConfig {
 //        filterChainDefinitions.put("/page/template/error/**", "anon");
         filterChainDefinitions.put("/page/error/**", "anon");
         filterChainDefinitions.put("/login", "anon");
-        filterChainDefinitions.put("/logout", "logout");
+        filterChainDefinitions.put("/s/logout", "logout");
         //后台的接口//  拦截/**即可
         //中台接口,接口排除拦截
         filterChainDefinitions.put("/daily/**", "anon");

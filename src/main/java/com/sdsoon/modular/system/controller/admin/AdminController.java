@@ -53,6 +53,7 @@ public class AdminController extends BaseController {
         }
         return "/page/other/login.html";
     }
+
     /**
      * 403
      */
@@ -73,10 +74,6 @@ public class AdminController extends BaseController {
         if (StringUtil.isBlank(username, password)) {
             return JsonResult.error("账号或密码不能为空");
         }
-//        if (!CaptchaUtil.ver(code, request)) {
-//            // CaptchaUtil.clear(request);
-//            return JsonResult.error("验证码不正确");
-//        }
         try {
             String encodePassoword = PasswordUtil.EncodeByMD5(password);
             UsernamePasswordToken token = new UsernamePasswordToken(username, encodePassoword);
@@ -95,6 +92,14 @@ public class AdminController extends BaseController {
         }
     }
 
+    //退出
+    @GetMapping("/s/logout")
+    public String doLogout() {
+        Subject subject = SecurityUtils.getSubject();
+        subject.logout();
+        return "redirect:/login";
+    }
+
     //"system:admin"
     //"user:manager"
     //
@@ -105,8 +110,8 @@ public class AdminController extends BaseController {
     @RequiresPermissions({"system:admin", "user:manager"})
     @ResponseBody
     @GetMapping("/users")
-    public Map<String,Object> users(@RequestParam("page") Integer page, @RequestParam("limit") Integer limit,String userName,String userRealName) throws ResponseException {
-        Map<String,Object> map = adminService.selectAllUsers(page, limit,userName, userRealName);
+    public Map<String, Object> users(@RequestParam("page") Integer page, @RequestParam("limit") Integer limit, String userName, String userRealName) throws ResponseException {
+        Map<String, Object> map = adminService.selectAllUsers(page, limit, userName, userRealName);
         return map;
     }
 
