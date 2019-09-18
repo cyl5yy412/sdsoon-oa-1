@@ -3,6 +3,7 @@ package com.sdsoon.modular.system.controller;
 import com.sdsoon.core.response.ReturnResult;
 import com.sdsoon.core.response.ex.BaseController;
 import com.sdsoon.core.response.ex.ResponseException;
+import com.sdsoon.modular.system.model.SsoUserModel;
 import com.sdsoon.modular.system.po.SsUserInfo;
 import com.sdsoon.modular.system.service.AdminService;
 import com.sdsoon.modular.system.service.SsoService;
@@ -11,7 +12,6 @@ import com.sdsoon.modular.system.vo.LoginSucUserVo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -27,7 +27,6 @@ import java.util.concurrent.Callable;
 @Slf4j
 @RestController
 @RequestMapping("/v1/user")
-@CrossOrigin(origins = "*", allowCredentials = "true", allowedHeaders = "*")
 public class UserController extends BaseController {
 
     @Autowired
@@ -39,7 +38,7 @@ public class UserController extends BaseController {
 
 
     //第一次登陆
-    @PostMapping("/login")
+    @RequestMapping(value = "/login", method = {RequestMethod.POST})
     public Callable<ReturnResult> login(@RequestParam("username") String userName,//
                                         @RequestParam("password") String password,
                                         HttpServletResponse response,//
@@ -58,18 +57,8 @@ public class UserController extends BaseController {
         };
     }
 
-    //根据id删除,没有cookie
-    @PostMapping("/idlogout")
-    public ReturnResult logoutid(@RequestParam("userId") String userId) {
-        boolean b = ssoService.idlogout(userId);
-        if (b) {
-            return ReturnResult.create(HttpStatus.OK);
-        }
-        return ReturnResult.create(null);
-    }
-
     //老用户登陆--暂时未用
-   /* @PostMapping("/check")
+    @PostMapping("/check")
     public Callable<ReturnResult> checkLogin(HttpServletRequest request,//
                                              HttpServletResponse response) throws UnsupportedEncodingException, ResponseException {
         SsoUserModel ssoUserModel = ssoService.loginCheck(request, response);
@@ -78,17 +67,17 @@ public class UserController extends BaseController {
         }
         //登陆页登陆
         return () -> ReturnResult.create(null);
-    }*/
+    }
 
     //退出
-  /*  @PostMapping("/logout")
+    @PostMapping("/logout")
     public Callable<ReturnResult> logout(String userId,
                                          HttpServletRequest request,//
                                          HttpServletResponse response) throws UnsupportedEncodingException, ResponseException {
-        boolean b = ssoService.logout(request, response);
+        boolean b = ssoService.logout(request, response, userId);
         return () -> ReturnResult.create(b);
 
-    }*/
+    }
 /*
     @PostMapping("/register")
     public ReturnResult register(@RequestParam("userName") String userName,//

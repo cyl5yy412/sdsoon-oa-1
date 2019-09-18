@@ -120,7 +120,8 @@
             <div class="layui-upload">
                 <button type="button" class="layui-btn bb_btn" id="test1">上传版标</button>
                 <div class="layui-upload-list">
-                    <img class="layui-upload-img" id="demo1">
+                    <!-- 展示板标图 -->
+                    <!--<img class="layui-upload-img" id="demo1">-->
                     <p id="demoText"></p>
                 </div>
             </div>
@@ -562,6 +563,7 @@
                 , before: function (obj) {
                     //预读本地文件示例，不支持ie8
                     obj.preview(function (index, file, result) {
+                        // 展示板标图
 //                        $('#demo1').attr('src', result); //图片链接（base64）
                     });
                 }

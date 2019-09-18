@@ -19,7 +19,6 @@ import java.util.concurrent.Callable;
  */
 @RestController
 @RequestMapping("/daily")
-@CrossOrigin(origins = "*", allowCredentials = "true", allowedHeaders = "*")
 public class DailyTaskController extends BaseController {
 
     @Autowired

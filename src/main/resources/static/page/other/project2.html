@@ -126,8 +126,7 @@
                     <label class="layui-form-label">文档信息:</label>
                     <div class="layui-input-block">
                         <input name="projectDocInfo" placeholder="请输入文档信息" type="text" class="layui-input"
-                               maxlength="20"
-                               lay-verType="tips" lay-verify="required" required/>
+                               maxlength="20" lay-verType="tips" lay-verify="required" required/>
                     </div>
                 </div>
                 <div class="layui-form-item">
@@ -237,6 +236,7 @@
                 if (res.code == 200) {
                     layer.msg(res.msg, {icon: 1});
                     //form刷新
+                    form.reload();
                 } else {
                     layer.msg(res.msg, {icon: 2});
                 }

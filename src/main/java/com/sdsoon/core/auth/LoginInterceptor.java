@@ -36,7 +36,7 @@ public class LoginInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         //跨域
-        crossDomain(request, response);
+//        crossDomain(request, response);
         //
         String token = request.getHeader("token");//token为userId
         log.info("token:" + token);

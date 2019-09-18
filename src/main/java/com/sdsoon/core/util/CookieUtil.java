@@ -156,8 +156,9 @@ public final class CookieUtil {
              * 一级域名:前面加.:sdsoon.cn  ,未成功
              *
              */
-//                cookie.setDomain("sdsoon.cn");
-            cookie.setDomain(getDomainName(request));
+                //sp 2.x 版本  tomcat 8.x  domain规则限制
+                cookie.setDomain("sdsoon.cn");
+//                cookie.setDomain(getDomainName(request));
 
             cookie.setPath("/");
             response.addCookie(cookie);
@@ -188,8 +189,9 @@ public final class CookieUtil {
              * 一级域名:前面加.:sdsoon.cn  ,未成功
              *
              */
-//                cookie.setDomain("sdsoon.cn");
-            cookie.setDomain(getDomainName(request));
+            //sp 2.x 版本  tomcat 8.x  domain规则限制
+                cookie.setDomain("sdsoon.cn");
+//                cookie.setDomain(getDomainName(request));
 
             cookie.setPath("/");
             response.addCookie(cookie);
@@ -229,6 +231,7 @@ public final class CookieUtil {
             String[] ary = domainName.split("\\:");
             domainName = ary[0];
         }
+        System.out.println("domainName:" + domainName);
         return domainName;
     }
 

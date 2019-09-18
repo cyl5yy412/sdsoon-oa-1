@@ -38,16 +38,16 @@ public interface SsoService {
 
     /**
      * 校验拦截器
+     *
      * @param request
      * @param response
-     * @param token  userId
+     * @param token    userId
      * @return
      * @throws UnsupportedEncodingException
      */
-    boolean authLoginCheck(HttpServletRequest request, HttpServletResponse response,String token) throws UnsupportedEncodingException;
+    boolean authLoginCheck(HttpServletRequest request, HttpServletResponse response, String token) throws UnsupportedEncodingException;
 
-    boolean logout(HttpServletRequest request, HttpServletResponse response) throws ResponseException;
+    boolean logout(HttpServletRequest request, HttpServletResponse response, String userId) throws ResponseException;
 
-    //根据id删除 redis的信息
-    boolean idlogout(String userId);
+
 }

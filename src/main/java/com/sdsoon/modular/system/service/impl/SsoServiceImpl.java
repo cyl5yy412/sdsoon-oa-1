@@ -38,6 +38,7 @@ public class SsoServiceImpl implements SsoService {
     @Value("${SSO_COOKIE_NAME}")
     private String SSO_COOKIE_NAME;
 
+    //cookie和redis
     @Override
     public void doSso(HttpServletRequest request, HttpServletResponse response, SsUserInfo ssUserInfo) throws UnsupportedEncodingException {
         /**
@@ -57,21 +58,22 @@ public class SsoServiceImpl implements SsoService {
          * value:前缀#userId-base64编码:sso_cookie#b92c07d222824fe48d9a8d8434e372f0
          * 过期时间:5 day
          */
-//        String encodeCookieSuffix = cookieValueSuffix(ssoUserModel.getUserId());
-//        String cookieValue = cookieValue(encodeCookieSuffix);
-//        CookieUtil.setCookie(request, response,
-//                SSO_COOKIE_NAME,//cookieName:sso_cookie
-//                cookieValue,//cookieValue,userId编码
-//                SsoConf.COOKIE_EXPIRE_SECOND);
-//        log.info(cookieValue);
+        String encodeCookieSuffix = cookieValueSuffix(ssoUserModel.getUserId());
+        String cookieValue = cookieValue(encodeCookieSuffix);
+        CookieUtil.setCookie(request, response,
+                SSO_COOKIE_NAME,//cookieName:sso_cookie
+                cookieValue,//cookieValue,userId编码
+                SsoConf.COOKIE_EXPIRE_SECOND);
+        log.info(cookieValue);
 
         log.info(SSO_COOKIE_NAME);
     }
 
+    //存cookie和redis
     @Override
     public SsoUserModel loginCheck(HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException, ResponseException {
         //编码后的cookieValue:sso_cookie#b92c07d222824fe48d9a8d8434e372f0
-        String cookieEncodeValue = CookieUtil.getCookieValue(request, SSO_COOKIE_NAME, true);
+        String cookieEncodeValue = CookieUtil.getCookieValue(request, SSO_COOKIE_NAME);
         if (StringUtils.isBlank(cookieEncodeValue)) {//no cookie无法验证信息
             return null;
         } else {
@@ -102,9 +104,10 @@ public class SsoServiceImpl implements SsoService {
 
     }
 
+    //根据redis 和cookie验证:无token
     @Override
     public boolean authLoginCheck(HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
-        String cookieEncodeValue = CookieUtil.getCookieValue(request, SSO_COOKIE_NAME, true);
+        String cookieEncodeValue = CookieUtil.getCookieValue(request, SSO_COOKIE_NAME);
         if (StringUtils.isBlank(cookieEncodeValue)) {//no cookie无法验证信息
             return false;
         } else {
@@ -126,14 +129,25 @@ public class SsoServiceImpl implements SsoService {
         }
     }
 
+    //只根据redis验证,有token-userId
     @Override
     public boolean authLoginCheck(HttpServletRequest request, HttpServletResponse response, String token) throws UnsupportedEncodingException {
+
         String redisKey = redisKey(token);
         SsoUserModel ssoUserModel = (SsoUserModel) redisTemplate.opsForValue().get(redisKey);
         if (ssoUserModel == null) {
             return false;
         }
         if (StringUtils.equals(token, ssoUserModel.getUserId())) {
+            //过期时间过半更新redis,//更新cookie
+            if ((System.currentTimeMillis() - ssoUserModel.getExpireFreshTime()) / 2 > ssoUserModel.getExpireTime()) {
+                redisTemplate.opsForValue().set(redisKey, ssoUserModel, SsoConf.REDIS_EXPIRE_SECOND, TimeUnit.SECONDS);
+                String cookieEncodeValue = CookieUtil.getCookieValue(request, SSO_COOKIE_NAME);
+                if (StringUtils.isBlank(cookieEncodeValue)) {//no cookie无法验证信息
+                    return false;
+                }
+                CookieUtil.setCookie(request, response, SSO_COOKIE_NAME, cookieEncodeValue, SsoConf.COOKIE_EXPIRE_SECOND);
+            }
             return true;
         }
         return false;
@@ -141,25 +155,16 @@ public class SsoServiceImpl implements SsoService {
 
 
     @Override
-    public boolean logout(HttpServletRequest request, HttpServletResponse response) throws ResponseException {
+    public boolean logout(HttpServletRequest request, HttpServletResponse response, String userId) throws ResponseException {
         //清除cookie
         CookieUtil.deleteCookie(request, response, SSO_COOKIE_NAME);
         //清除redis
-//        String redisKey = redisKey(userId);
-//        redisTemplate.delete(redisKey);
-        return true;
-
-    }
-
-    @Override
-    public boolean idlogout(String userId) {
         String redisKey = redisKey(userId);
         Boolean delete = redisTemplate.delete(redisKey);
         if (delete) {
             return true;
         }
         return false;
-
     }
 
 

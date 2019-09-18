@@ -28,7 +28,6 @@ import java.util.UUID;
  */
 @RestController
 @RequestMapping("/project")
-@CrossOrigin(origins = "*", allowCredentials = "true", allowedHeaders = "*")
 public class ProjectController extends BaseController {
     @Autowired
     private ProjectService projectService;
