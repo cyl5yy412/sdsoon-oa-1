@@ -510,7 +510,18 @@ public class ProjectServiceImpl implements ProjectService {
 
         PageInfo<SsProjectManageVo> pageInfo = new PageInfo<>(ssProjectManageVos);
         Map<String, Object> map = new HashMap<>();
-        map.put("count", pageInfo.getTotal());
+        //总数量
+        long total = ssProjectManageMapper.countByExample(null);
+        //进行中
+        SsProjectManageExample example = new SsProjectManageExample();
+        SsProjectManageExample.Criteria criteria = example.createCriteria();
+        criteria.andProjectStatusEqualTo(1);
+        long l1 = ssProjectManageMapper.countByExample(example);
+        //已完成
+        long l2 = total - l1;
+        map.put("total", total);
+        map.put("ing", l1);
+        map.put("done", l2);
         map.put("data", ssProjectManageVos);
         map.put("code", 0);
         map.put("msg", "");
@@ -601,9 +612,9 @@ public class ProjectServiceImpl implements ProjectService {
         //已完成
         long l2 = total - l1;
         map.put("total", total);
-        map.put("data", ssProjectManageVos);
         map.put("ing", l1);
         map.put("done", l2);
+        map.put("data", ssProjectManageVos);
         map.put("code", 0);
         map.put("msg", "");
         return map;

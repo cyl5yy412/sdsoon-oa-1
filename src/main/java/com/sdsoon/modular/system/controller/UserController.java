@@ -57,7 +57,7 @@ public class UserController extends BaseController {
         };
     }
 
-    //老用户登陆--暂时未用
+    //老用户登陆
     @PostMapping("/check")
     public Callable<ReturnResult> checkLogin(HttpServletRequest request,//
                                              HttpServletResponse response) throws UnsupportedEncodingException, ResponseException {
