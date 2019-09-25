@@ -3,10 +3,9 @@ package com.sdsoon.modular.system.mapper;
 import com.sdsoon.modular.system.model.ProjectPoModel;
 import com.sdsoon.modular.system.po.SsProjectManage;
 import com.sdsoon.modular.system.po.SsProjectManageExample;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
-
-import org.apache.ibatis.annotations.Param;
 
 public interface SsProjectManageMapper {
     long countByExample(SsProjectManageExample example);
@@ -39,6 +38,8 @@ public interface SsProjectManageMapper {
     List<SsProjectManage> selectAllProjects(@Param("projectName") String projectName);
 
     List<SsProjectManage> selectAllProjectsByStatus(@Param("status") Integer status);
+
+    List<SsProjectManage> selectAllDoneProjects2(@Param("projectName") String projectName, @Param("projectLeaderName") String projectLeaderName);
 
     //shiro-xxx request方法
 //    List<SsProjectManage> selectAllProjects2(@Param("page") PageParam pageParam);

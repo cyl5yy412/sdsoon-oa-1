@@ -1001,6 +1001,66 @@ public class SsProjectManageExample {
             addCriterion("project_people_name not between", value1, value2, "projectPeopleName");
             return (Criteria) this;
         }
+
+        public Criteria andProjectProdStatusIsNull() {
+            addCriterion("project_prod_status is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectProdStatusIsNotNull() {
+            addCriterion("project_prod_status is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectProdStatusEqualTo(Integer value) {
+            addCriterion("project_prod_status =", value, "projectProdStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectProdStatusNotEqualTo(Integer value) {
+            addCriterion("project_prod_status <>", value, "projectProdStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectProdStatusGreaterThan(Integer value) {
+            addCriterion("project_prod_status >", value, "projectProdStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectProdStatusGreaterThanOrEqualTo(Integer value) {
+            addCriterion("project_prod_status >=", value, "projectProdStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectProdStatusLessThan(Integer value) {
+            addCriterion("project_prod_status <", value, "projectProdStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectProdStatusLessThanOrEqualTo(Integer value) {
+            addCriterion("project_prod_status <=", value, "projectProdStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectProdStatusIn(List<Integer> values) {
+            addCriterion("project_prod_status in", values, "projectProdStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectProdStatusNotIn(List<Integer> values) {
+            addCriterion("project_prod_status not in", values, "projectProdStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectProdStatusBetween(Integer value1, Integer value2) {
+            addCriterion("project_prod_status between", value1, value2, "projectProdStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectProdStatusNotBetween(Integer value1, Integer value2) {
+            addCriterion("project_prod_status not between", value1, value2, "projectProdStatus");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

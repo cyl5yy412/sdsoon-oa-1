@@ -57,3 +57,14 @@
 只能查看
         "roleName": "普通用户",
         "roleCode": "user",
+
+
+///////////////////////////////////////////////////////////
+生产管理json
+
+{
+	"projectProdDate":"2019-10-01",
+	"projectProdId":"aaa75848ed6d4e97a2555bd16a4570c7",
+	"projectProdMissionName":"--------------",
+	"projectProdName":"=================="
+}

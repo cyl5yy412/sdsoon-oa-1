@@ -542,7 +542,7 @@ layui.define(['jquery'], function (exports) {
         $.extend(CityPicker.DEFAULTS, options);
     };
 
-    // Save the other citypicker
+    // Save the project citypicker
     CityPicker.other = $.fn.citypicker;
 
     // Register as jQuery plugin

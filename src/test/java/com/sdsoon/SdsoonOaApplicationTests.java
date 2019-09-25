@@ -155,7 +155,12 @@ public class SdsoonOaApplicationTests {
         //
 //        List<SsDailyTask> ssDailyTasks = ssDailyTaskMapper.selectDailyTaskByCategory(2, "");
 //        System.out.println(ssDailyTasks.size());
-        Map<String, Object> dailyTask = dailyTaskService.getDailyTask(2, "", 1, 10);
-        System.out.println(dailyTask.size());
+//        Map<String, Object> dailyTask = dailyTaskService.getDailyTask(2, "", 1, 10);
+//        System.out.println(dailyTask.size());
+        //
+//        Map<String, Object> map = projectService.selectAllDoneProjects(1, 10, "0", null);
+//        System.out.println(map);
+
+
     }
 }

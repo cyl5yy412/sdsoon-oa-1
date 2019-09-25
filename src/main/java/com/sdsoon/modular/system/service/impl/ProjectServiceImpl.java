@@ -525,6 +525,7 @@ public class ProjectServiceImpl implements ProjectService {
         map.put("data", ssProjectManageVos);
         map.put("code", 0);
         map.put("msg", "");
+        map.put("status", "success");
         return map;
     }
 
@@ -591,7 +592,7 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public Map<String, Object> selectAllProject(Integer page, Integer limit,String projectName) {
+    public Map<String, Object> selectAllProject(Integer page, Integer limit, String projectName) {
         Map<String, Object> map = new HashedMap();
         PageHelper.startPage(page, limit);
 
@@ -707,6 +708,55 @@ public class ProjectServiceImpl implements ProjectService {
             return true;
         }
         return false;
+    }
+
+    @Override
+    public Map<String, Object> selectAllDoneProjects(Integer page, Integer limit, String projectName, String projectLeaderName) {
+        PageHelper.startPage(page, limit);
+        List<SsProjectManage> ssProjectManages = ssProjectManageMapper.selectAllDoneProjects2(projectName, projectLeaderName);
+
+        List<SsProjectManageVo> ssProjectManageVos = ssProjectManages.stream().map(ssProjectManage -> {
+            SsProjectManageVo ssProjectManageVo = convertSsProjectManageVoFromDto(ssProjectManage);
+            return ssProjectManageVo;
+        }).collect(Collectors.toList());
+        PageInfo<SsProjectManageVo> pageInfo = new PageInfo<>(ssProjectManageVos);
+        Map<String, Object> map = new HashMap<>();
+        map.put("count", pageInfo.getTotal());
+        map.put("data", ssProjectManageVos);
+        map.put("code", 0);
+        map.put("msg", "");
+        return map;
+    }
+
+    @Override
+    public Map<String, Object> selectAllProject2(Integer page, Integer limit, String projectName) {
+        Map<String, Object> map = new HashedMap();
+        PageHelper.startPage(page, limit);
+
+        List<SsProjectManage> ssProjectManages = ssProjectManageMapper.selectAllProjects(projectName);
+        List<SsProjectManageVo> ssProjectManageVos = ssProjectManages.stream().map(ssProjectManage -> {
+            SsProjectManageVo ssProjectManageVo = convertSsProjectManageVoFromDto(ssProjectManage);
+            return ssProjectManageVo;
+        }).collect(Collectors.toList());
+        PageInfo<SsProjectManageVo> pageInfo = new PageInfo<>(ssProjectManageVos);
+
+        //总数量
+        long total = ssProjectManageMapper.countByExample(null);
+        //进行中
+        SsProjectManageExample example = new SsProjectManageExample();
+        SsProjectManageExample.Criteria criteria = example.createCriteria();
+        criteria.andProjectStatusEqualTo(1);
+        long l1 = ssProjectManageMapper.countByExample(example);
+        //已完成
+        long l2 = total - l1;
+        map.put("total", total);
+        map.put("ing", l1);
+        map.put("done", l2);
+        map.put("data", ssProjectManageVos);
+        map.put("code", 0);
+        map.put("msg", "");
+        map.put("status", "success");
+        return map;
     }
 
 /*

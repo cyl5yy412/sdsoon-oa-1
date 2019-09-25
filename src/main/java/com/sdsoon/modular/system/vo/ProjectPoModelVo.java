@@ -38,6 +38,8 @@ public class ProjectPoModelVo implements Serializable {
     private String projectDocInfo;
 
     private String projectPeopleName;
+    //投产状态
+    private Integer projectProdStatus;
     //mission
     List<ProjectMissionModel> projectMissions;
     //pic
@@ -49,7 +51,7 @@ public class ProjectPoModelVo implements Serializable {
     }
 
 
-    public ProjectPoModelVo(String projectId, String projectName, String projectDescription, String projectTechnology, String projectStandard, String projectLeaderName, String projectLeaderPhone, String projectCreateTime, String projectEndTime, Integer projectStatus, Integer projectLevel, String projectDocInfo, String projectPeopleName, List<ProjectMissionModel> projectMissions, List<SsProjectPic> projectPics, List<SsProjectDoc> projectDocs) {
+    public ProjectPoModelVo(String projectId, String projectName, String projectDescription, String projectTechnology, String projectStandard, String projectLeaderName, String projectLeaderPhone, String projectCreateTime, String projectEndTime, Integer projectStatus, Integer projectLevel, String projectDocInfo, String projectPeopleName, Integer projectProdStatus, List<ProjectMissionModel> projectMissions, List<SsProjectPic> projectPics, List<SsProjectDoc> projectDocs) {
         this.projectId = projectId;
         this.projectName = projectName;
         this.projectDescription = projectDescription;
@@ -63,9 +65,18 @@ public class ProjectPoModelVo implements Serializable {
         this.projectLevel = projectLevel;
         this.projectDocInfo = projectDocInfo;
         this.projectPeopleName = projectPeopleName;
+        this.projectProdStatus = projectProdStatus;
         this.projectMissions = projectMissions;
         this.projectPics = projectPics;
         this.projectDocs = projectDocs;
+    }
+
+    public Integer getProjectProdStatus() {
+        return projectProdStatus;
+    }
+
+    public void setProjectProdStatus(Integer projectProdStatus) {
+        this.projectProdStatus = projectProdStatus;
     }
 
     public String getProjectPeopleName() {

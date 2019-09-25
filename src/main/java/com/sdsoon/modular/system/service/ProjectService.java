@@ -1,9 +1,7 @@
 package com.sdsoon.modular.system.service;
 
 import com.sdsoon.core.response.ex.ResponseException;
-//import com.sdsoon.core.util.PageParam;
 import com.sdsoon.core.util.PageResult;
-import com.sdsoon.modular.system.model.ProjectMissionModel;
 import com.sdsoon.modular.system.model.ProjectModel;
 import com.sdsoon.modular.system.model.ProjectPoModel;
 import com.sdsoon.modular.system.po.SsProjectDoc;
@@ -18,6 +16,8 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.util.List;
 import java.util.Map;
+
+//import com.sdsoon.core.util.PageParam;
 
 /**
  * Created By Chr on 2019/8/22.
@@ -85,6 +85,11 @@ public interface ProjectService {
     PageResult<SsProjectDoc> selectDocByProjectId(String projectId);
 
     boolean deleteDoc(String projectDocId, String projectDocNewName);
+
+    Map<String,Object> selectAllDoneProjects(Integer page, Integer limit, String projectName, String projectLeaderName);
+
+    //数据结构修改
+    Map<String,Object> selectAllProject2(Integer page, Integer limit, String projectName);
 
     //后端分页
 //    PageResult<SsProjectManageVo> selectAllProjects2(PageParam pageParam);

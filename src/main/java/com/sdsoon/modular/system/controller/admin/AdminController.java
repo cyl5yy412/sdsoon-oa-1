@@ -49,9 +49,9 @@ public class AdminController extends BaseController {
     @GetMapping("/page/index")
     public String pageIndex() {
         if (getLoginUser() != null) {
-            return "redirect:page/other/loginz.html";
+            return "redirect:page/project/loginz.html";
         }
-        return "/page/other/login.html";
+        return "/page/project/login.html";
     }
 
     /**

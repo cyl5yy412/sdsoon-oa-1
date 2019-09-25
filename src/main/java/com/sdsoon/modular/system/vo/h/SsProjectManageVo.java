@@ -33,11 +33,12 @@ public class SsProjectManageVo implements Serializable {
     private String projectDocInfo;
 
     private String projectPeopleName;
+    private Integer projectProdStatus;
 
     public SsProjectManageVo() {
     }
 
-    public SsProjectManageVo(String projectId, String projectName, String projectDescription, String projectTechnology, String projectStandard, String projectLeaderName, String projectLeaderPhone, String projectCreateTime, String projectEndTime, Integer projectStatus, Integer projectLevel, String projectDocInfo, String projectPeopleName) {
+    public SsProjectManageVo(String projectId, String projectName, String projectDescription, String projectTechnology, String projectStandard, String projectLeaderName, String projectLeaderPhone, String projectCreateTime, String projectEndTime, Integer projectStatus, Integer projectLevel, String projectDocInfo, String projectPeopleName, Integer projectProdStatus) {
         this.projectId = projectId;
         this.projectName = projectName;
         this.projectDescription = projectDescription;
@@ -51,6 +52,15 @@ public class SsProjectManageVo implements Serializable {
         this.projectLevel = projectLevel;
         this.projectDocInfo = projectDocInfo;
         this.projectPeopleName = projectPeopleName;
+        this.projectProdStatus = projectProdStatus;
+    }
+
+    public Integer getProjectProdStatus() {
+        return projectProdStatus;
+    }
+
+    public void setProjectProdStatus(Integer projectProdStatus) {
+        this.projectProdStatus = projectProdStatus;
     }
 
     public String getProjectPeopleName() {

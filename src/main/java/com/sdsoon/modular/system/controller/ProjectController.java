@@ -72,11 +72,17 @@ public class ProjectController extends BaseController {
         return ReturnResult.create(objectMap);
     }
 
+    @GetMapping("/list2")
+    public Map<String, Object> list2(@RequestParam("page") Integer page, @RequestParam("limit") Integer limit, @RequestParam(value = "projectName", required = false) String projectName) throws ResponseException {
+        Map<String, Object> objectMap = projectService.selectAllProject2(page, limit, projectName);
+        return objectMap;
+    }
+
     //项目管理 进行和完成
     @GetMapping("/list/status")
     public Map<String, Object> listByStatus(@RequestParam("status") Integer status, @RequestParam("page") Integer page, @RequestParam("limit") Integer limit) throws ResponseException {
-        Map<String, Object> ssProjectManageVoPageResult = projectService.selectAllProjectsByStatus(status, page, limit);
-        return ssProjectManageVoPageResult;
+        Map<String, Object> objectMap = projectService.selectAllProjectsByStatus(status, page, limit);
+        return objectMap;
     }
 
     //下载任务节点的文件

@@ -35,6 +35,8 @@ public class ProjectModel implements Serializable {
 
     private String projectDocInfo;
     private String projectPeopleName;
+    //投产状态
+    private Integer projectProdStatus;
 
     //doc
     List<MultipartFile> docFiles;
@@ -45,7 +47,7 @@ public class ProjectModel implements Serializable {
     public ProjectModel() {
     }
 
-    public ProjectModel(String projectId, String projectName, String projectDescription, String projectTechnology, String projectStandard, String projectLeaderName, String projectLeaderPhone, String date, Integer projectStatus, Integer projectLevel, String projectDocInfo, String projectPeopleName, List<MultipartFile> docFiles, List<MultipartFile> picFiles) {
+    public ProjectModel(String projectId, String projectName, String projectDescription, String projectTechnology, String projectStandard, String projectLeaderName, String projectLeaderPhone, String date, Integer projectStatus, Integer projectLevel, String projectDocInfo, String projectPeopleName, Integer projectProdStatus, List<MultipartFile> docFiles, List<MultipartFile> picFiles) {
         this.projectId = projectId;
         this.projectName = projectName;
         this.projectDescription = projectDescription;
@@ -58,8 +60,17 @@ public class ProjectModel implements Serializable {
         this.projectLevel = projectLevel;
         this.projectDocInfo = projectDocInfo;
         this.projectPeopleName = projectPeopleName;
+        this.projectProdStatus = projectProdStatus;
         this.docFiles = docFiles;
         this.picFiles = picFiles;
+    }
+
+    public Integer getProjectProdStatus() {
+        return projectProdStatus;
+    }
+
+    public void setProjectProdStatus(Integer projectProdStatus) {
+        this.projectProdStatus = projectProdStatus;
     }
 
     public String getProjectPeopleName() {

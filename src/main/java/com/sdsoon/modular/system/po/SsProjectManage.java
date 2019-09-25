@@ -30,6 +30,8 @@ public class SsProjectManage implements Serializable {
 
     private String projectPeopleName;
 
+    private Integer projectProdStatus;
+
     private static final long serialVersionUID = 1L;
 
     public String getProjectId() {
@@ -136,6 +138,14 @@ public class SsProjectManage implements Serializable {
         this.projectPeopleName = projectPeopleName == null ? null : projectPeopleName.trim();
     }
 
+    public Integer getProjectProdStatus() {
+        return projectProdStatus;
+    }
+
+    public void setProjectProdStatus(Integer projectProdStatus) {
+        this.projectProdStatus = projectProdStatus;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -155,6 +165,7 @@ public class SsProjectManage implements Serializable {
         sb.append(", projectLevel=").append(projectLevel);
         sb.append(", projectDocInfo=").append(projectDocInfo);
         sb.append(", projectPeopleName=").append(projectPeopleName);
+        sb.append(", projectProdStatus=").append(projectProdStatus);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

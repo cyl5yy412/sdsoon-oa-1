@@ -15,6 +15,7 @@
         <result column="project_level" jdbcType="INTEGER" property="projectLevel"/>
         <result column="project_doc_info" jdbcType="VARCHAR" property="projectDocInfo"/>
         <result column="project_people_name" jdbcType="VARCHAR" property="projectPeopleName"/>
+        <result column="project_prod_status" jdbcType="INTEGER" property="projectProdStatus"/>
     </resultMap>
     <sql id="Example_Where_Clause">
         <where>
@@ -79,7 +80,7 @@
     <sql id="Base_Column_List">
     project_id, project_name, project_description, project_technology, project_standard, 
     project_leader_name, project_leader_phone, project_create_time, project_end_time, 
-    project_status, project_level, project_doc_info, project_people_name
+    project_status, project_level, project_doc_info, project_people_name, project_prod_status
   </sql>
     <select id="selectByExample" parameterType="com.sdsoon.modular.system.po.SsProjectManageExample"
             resultMap="BaseResultMap">
@@ -117,12 +118,12 @@
       project_technology, project_standard, project_leader_name, 
       project_leader_phone, project_create_time, project_end_time, 
       project_status, project_level, project_doc_info, 
-      project_people_name)
+      project_people_name, project_prod_status)
     values (#{projectId,jdbcType=VARCHAR}, #{projectName,jdbcType=VARCHAR}, #{projectDescription,jdbcType=VARCHAR}, 
       #{projectTechnology,jdbcType=VARCHAR}, #{projectStandard,jdbcType=VARCHAR}, #{projectLeaderName,jdbcType=VARCHAR}, 
       #{projectLeaderPhone,jdbcType=VARCHAR}, #{projectCreateTime,jdbcType=DATE}, #{projectEndTime,jdbcType=DATE}, 
       #{projectStatus,jdbcType=INTEGER}, #{projectLevel,jdbcType=INTEGER}, #{projectDocInfo,jdbcType=VARCHAR}, 
-      #{projectPeopleName,jdbcType=VARCHAR})
+      #{projectPeopleName,jdbcType=VARCHAR}, #{projectProdStatus,jdbcType=INTEGER})
   </insert>
     <insert id="insertSelective" parameterType="com.sdsoon.modular.system.po.SsProjectManage">
         insert into ss_project_manage
@@ -166,6 +167,9 @@
             <if test="projectPeopleName != null">
                 project_people_name,
             </if>
+            <if test="projectProdStatus != null">
+                project_prod_status,
+            </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="projectId != null">
@@ -206,6 +210,9 @@
             </if>
             <if test="projectPeopleName != null">
                 #{projectPeopleName,jdbcType=VARCHAR},
+            </if>
+            <if test="projectProdStatus != null">
+                #{projectProdStatus,jdbcType=INTEGER},
             </if>
         </trim>
     </insert>
@@ -258,6 +265,9 @@
             <if test="record.projectPeopleName != null">
                 project_people_name = #{record.projectPeopleName,jdbcType=VARCHAR},
             </if>
+            <if test="record.projectProdStatus != null">
+                project_prod_status = #{record.projectProdStatus,jdbcType=INTEGER},
+            </if>
         </set>
         <if test="_parameter != null">
             <include refid="Update_By_Example_Where_Clause"/>
@@ -277,7 +287,8 @@
         project_status = #{record.projectStatus,jdbcType=INTEGER},
         project_level = #{record.projectLevel,jdbcType=INTEGER},
         project_doc_info = #{record.projectDocInfo,jdbcType=VARCHAR},
-        project_people_name = #{record.projectPeopleName,jdbcType=VARCHAR}
+        project_people_name = #{record.projectPeopleName,jdbcType=VARCHAR},
+        project_prod_status = #{record.projectProdStatus,jdbcType=INTEGER}
         <if test="_parameter != null">
             <include refid="Update_By_Example_Where_Clause"/>
         </if>
@@ -321,6 +332,9 @@
             <if test="projectPeopleName != null">
                 project_people_name = #{projectPeopleName,jdbcType=VARCHAR},
             </if>
+            <if test="projectProdStatus != null">
+                project_prod_status = #{projectProdStatus,jdbcType=INTEGER},
+            </if>
         </set>
         where project_id = #{projectId,jdbcType=VARCHAR}
     </update>
@@ -337,9 +351,11 @@
       project_status = #{projectStatus,jdbcType=INTEGER},
       project_level = #{projectLevel,jdbcType=INTEGER},
       project_doc_info = #{projectDocInfo,jdbcType=VARCHAR},
-      project_people_name = #{projectPeopleName,jdbcType=VARCHAR}
+      project_people_name = #{projectPeopleName,jdbcType=VARCHAR},
+      project_prod_status = #{projectProdStatus,jdbcType=INTEGER}
     where project_id = #{projectId,jdbcType=VARCHAR}
   </update>
+
     <!--  -->
     <resultMap id="BaseResultMap_project" type="com.sdsoon.modular.system.model.ProjectPoModel">
         <id column="project_id" jdbcType="VARCHAR" property="projectId"/>
@@ -355,6 +371,7 @@
         <result column="project_level" jdbcType="INTEGER" property="projectLevel"/>
         <result column="project_doc_info" jdbcType="VARCHAR" property="projectDocInfo"/>
         <result column="project_people_name" jdbcType="VARCHAR" property="projectPeopleName"/>
+        <result column="project_prod_status" jdbcType="INTEGER" property="projectProdStatus"/>
         <!-- mission -->
         <collection property="projectMissions" ofType="com.sdsoon.modular.system.po.SsProjectMission">
             <id column="project_mission_id" jdbcType="VARCHAR" property="projectMissionId"/>
@@ -420,4 +437,18 @@
     <select id="selectAllProjectsByStatus" parameterType="int" resultMap="BaseResultMap">
     SELECT * FROM ss_project_manage s WHERE s.project_status = #{status} ORDER BY s.project_end_time DESC
   </select>
+    <!-- 已完成的所有项目 -->
+    <select id="selectAllDoneProjects2" resultMap="BaseResultMap">
+        SELECT * FROM ss_project_manage s
+        <where>
+            s.project_status = 2
+            <if test="projectName!=null and projectName!=''">
+                and s.project_name like '%${projectName}%'
+            </if>
+            <if test="projectLeaderName!=null and projectLeaderName!=''">
+                and s.project_leader_name like '%${projectLeaderName}%'
+            </if>
+        </where>
+        ORDER BY s.project_end_time DESC
+    </select>
 </mapper>
