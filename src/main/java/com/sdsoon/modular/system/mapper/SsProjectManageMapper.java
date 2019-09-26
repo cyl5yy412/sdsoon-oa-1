@@ -41,6 +41,8 @@ public interface SsProjectManageMapper {
 
     List<SsProjectManage> selectAllDoneProjects2(@Param("projectName") String projectName, @Param("projectLeaderName") String projectLeaderName);
 
+    List<SsProjectManage> selectAllDoneProdProjects2(@Param("projectName") String projectName, @Param("projectLeaderName") String projectLeaderName);
+
     //shiro-xxx request方法
 //    List<SsProjectManage> selectAllProjects2(@Param("page") PageParam pageParam);
 }

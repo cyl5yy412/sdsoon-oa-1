@@ -1,0 +1,386 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sdsoon.modular.system.mapper.SsProjectOrderMapper">
+    <resultMap id="BaseResultMap" type="com.sdsoon.modular.system.po.SsProjectOrder">
+        <id column="project_order_id" jdbcType="VARCHAR" property="projectOrderId"/>
+        <result column="project_order_producer" jdbcType="VARCHAR" property="projectOrderProducer"/>
+        <result column="project_g_prod_id" jdbcType="VARCHAR" property="projectGProdId"/>
+        <result column="project_order_part" jdbcType="VARCHAR" property="projectOrderPart"/>
+        <result column="project_order_leader_name" jdbcType="VARCHAR" property="projectOrderLeaderName"/>
+        <result column="project_order_leader_phone" jdbcType="VARCHAR" property="projectOrderLeaderPhone"/>
+        <result column="project_order_status" jdbcType="INTEGER" property="projectOrderStatus"/>
+        <result column="project_order_date" jdbcType="DATE" property="projectOrderDate"/>
+        <result column="project_order_name" jdbcType="VARCHAR" property="projectOrderName"/>
+        <result column="project_order_description" jdbcType="VARCHAR" property="projectOrderDescription"/>
+        <result column="project_g_project_id" jdbcType="VARCHAR" property="projectGProjectId"/>
+    </resultMap>
+    <sql id="Example_Where_Clause">
+        <where>
+            <foreach collection="oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="("
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Update_By_Example_Where_Clause">
+        <where>
+            <foreach collection="example.oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="("
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Base_Column_List">
+    project_order_id, project_order_producer, project_g_prod_id, project_order_part, 
+    project_order_leader_name, project_order_leader_phone, project_order_status, project_order_date, 
+    project_order_name, project_order_description, project_g_project_id
+  </sql>
+    <select id="selectByExample" parameterType="com.sdsoon.modular.system.po.SsProjectOrderExample"
+            resultMap="BaseResultMap">
+        select
+        <if test="distinct">
+            distinct
+        </if>
+        <include refid="Base_Column_List"/>
+        from ss_project_order
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+        <if test="orderByClause != null">
+            order by ${orderByClause}
+        </if>
+    </select>
+    <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from ss_project_order
+        where project_order_id = #{projectOrderId,jdbcType=VARCHAR}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from ss_project_order
+    where project_order_id = #{projectOrderId,jdbcType=VARCHAR}
+  </delete>
+    <delete id="deleteByExample" parameterType="com.sdsoon.modular.system.po.SsProjectOrderExample">
+        delete from ss_project_order
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </delete>
+    <insert id="insert" parameterType="com.sdsoon.modular.system.po.SsProjectOrder">
+    insert into ss_project_order (project_order_id, project_order_producer, 
+      project_g_prod_id, project_order_part, project_order_leader_name, 
+      project_order_leader_phone, project_order_status, 
+      project_order_date, project_order_name, project_order_description, 
+      project_g_project_id)
+    values (#{projectOrderId,jdbcType=VARCHAR}, #{projectOrderProducer,jdbcType=VARCHAR}, 
+      #{projectGProdId,jdbcType=VARCHAR}, #{projectOrderPart,jdbcType=VARCHAR}, #{projectOrderLeaderName,jdbcType=VARCHAR}, 
+      #{projectOrderLeaderPhone,jdbcType=VARCHAR}, #{projectOrderStatus,jdbcType=INTEGER}, 
+      #{projectOrderDate,jdbcType=DATE}, #{projectOrderName,jdbcType=VARCHAR}, #{projectOrderDescription,jdbcType=VARCHAR}, 
+      #{projectGProjectId,jdbcType=VARCHAR})
+  </insert>
+    <insert id="insertSelective" parameterType="com.sdsoon.modular.system.po.SsProjectOrder">
+        insert into ss_project_order
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="projectOrderId != null">
+                project_order_id,
+            </if>
+            <if test="projectOrderProducer != null">
+                project_order_producer,
+            </if>
+            <if test="projectGProdId != null">
+                project_g_prod_id,
+            </if>
+            <if test="projectOrderPart != null">
+                project_order_part,
+            </if>
+            <if test="projectOrderLeaderName != null">
+                project_order_leader_name,
+            </if>
+            <if test="projectOrderLeaderPhone != null">
+                project_order_leader_phone,
+            </if>
+            <if test="projectOrderStatus != null">
+                project_order_status,
+            </if>
+            <if test="projectOrderDate != null">
+                project_order_date,
+            </if>
+            <if test="projectOrderName != null">
+                project_order_name,
+            </if>
+            <if test="projectOrderDescription != null">
+                project_order_description,
+            </if>
+            <if test="projectGProjectId != null">
+                project_g_project_id,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="projectOrderId != null">
+                #{projectOrderId,jdbcType=VARCHAR},
+            </if>
+            <if test="projectOrderProducer != null">
+                #{projectOrderProducer,jdbcType=VARCHAR},
+            </if>
+            <if test="projectGProdId != null">
+                #{projectGProdId,jdbcType=VARCHAR},
+            </if>
+            <if test="projectOrderPart != null">
+                #{projectOrderPart,jdbcType=VARCHAR},
+            </if>
+            <if test="projectOrderLeaderName != null">
+                #{projectOrderLeaderName,jdbcType=VARCHAR},
+            </if>
+            <if test="projectOrderLeaderPhone != null">
+                #{projectOrderLeaderPhone,jdbcType=VARCHAR},
+            </if>
+            <if test="projectOrderStatus != null">
+                #{projectOrderStatus,jdbcType=INTEGER},
+            </if>
+            <if test="projectOrderDate != null">
+                #{projectOrderDate,jdbcType=DATE},
+            </if>
+            <if test="projectOrderName != null">
+                #{projectOrderName,jdbcType=VARCHAR},
+            </if>
+            <if test="projectOrderDescription != null">
+                #{projectOrderDescription,jdbcType=VARCHAR},
+            </if>
+            <if test="projectGProjectId != null">
+                #{projectGProjectId,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <select id="countByExample" parameterType="com.sdsoon.modular.system.po.SsProjectOrderExample"
+            resultType="java.lang.Long">
+        select count(*) from ss_project_order
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </select>
+    <update id="updateByExampleSelective" parameterType="map">
+        update ss_project_order
+        <set>
+            <if test="record.projectOrderId != null">
+                project_order_id = #{record.projectOrderId,jdbcType=VARCHAR},
+            </if>
+            <if test="record.projectOrderProducer != null">
+                project_order_producer = #{record.projectOrderProducer,jdbcType=VARCHAR},
+            </if>
+            <if test="record.projectGProdId != null">
+                project_g_prod_id = #{record.projectGProdId,jdbcType=VARCHAR},
+            </if>
+            <if test="record.projectOrderPart != null">
+                project_order_part = #{record.projectOrderPart,jdbcType=VARCHAR},
+            </if>
+            <if test="record.projectOrderLeaderName != null">
+                project_order_leader_name = #{record.projectOrderLeaderName,jdbcType=VARCHAR},
+            </if>
+            <if test="record.projectOrderLeaderPhone != null">
+                project_order_leader_phone = #{record.projectOrderLeaderPhone,jdbcType=VARCHAR},
+            </if>
+            <if test="record.projectOrderStatus != null">
+                project_order_status = #{record.projectOrderStatus,jdbcType=INTEGER},
+            </if>
+            <if test="record.projectOrderDate != null">
+                project_order_date = #{record.projectOrderDate,jdbcType=DATE},
+            </if>
+            <if test="record.projectOrderName != null">
+                project_order_name = #{record.projectOrderName,jdbcType=VARCHAR},
+            </if>
+            <if test="record.projectOrderDescription != null">
+                project_order_description = #{record.projectOrderDescription,jdbcType=VARCHAR},
+            </if>
+            <if test="record.projectGProjectId != null">
+                project_g_project_id = #{record.projectGProjectId,jdbcType=VARCHAR},
+            </if>
+        </set>
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByExample" parameterType="map">
+        update ss_project_order
+        set project_order_id = #{record.projectOrderId,jdbcType=VARCHAR},
+        project_order_producer = #{record.projectOrderProducer,jdbcType=VARCHAR},
+        project_g_prod_id = #{record.projectGProdId,jdbcType=VARCHAR},
+        project_order_part = #{record.projectOrderPart,jdbcType=VARCHAR},
+        project_order_leader_name = #{record.projectOrderLeaderName,jdbcType=VARCHAR},
+        project_order_leader_phone = #{record.projectOrderLeaderPhone,jdbcType=VARCHAR},
+        project_order_status = #{record.projectOrderStatus,jdbcType=INTEGER},
+        project_order_date = #{record.projectOrderDate,jdbcType=DATE},
+        project_order_name = #{record.projectOrderName,jdbcType=VARCHAR},
+        project_order_description = #{record.projectOrderDescription,jdbcType=VARCHAR},
+        project_g_project_id = #{record.projectGProjectId,jdbcType=VARCHAR}
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByPrimaryKeySelective" parameterType="com.sdsoon.modular.system.po.SsProjectOrder">
+        update ss_project_order
+        <set>
+            <if test="projectOrderProducer != null">
+                project_order_producer = #{projectOrderProducer,jdbcType=VARCHAR},
+            </if>
+            <if test="projectGProdId != null">
+                project_g_prod_id = #{projectGProdId,jdbcType=VARCHAR},
+            </if>
+            <if test="projectOrderPart != null">
+                project_order_part = #{projectOrderPart,jdbcType=VARCHAR},
+            </if>
+            <if test="projectOrderLeaderName != null">
+                project_order_leader_name = #{projectOrderLeaderName,jdbcType=VARCHAR},
+            </if>
+            <if test="projectOrderLeaderPhone != null">
+                project_order_leader_phone = #{projectOrderLeaderPhone,jdbcType=VARCHAR},
+            </if>
+            <if test="projectOrderStatus != null">
+                project_order_status = #{projectOrderStatus,jdbcType=INTEGER},
+            </if>
+            <if test="projectOrderDate != null">
+                project_order_date = #{projectOrderDate,jdbcType=DATE},
+            </if>
+            <if test="projectOrderName != null">
+                project_order_name = #{projectOrderName,jdbcType=VARCHAR},
+            </if>
+            <if test="projectOrderDescription != null">
+                project_order_description = #{projectOrderDescription,jdbcType=VARCHAR},
+            </if>
+            <if test="projectGProjectId != null">
+                project_g_project_id = #{projectGProjectId,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where project_order_id = #{projectOrderId,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.sdsoon.modular.system.po.SsProjectOrder">
+    update ss_project_order
+    set project_order_producer = #{projectOrderProducer,jdbcType=VARCHAR},
+      project_g_prod_id = #{projectGProdId,jdbcType=VARCHAR},
+      project_order_part = #{projectOrderPart,jdbcType=VARCHAR},
+      project_order_leader_name = #{projectOrderLeaderName,jdbcType=VARCHAR},
+      project_order_leader_phone = #{projectOrderLeaderPhone,jdbcType=VARCHAR},
+      project_order_status = #{projectOrderStatus,jdbcType=INTEGER},
+      project_order_date = #{projectOrderDate,jdbcType=DATE},
+      project_order_name = #{projectOrderName,jdbcType=VARCHAR},
+      project_order_description = #{projectOrderDescription,jdbcType=VARCHAR},
+      project_g_project_id = #{projectGProjectId,jdbcType=VARCHAR}
+    where project_order_id = #{projectOrderId,jdbcType=VARCHAR}
+  </update>
+    <!--  -->
+    <resultMap id="BaseResultMap_order" type="com.sdsoon.modular.system.model.ProjectOrderModel">
+        <id column="project_id" jdbcType="VARCHAR" property="projectId"/>
+        <result column="project_name" jdbcType="VARCHAR" property="projectName"/>
+        <result column="project_description" jdbcType="VARCHAR" property="projectDescription"/>
+        <result column="project_technology" jdbcType="VARCHAR" property="projectTechnology"/>
+        <result column="project_standard" jdbcType="VARCHAR" property="projectStandard"/>
+        <result column="project_leader_name" jdbcType="VARCHAR" property="projectLeaderName"/>
+        <result column="project_leader_phone" jdbcType="VARCHAR" property="projectLeaderPhone"/>
+        <result column="project_create_time" jdbcType="DATE" property="projectCreateTime"/>
+        <result column="project_end_time" jdbcType="DATE" property="projectEndTime"/>
+        <result column="project_status" jdbcType="INTEGER" property="projectStatus"/>
+        <result column="project_level" jdbcType="INTEGER" property="projectLevel"/>
+        <result column="project_doc_info" jdbcType="VARCHAR" property="projectDocInfo"/>
+        <result column="project_people_name" jdbcType="VARCHAR" property="projectPeopleName"/>
+        <result column="project_prod_status" jdbcType="INTEGER" property="projectProdStatus"/>
+        <!-- prod -->
+        <collection property="prods" ofType="com.sdsoon.modular.system.po.SsProjectProd">
+            <id column="project_prod_id" jdbcType="VARCHAR" property="projectProdId"/>
+            <result column="project_prod_mission_name" jdbcType="VARCHAR" property="projectProdMissionName"/>
+            <result column="project_prod_name" jdbcType="VARCHAR" property="projectProdName"/>
+            <result column="project_prod_date" jdbcType="DATE" property="projectProdDate"/>
+            <result column="project_prod_leader_name" jdbcType="VARCHAR" property="projectProdLeaderName"/>
+            <result column="project_prod_leader_phone" jdbcType="VARCHAR" property="projectProdLeaderPhone"/>
+            <result column="project_g_project_id" jdbcType="VARCHAR" property="projectGProjectId"/>
+            <result column="project_prod_prople" jdbcType="VARCHAR" property="projectProdProple"/>
+            <result column="project_prod_status" jdbcType="INTEGER" property="projectProdStatus"/>
+        </collection>
+        <!-- order -->
+        <collection property="orders" ofType="com.sdsoon.modular.system.po.SsProjectOrder">
+            <id column="project_order_id" jdbcType="VARCHAR" property="projectOrderId"/>
+            <result column="project_order_producer" jdbcType="VARCHAR" property="projectOrderProducer"/>
+            <result column="project_g_prod_id" jdbcType="VARCHAR" property="projectGProdId"/>
+            <result column="project_order_part" jdbcType="VARCHAR" property="projectOrderPart"/>
+            <result column="project_order_leader_name" jdbcType="VARCHAR" property="projectOrderLeaderName"/>
+            <result column="project_order_leader_phone" jdbcType="VARCHAR" property="projectOrderLeaderPhone"/>
+            <result column="project_order_status" jdbcType="INTEGER" property="projectOrderStatus"/>
+            <result column="project_order_date" jdbcType="DATE" property="projectOrderDate"/>
+            <result column="project_order_name" jdbcType="VARCHAR" property="projectOrderName"/>
+            <result column="project_order_description" jdbcType="VARCHAR" property="projectOrderDescription"/>
+            <result column="project_g_project_id" jdbcType="VARCHAR" property="projectGProjectId"/>
+        </collection>
+    </resultMap>
+    <select id="selectOrderList" resultMap="BaseResultMap_order">
+        SELECT DISTINCT
+        o.*,m.*,p.*,d.*
+        FROM ss_project_order o
+        LEFT JOIN ss_project_manage m on o.project_g_project_id = m.project_id
+        LEFT JOIN ss_project_prod p on o.project_g_prod_id = p.project_prod_id
+        LEFT JOIN ss_project_prod_doc d on d.prod_g_prod_id = p.project_prod_id
+        <where>
+            o.project_order_status = #{projectOrderStatus}
+            <if test="projectName!=null and projectName!=''">
+                and o.project_name like '%${projectName}%'
+            </if>
+        </where>
+        -- ORDER BY s.project_end_time DESC
+    </select>
+    <!--  -->
+    <select id="selectAllOrders" resultMap="BaseResultMap_order">
+        SELECT DISTINCT
+        o.*,m.*,p.*,d.*
+        FROM ss_project_order o
+        LEFT JOIN ss_project_manage m on o.project_g_project_id = m.project_id
+        LEFT JOIN ss_project_prod p on o.project_g_prod_id = p.project_prod_id
+        LEFT JOIN ss_project_prod_doc d on d.prod_g_prod_id = p.project_prod_id
+        <where>
+            <if test="projectName!=null and projectName!=''">
+                and o.project_name like '%${projectName}%'
+            </if>
+        </where>
+    </select>
+
+</mapper>

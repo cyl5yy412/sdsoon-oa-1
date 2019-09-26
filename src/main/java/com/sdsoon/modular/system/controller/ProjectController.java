@@ -65,6 +65,13 @@ public class ProjectController extends BaseController {
         return ReturnResult.create(projectPoModelVo);
     }
 
+//    @PostMapping("/get2")
+//    public Map<String, Object> select2(String projectId) throws ResponseException {
+//        ProjectPoModel projectPoModelVo = projectService.selectProjectById(projectId);
+//        Map<String, Object> map = new HashMap<>();
+//        return ReturnResult.create(projectPoModelVo);
+//    }
+
     //项目管理内容
     @GetMapping("/list")
     public ReturnResult list(@RequestParam("page") Integer page, @RequestParam("limit") Integer limit, @RequestParam(value = "projectName", required = false) String projectName) throws ResponseException {

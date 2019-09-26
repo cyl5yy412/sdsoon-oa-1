@@ -104,6 +104,14 @@ public class HProjectController extends BaseController {
         Map<String, Object> map = projectService.selectAllDoneProjects(page, limit, projectName, projectLeaderName);
         return map;
     }
+
+    //展示所有已投产project
+    @GetMapping("/doneprodlist")
+    @RequiresPermissions({"system:admin", "project:manager"})
+    public Map<String, Object> doneProdList(@RequestParam("page") Integer page, @RequestParam("limit") Integer limit, String projectName, String projectLeaderName) throws ResponseException {
+        Map<String, Object> map = projectService.selectAllDoneProdProjects(page, limit, projectName, projectLeaderName);
+        return map;
+    }
 //    @GetMapping("/list")
 //    public PageResult<SsProjectManageVo> list2(HttpServletRequest request) throws ResponseException {
 //        return projectService.selectAllProjects2(new PageParam(request));

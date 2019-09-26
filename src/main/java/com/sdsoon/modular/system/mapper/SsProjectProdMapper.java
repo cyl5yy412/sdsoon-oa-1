@@ -31,4 +31,6 @@ public interface SsProjectProdMapper {
 
     //
     List<SsProjectProd> selectAllProds(@Param("missionName") String missionName, @Param("prodName") String prodName, @Param("projectProdLeaderName") String projectProdLeaderName);
+
+    SsProjectProd selectByGid(@Param("projectId") String projectId);
 }

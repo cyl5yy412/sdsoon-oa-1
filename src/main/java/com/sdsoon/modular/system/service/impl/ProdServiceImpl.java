@@ -6,15 +6,15 @@ import com.sdsoon.core.response.ex.EnumError;
 import com.sdsoon.core.response.ex.ResponseException;
 import com.sdsoon.core.util.DateUtil;
 import com.sdsoon.modular.system.mapper.SsProjectManageMapper;
+import com.sdsoon.modular.system.mapper.SsProjectOrderMapper;
 import com.sdsoon.modular.system.mapper.SsProjectProdDocMapper;
 import com.sdsoon.modular.system.mapper.SsProjectProdMapper;
-import com.sdsoon.modular.system.po.SsProjectManage;
-import com.sdsoon.modular.system.po.SsProjectManageExample;
-import com.sdsoon.modular.system.po.SsProjectProd;
-import com.sdsoon.modular.system.po.SsProjectProdExample;
+import com.sdsoon.modular.system.model.OrderProdManageModel;
+import com.sdsoon.modular.system.model.ProjectOrderModel;
+import com.sdsoon.modular.system.po.*;
 import com.sdsoon.modular.system.service.ProdService;
+import com.sdsoon.modular.system.vo.h.OrderVo;
 import com.sdsoon.modular.system.vo.h.ProdVo;
-import com.sdsoon.modular.system.vo.h.SsProjectManageVo;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
@@ -30,11 +30,13 @@ import java.util.stream.Collectors;
  */
 @Service
 public class ProdServiceImpl implements ProdService {
+
     @Resource
     private SsProjectManageMapper ssProjectManageMapper;
     @Resource
     private SsProjectProdMapper ssProjectProdMapper;
-
+    @Resource
+    private SsProjectOrderMapper ssProjectOrderMapper;
     @Resource
     private SsProjectProdDocMapper ssProjectProdDocMapper;
 
@@ -45,6 +47,13 @@ public class ProdServiceImpl implements ProdService {
                 StringUtils.isAnyBlank(prodVo.getProjectId(), prodVo.getProjectProdName(),
                         prodVo.getProjectProdMissionName(), prodVo.getProjectProdDate()
                 )) {
+            return false;
+        }
+        SsProjectProdExample example = new SsProjectProdExample();
+        SsProjectProdExample.Criteria criteria = example.createCriteria();
+        criteria.andProjectGProjectIdEqualTo(prodVo.getProjectId());
+        List<SsProjectProd> ssProjectProds = ssProjectProdMapper.selectByExample(example);
+        if (ssProjectProds.size() > 0) {
             return false;
         }
         //添加投产
@@ -86,12 +95,16 @@ public class ProdServiceImpl implements ProdService {
         SsProjectProdExample.Criteria criteria = example.createCriteria();
         criteria.andProjectGProjectIdEqualTo(projectId);
         List<SsProjectProd> ssProjectProds = ssProjectProdMapper.selectByExample(example);
+        if (ssProjectProds.size() == 0 || ssProjectProds == null) {
+            return null;
+        }
         PageInfo<SsProjectProd> pageInfo = new PageInfo<>(ssProjectProds);
         Map<String, Object> map = new HashMap<>();
         map.put("count", pageInfo.getTotal());
         map.put("data", ssProjectProds);
         map.put("code", 0);
         map.put("msg", "");
+        map.put("status", "success");
         return map;
     }
 
@@ -161,7 +174,180 @@ public class ProdServiceImpl implements ProdService {
         return false;
     }
 
-    //
+    //订单####################################
+    @Override
+    public Map<String, Object> selectOrderList(Integer page, Integer limit, Integer projectOrderStatus, String projectName) throws ResponseException {
+        if (projectOrderStatus == null) {
+            throw new ResponseException(EnumError.PARAMETER_VALIDATION_ERROR);
+        }
+        PageHelper.startPage(page, limit);
+        List<ProjectOrderModel> ssProjectOrders = ssProjectOrderMapper.selectOrderList(projectOrderStatus, projectName);
+        PageInfo<ProjectOrderModel> pageInfo = new PageInfo<>(ssProjectOrders);
+        Map<String, Object> map = new HashMap<>();
+        map.put("count", pageInfo.getTotal());
+        map.put("data", ssProjectOrders);
+        map.put("code", 0);
+        map.put("msg", "");
+        map.put("status", "success");
+        return map;
+    }
+
+    @Transactional
+    @Override
+    public boolean orderInsertOne(OrderVo orderVo) {
+        if (StringUtils.isAnyBlank(orderVo.getProjectId())) {
+            return false;
+        }
+
+        orderVo.setProjectGProjectId(orderVo.getProjectId());
+        SsProjectOrder ssProjectOrder = new SsProjectOrder();
+        BeanUtils.copyProperties(orderVo, ssProjectOrder);
+        ssProjectOrder.setProjectOrderId(UUID.randomUUID().toString().replaceAll("-", ""));
+        ssProjectOrder.setProjectOrderStatus(0);
+        //prod
+        SsProjectProd ssProjectProd = ssProjectProdMapper.selectByGid(orderVo.getProjectId());
+        //OrderProdManageModel
+        if (ssProjectProd == null) {
+            return false;
+        }
+        ssProjectOrder.setProjectGProdId(ssProjectProd.getProjectProdId());
+        ssProjectOrder.setProjectOrderDate(new Date());
+        int i = ssProjectOrderMapper.insertSelective(ssProjectOrder);
+        if (i == 1) {
+            return true;
+        }
+        return false;
+    }
+
+    @Transactional
+    @Override
+    public boolean deleteOrderById(String projectOrderId) {
+        if (StringUtils.isAnyBlank(projectOrderId)) {
+            return false;
+        }
+        int i = ssProjectOrderMapper.deleteByPrimaryKey(projectOrderId);
+        if (i == 1) {
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public Map<String, Object> selectAllOrders(Integer page, Integer limit, String projectName) {
+        PageHelper.startPage(page, limit);
+        List<ProjectOrderModel> ssProjectOrders = ssProjectOrderMapper.selectAllOrders(projectName);
+        PageInfo<ProjectOrderModel> pageInfo = new PageInfo<>(ssProjectOrders);
+        Map<String, Object> map = new HashMap<>();
+        map.put("count", pageInfo.getTotal());
+        map.put("data", ssProjectOrders);
+        map.put("code", 0);
+        map.put("msg", "");
+        map.put("status", "success");
+        return map;
+    }
+
+    @Override
+    public Map<String, Object> queryOrderByGid(Integer page, Integer limit, String projectId) {
+        if (StringUtils.isAnyBlank(projectId)) {
+            return null;
+        }
+        PageHelper.startPage(page, limit);
+        //order
+        SsProjectOrderExample example = new SsProjectOrderExample();
+        SsProjectOrderExample.Criteria criteria = example.createCriteria();
+        criteria.andProjectGProjectIdEqualTo(projectId);
+        List<SsProjectOrder> ssProjectOrders = ssProjectOrderMapper.selectByExample(example);
+        if (ssProjectOrders == null || ssProjectOrders.size() == 0) {
+            return null;
+        }
+        //prod
+        SsProjectProd ssProjectProd = ssProjectProdMapper.selectByGid(projectId);
+        //OrderProdManageModel
+        if (ssProjectProd == null) {
+            return null;
+        }
+        List<OrderProdManageModel> collect = ssProjectOrders.stream().map(ssProjectOrder -> {
+            OrderProdManageModel orderProdManageModel = convertOrdersFromModel(ssProjectOrder);
+            orderProdManageModel.setProjectId(projectId);
+            orderProdManageModel.setProjectGProjectId(projectId);
+            orderProdManageModel.setProjectGProdId(ssProjectProd.getProjectProdId());
+            orderProdManageModel.setProjectProdId(ssProjectProd.getProjectProdId());
+            orderProdManageModel.setProjectProdName(ssProjectProd.getProjectProdName());
+            return orderProdManageModel;
+        }).collect(Collectors.toList());
+
+        PageInfo<SsProjectOrder> pageInfo = new PageInfo<>(ssProjectOrders);
+        Map<String, Object> map = new HashMap<>();
+        map.put("count", pageInfo.getTotal());
+        map.put("data", collect);
+        map.put("code", 0);
+        map.put("msg", "");
+        map.put("status", "success");
+        return map;
+    }
+
+    @Override
+    public boolean updateOrderStatus(String projectOrderId, String projectOrderStatus) {
+        if (StringUtils.isAnyBlank(projectOrderId, projectOrderStatus)) {
+            return false;
+        }
+        SsProjectOrder ssProjectOrder = new SsProjectOrder();
+        ssProjectOrder.setProjectOrderStatus(Integer.valueOf(projectOrderStatus));
+        ssProjectOrder.setProjectOrderId(projectOrderId);
+        int i = ssProjectOrderMapper.updateByPrimaryKeySelective(ssProjectOrder);
+        if (i == 1) {
+            return true;
+        }
+        return false;
+    }
+
+    //order->model
+    private OrderProdManageModel convertOrdersFromModel(SsProjectOrder ssProjectOrder) {
+        if (ssProjectOrder == null) {
+            return null;
+        }
+        OrderProdManageModel orderProdManageModel = new OrderProdManageModel();
+        BeanUtils.copyProperties(ssProjectOrder, orderProdManageModel);
+        switch (orderProdManageModel.getProjectOrderStatus()) {
+            case 0:
+                orderProdManageModel.setProjectOrderStatusS("待生产");
+                break;
+            case 1:
+                orderProdManageModel.setProjectOrderStatusS("已完成");
+                break;
+        }
+        return orderProdManageModel;
+    }
+
+    @Override
+    public Map<String, Object> queryOrderOneById(String projectOrderId) throws ResponseException {
+        if (StringUtils.isAnyBlank(projectOrderId)) {
+            throw new ResponseException(EnumError.PARAMETER_VALIDATION_ERROR);
+        }
+        SsProjectOrder ssProjectOrder = ssProjectOrderMapper.selectByPrimaryKey(projectOrderId);
+        Map<String, Object> map = new HashMap<>();
+        map.put("data", ssProjectOrder);
+        map.put("code", 0);
+        map.put("msg", "");
+        map.put("status", "success");
+        return map;
+    }
+
+    @Transactional
+    @Override
+    public boolean deleteOrderOneById(String projectOrderId) throws ResponseException {
+        if (StringUtils.isAnyBlank(projectOrderId)) {
+            throw new ResponseException(EnumError.PARAMETER_VALIDATION_ERROR);
+        }
+        int i = ssProjectOrderMapper.deleteByPrimaryKey(projectOrderId);
+        if (i == 1) {
+            return true;
+        }
+        return false;
+    }
+
+
+    //无id
     private SsProjectProd convertProdBeanFromProdVo(ProdVo prodVo) throws ParseException {
         if (prodVo == null) {
             return null;
@@ -176,6 +362,7 @@ public class ProdServiceImpl implements ProdService {
         return ssProjectProd;
     }
 
+    //更新的convert(有id)
     private SsProjectProd convertProdBeanFromProdVoTUpdate(ProdVo prodVo) throws ParseException {
         if (prodVo == null) {
             return null;

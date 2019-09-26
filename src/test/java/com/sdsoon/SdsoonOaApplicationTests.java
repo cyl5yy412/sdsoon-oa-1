@@ -1,29 +1,18 @@
 package com.sdsoon;
 
-import com.sdsoon.core.response.ex.ResponseException;
-import com.sdsoon.core.util.DateUtil;
 import com.sdsoon.modular.system.mapper.*;
-import com.sdsoon.modular.system.model.ProjectMissionModel;
-import com.sdsoon.modular.system.po.*;
+import com.sdsoon.modular.system.model.OrderProdManage;
 import com.sdsoon.modular.system.service.DailyTaskService;
 import com.sdsoon.modular.system.service.ProjectService;
-import com.sdsoon.modular.system.vo.AddMissionVo;
-import com.sdsoon.modular.system.vo.UserVo;
-import com.sun.org.apache.xerces.internal.impl.PropertyManager;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -162,5 +151,17 @@ public class SdsoonOaApplicationTests {
 //        System.out.println(map);
 
 
+    }
+
+    @Resource
+    private SsProjectOrderMapper ssProjectOrderMapper;
+
+    @Test
+    public void show7() {
+//        List<ProjectOrderModel> projectOrderModels = ssProjectOrderMapper.selectOrderList(0, null);
+//        List<ProjectOrderModel> projectOrderModels = ssProjectOrderMapper.selectAllOrders( null);
+//        System.out.println(projectOrderModels);
+
+        //
     }
 }

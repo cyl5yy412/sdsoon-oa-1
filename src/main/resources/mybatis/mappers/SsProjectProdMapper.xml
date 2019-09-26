@@ -294,4 +294,8 @@
         </where>
         ORDER BY p.project_prod_date DESC
     </select>
+    <!--  -->
+    <select id="selectByGid" resultMap="BaseResultMap">
+        SELECT * FROM ss_project_prod p WHERE p.project_g_project_id = #{projectId}
+    </select>
 </mapper>

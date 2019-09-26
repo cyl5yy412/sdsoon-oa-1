@@ -31,7 +31,6 @@ public class ProdController extends BaseController {
                                     @RequestParam(value = "projectProdName", required = false) String projectProdName,//,产品名字
                                     @RequestParam(value = "projectProdLeaderName", required = false) String projectProdLeaderName//负责人
     ) throws ResponseException {
-
         Map<String, Object> objectMap = prodService.list(page, limit, projectProdMissionName, projectProdName, projectProdLeaderName);
         return objectMap;
     }
@@ -69,5 +68,55 @@ public class ProdController extends BaseController {
 
     //订单####################################
 
+    //查看所有订单,不分类
+    @GetMapping("/orders/list")
+    public Map<String, Object> ordersList(@RequestParam("page") Integer page,
+                                          @RequestParam("limit") Integer limit,
+                                          @RequestParam(value = "projectName", required = false) String projectName//条件查询
+    ) throws ResponseException {
+        Map<String, Object> map = prodService.selectAllOrders(page, limit, projectName);
+        return map;
+    }
+
+    //查看投产任务下的 多个订单;分类查询
+    @GetMapping("/order/list")
+    public Map<String, Object> orderList(@RequestParam("page") Integer page,
+                                         @RequestParam("limit") Integer limit,
+                                         @RequestParam(value = "projectOrderStatus", required = true) Integer projectOrderStatus,//订单状态
+                                         @RequestParam(value = "projectName", required = false) String projectName//条件查询
+    ) throws ResponseException {
+        Map<String, Object> map = prodService.selectOrderList(page, limit, projectOrderStatus, projectName);
+        return map;
+    }
+
+    //查看单个订单
+    @PostMapping("/order/one")
+    public Map<String, Object> queryOrderOne(@RequestParam("projectOrderId") String projectOrderId) throws ResponseException {
+        Map<String, Object> objectMap = prodService.queryOrderOneById(projectOrderId);
+        if (objectMap == null) {
+            objectMap.put("data", "暂无数据");
+            return objectMap;
+        }
+        return objectMap;
+    }
+
+    //删除单个订单
+    @PostMapping("/order/delete")
+    public ReturnResult deleteOrderOne(@RequestParam("projectOrderId") String projectOrderId) throws ResponseException {
+        boolean b = prodService.deleteOrderOneById(projectOrderId);
+        if (b) {
+            return ReturnResult.create(HttpStatus.OK);
+        }
+        return ReturnResult.create("删除失败");
+    }
+
+    //修改订单内容
+    @PostMapping("/order/update")
+    public ReturnResult updateOrderOne(@RequestParam() String projectOrderId) throws ResponseException {
+
+
+        return null;
+    }
+    //订单完成???
 
 }

@@ -729,6 +729,24 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
+    public Map<String, Object> selectAllDoneProdProjects(Integer page, Integer limit, String projectName, String projectLeaderName) {
+        PageHelper.startPage(page, limit);
+        List<SsProjectManage> ssProjectManages = ssProjectManageMapper.selectAllDoneProdProjects2(projectName, projectLeaderName);
+
+        List<SsProjectManageVo> ssProjectManageVos = ssProjectManages.stream().map(ssProjectManage -> {
+            SsProjectManageVo ssProjectManageVo = convertSsProjectManageVoFromDto(ssProjectManage);
+            return ssProjectManageVo;
+        }).collect(Collectors.toList());
+        PageInfo<SsProjectManageVo> pageInfo = new PageInfo<>(ssProjectManageVos);
+        Map<String, Object> map = new HashMap<>();
+        map.put("count", pageInfo.getTotal());
+        map.put("data", ssProjectManageVos);
+        map.put("code", 0);
+        map.put("msg", "");
+        return map;
+    }
+
+    @Override
     public Map<String, Object> selectAllProject2(Integer page, Integer limit, String projectName) {
         Map<String, Object> map = new HashedMap();
         PageHelper.startPage(page, limit);

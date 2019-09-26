@@ -86,10 +86,12 @@ public interface ProjectService {
 
     boolean deleteDoc(String projectDocId, String projectDocNewName);
 
-    Map<String,Object> selectAllDoneProjects(Integer page, Integer limit, String projectName, String projectLeaderName);
+    Map<String, Object> selectAllDoneProjects(Integer page, Integer limit, String projectName, String projectLeaderName);
+
+    Map<String, Object> selectAllDoneProdProjects(Integer page, Integer limit, String projectName, String projectLeaderName);
 
     //数据结构修改
-    Map<String,Object> selectAllProject2(Integer page, Integer limit, String projectName);
+    Map<String, Object> selectAllProject2(Integer page, Integer limit, String projectName);
 
     //后端分页
 //    PageResult<SsProjectManageVo> selectAllProjects2(PageParam pageParam);
