@@ -50,5 +50,5 @@ public interface ProdService {
 
     boolean deleteOrderOneById(String projectOrderId) throws ResponseException;
 
-
+    boolean updateOrderOne(OrderVo orderVo) throws ResponseException;
 }

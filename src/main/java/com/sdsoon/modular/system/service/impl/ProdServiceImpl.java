@@ -17,6 +17,7 @@ import com.sdsoon.modular.system.vo.h.OrderVo;
 import com.sdsoon.modular.system.vo.h.ProdVo;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
+import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -340,6 +341,21 @@ public class ProdServiceImpl implements ProdService {
             throw new ResponseException(EnumError.PARAMETER_VALIDATION_ERROR);
         }
         int i = ssProjectOrderMapper.deleteByPrimaryKey(projectOrderId);
+        if (i == 1) {
+            return true;
+        }
+        return false;
+    }
+
+    @Transactional
+    @Override
+    public boolean updateOrderOne(OrderVo orderVo) throws ResponseException {
+        if (StringUtils.isAnyBlank(orderVo.getProjectProdId())) {
+            throw new ResponseException(EnumError.PARAMETER_VALIDATION_ERROR);
+        }
+        SsProjectOrder ssProjectOrder = new SsProjectOrder();
+        BeanUtils.copyProperties(orderVo, ssProjectOrder);
+        int i = ssProjectOrderMapper.updateByPrimaryKeySelective(ssProjectOrder);
         if (i == 1) {
             return true;
         }

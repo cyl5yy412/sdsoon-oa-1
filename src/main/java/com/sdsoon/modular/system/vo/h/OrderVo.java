@@ -26,6 +26,7 @@ public class OrderVo implements Serializable {
     private String projectOrderStatusS;
 
     private Date projectOrderDate;
+    private String projectOrderDateS;
 
     private String projectOrderName;
 
@@ -37,7 +38,7 @@ public class OrderVo implements Serializable {
     public OrderVo() {
     }
 
-    public OrderVo(String projectOrderId, String projectOrderProducer, String projectGProdId, String projectProdId, String projectOrderPart, String projectOrderLeaderName, String projectOrderLeaderPhone, Integer projectOrderStatus, String projectOrderStatusS, Date projectOrderDate, String projectOrderName, String projectOrderDescription, String projectGProjectId, String projectId) {
+    public OrderVo(String projectOrderId, String projectOrderProducer, String projectGProdId, String projectProdId, String projectOrderPart, String projectOrderLeaderName, String projectOrderLeaderPhone, Integer projectOrderStatus, String projectOrderStatusS, Date projectOrderDate, String projectOrderDateS, String projectOrderName, String projectOrderDescription, String projectGProjectId, String projectId) {
         this.projectOrderId = projectOrderId;
         this.projectOrderProducer = projectOrderProducer;
         this.projectGProdId = projectGProdId;
@@ -48,6 +49,7 @@ public class OrderVo implements Serializable {
         this.projectOrderStatus = projectOrderStatus;
         this.projectOrderStatusS = projectOrderStatusS;
         this.projectOrderDate = projectOrderDate;
+        this.projectOrderDateS = projectOrderDateS;
         this.projectOrderName = projectOrderName;
         this.projectOrderDescription = projectOrderDescription;
         this.projectGProjectId = projectGProjectId;
@@ -168,5 +170,13 @@ public class OrderVo implements Serializable {
 
     public void setProjectOrderStatusS(String projectOrderStatusS) {
         this.projectOrderStatusS = projectOrderStatusS;
+    }
+
+    public String getProjectOrderDateS() {
+        return projectOrderDateS;
+    }
+
+    public void setProjectOrderDateS(String projectOrderDateS) {
+        this.projectOrderDateS = projectOrderDateS;
     }
 }

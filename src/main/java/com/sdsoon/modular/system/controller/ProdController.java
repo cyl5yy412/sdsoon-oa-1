@@ -1,9 +1,11 @@
 package com.sdsoon.modular.system.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.sdsoon.core.response.ReturnResult;
 import com.sdsoon.core.response.ex.BaseController;
 import com.sdsoon.core.response.ex.ResponseException;
 import com.sdsoon.modular.system.service.ProdService;
+import com.sdsoon.modular.system.vo.h.OrderVo;
 import com.sdsoon.modular.system.vo.h.ProdVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -93,10 +95,6 @@ public class ProdController extends BaseController {
     @PostMapping("/order/one")
     public Map<String, Object> queryOrderOne(@RequestParam("projectOrderId") String projectOrderId) throws ResponseException {
         Map<String, Object> objectMap = prodService.queryOrderOneById(projectOrderId);
-        if (objectMap == null) {
-            objectMap.put("data", "暂无数据");
-            return objectMap;
-        }
         return objectMap;
     }
 
@@ -112,11 +110,22 @@ public class ProdController extends BaseController {
 
     //修改订单内容
     @PostMapping("/order/update")
-    public ReturnResult updateOrderOne(@RequestParam() String projectOrderId) throws ResponseException {
-
-
-        return null;
+    public ReturnResult updateOrderOne(@RequestBody OrderVo orderVo) throws ResponseException {
+        boolean b = prodService.updateOrderOne(orderVo);
+        if (b) {
+            return ReturnResult.create(HttpStatus.OK);
+        }
+        return ReturnResult.create("更新失败");
     }
     //订单完成???
 
+
+    public static void main(String args[]) {
+        OrderVo orderVo = new OrderVo();
+        orderVo.setProjectOrderId("5694e99b5tym4e168e61b5b02a2c0e34");
+        orderVo.setProjectOrderPart("2批");
+        orderVo.setProjectOrderProducer("南极人");
+        orderVo.setProjectOrderLeaderName("陈聪聪");
+        System.out.println(JSON.toJSONString(orderVo, true));
+    }
 }
