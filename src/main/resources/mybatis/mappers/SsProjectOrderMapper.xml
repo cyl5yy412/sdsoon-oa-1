@@ -353,32 +353,32 @@
             <result column="project_g_project_id" jdbcType="VARCHAR" property="projectGProjectId"/>
         </collection>
     </resultMap>
-    <select id="selectOrderList" resultMap="BaseResultMap_order">
-        SELECT DISTINCT
+    <select id="selectOrderList" resultMap="BaseResultMap_order" parameterType="com.sdsoon.modular.system.model.OrderProdManageModel">
+        SELECT
         o.*,m.*,p.*,d.*
         FROM ss_project_order o
         LEFT JOIN ss_project_manage m on o.project_g_project_id = m.project_id
-        LEFT JOIN ss_project_prod p on o.project_g_prod_id = p.project_prod_id
+        LEFT JOIN ss_project_prod p on m.project_id = p.project_g_project_id
         LEFT JOIN ss_project_prod_doc d on d.prod_g_prod_id = p.project_prod_id
         <where>
-            o.project_order_status = #{projectOrderStatus}
-            <if test="projectName!=null and projectName!=''">
-                and o.project_name like '%${projectName}%'
+            o.project_order_status = #{model.projectOrderStatus,jdbcType=INTEGER}
+            <if test="model.projectName!=null and model.projectName!=''">
+                and m.project_name like '%${model.projectName}%'
             </if>
         </where>
         -- ORDER BY s.project_end_time DESC
     </select>
     <!--  -->
     <select id="selectAllOrders" resultMap="BaseResultMap_order">
-        SELECT DISTINCT
+        SELECT
         o.*,m.*,p.*,d.*
         FROM ss_project_order o
         LEFT JOIN ss_project_manage m on o.project_g_project_id = m.project_id
-        LEFT JOIN ss_project_prod p on o.project_g_prod_id = p.project_prod_id
+        LEFT JOIN ss_project_prod p on m.project_id = p.project_g_project_id
         LEFT JOIN ss_project_prod_doc d on d.prod_g_prod_id = p.project_prod_id
         <where>
             <if test="projectName!=null and projectName!=''">
-                and o.project_name like '%${projectName}%'
+                and m.project_name like '%${projectName}%'
             </if>
         </where>
     </select>

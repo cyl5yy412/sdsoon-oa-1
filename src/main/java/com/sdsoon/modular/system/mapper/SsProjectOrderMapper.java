@@ -1,6 +1,6 @@
 package com.sdsoon.modular.system.mapper;
 
-import com.sdsoon.modular.system.model.OrderProdManage;
+import com.sdsoon.modular.system.model.OrderProdManageModel;
 import com.sdsoon.modular.system.model.ProjectOrderModel;
 import com.sdsoon.modular.system.po.SsProjectOrder;
 import com.sdsoon.modular.system.po.SsProjectOrderExample;
@@ -32,7 +32,7 @@ public interface SsProjectOrderMapper {
     int updateByPrimaryKey(SsProjectOrder record);
 
     //
-    List<ProjectOrderModel> selectOrderList(@Param("projectOrderStatus") Integer projectOrderStatus, @Param("projectName") String projectName);
+    List<ProjectOrderModel> selectOrderList(@Param("model") OrderProdManageModel orderProdManageModel);
 
     List<ProjectOrderModel> selectAllOrders(@Param("projectName") String projectName);
 

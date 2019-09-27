@@ -182,7 +182,10 @@ public class ProdServiceImpl implements ProdService {
             throw new ResponseException(EnumError.PARAMETER_VALIDATION_ERROR);
         }
         PageHelper.startPage(page, limit);
-        List<ProjectOrderModel> ssProjectOrders = ssProjectOrderMapper.selectOrderList(projectOrderStatus, projectName);
+        OrderProdManageModel orderProdManageModel=new OrderProdManageModel();
+        orderProdManageModel.setProjectOrderStatus(projectOrderStatus);
+        orderProdManageModel.setProjectName(projectName);
+        List<ProjectOrderModel> ssProjectOrders = ssProjectOrderMapper.selectOrderList(orderProdManageModel);
         PageInfo<ProjectOrderModel> pageInfo = new PageInfo<>(ssProjectOrders);
         Map<String, Object> map = new HashMap<>();
         map.put("count", pageInfo.getTotal());

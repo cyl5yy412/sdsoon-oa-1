@@ -1,7 +1,7 @@
 package com.sdsoon;
 
 import com.sdsoon.modular.system.mapper.*;
-import com.sdsoon.modular.system.model.OrderProdManage;
+import com.sdsoon.modular.system.model.ProjectOrderModel;
 import com.sdsoon.modular.system.service.DailyTaskService;
 import com.sdsoon.modular.system.service.ProjectService;
 import org.junit.Test;
@@ -163,5 +163,7 @@ public class SdsoonOaApplicationTests {
 //        System.out.println(projectOrderModels);
 
         //
+//        List<ProjectOrderModel> a = ssProjectOrderMapper.selectOrderList(1, null);
+//        System.out.println(a);
     }
 }
