@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @SpringBootApplication
 @MapperScan("com.sdsoon.modular.system.mapper")
 //@MapperScans({@MapperScan("a"),@MapperScan("a")})
+//@MapperScans({@MapperScan("com.aaa"),@MapperScan("com.bbb")})
 @EnableTransactionManagement
 public class SdsoonOaApplication extends SpringBootServletInitializer {
 
